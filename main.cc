@@ -1,8 +1,11 @@
 #include "Cluster.hh"
 #include "ProcesosPendientes.hh"
 #include "Proceso.hh"
+
+#ifndef NO_DIAGRAM
 #include <iostream>
 #include <string>
+#endif
 
 using namespace std;
 

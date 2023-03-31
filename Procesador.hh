@@ -45,7 +45,6 @@ class Procesador {
             \pre El parámetro implícito está inicializado.
             \post El resultado indica si el id del parámetro implícito coincide con id_procesador.
         */
-        ////////se podria hacer una sobrecarga de ==
         bool id_coincide(const string& id_procesador) const;
 
         /** @brief Consulta si un cierto Proceso en el parámetro implícito.

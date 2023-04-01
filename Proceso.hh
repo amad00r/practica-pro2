@@ -11,7 +11,7 @@ using namespace std;
 */
 class Proceso {
     private:
-        unsigned int id, memoria, tiempo_ejecucion;
+        int id, memoria, tiempo_ejecucion;
 
     public:
         // CONSTRUCTORAS ######################################################
@@ -23,10 +23,10 @@ class Proceso {
         Proceso();
 
         /** @brief Constructora inicializadora de identificador, memoria y tiempo de ejecución.
-            \pre cierto.
+            \pre id >= 0, memoria > 0, tiempo_ejecucion > 0
             \post El resultado es un Proceso inicializado con identificador, memoria y tiempo de ejecución.
         */  
-        Proceso(unsigned int id, unsigned int memoria, unsigned int tiempo_ejecucion);
+        Proceso(int id, int memoria, int tiempo_ejecucion);
 
         // CONSULTORAS ########################################################
         
@@ -34,28 +34,28 @@ class Proceso {
             \pre El parámetro implícito está inicializado.
             \post El resultado es el identificador del parámetro implícito.
         */
-        unsigned int consultar_id() const;
+        int consultar_id() const;
 
         /** @brief Consulta si un identificador coincide con el del parámetro implícito.
-            \pre El parámetro implícito está inicializado.
+            \pre El parámetro implícito está inicializado. id_proceso >= 0.
             \post El resultado indica si el id del parámetro implícito coincide con id_proceso.
         */
-        bool id_coincide(unsigned int id_proceso) const;
+        bool id_coincide(int id_proceso) const;
 
         /** @brief Consulta si tiempo_ejecucion es mayor que t.
-            \pre El parámetro implícito está inicializado.
+            \pre El parámetro implícito está inicializado. t >= 0.
             \post El resultado indica si tiempo_ejecucion del parámetro implícito es mayor que t.
         */
-        bool queda_tiempo_ejecucion(unsigned int t) const;
+        bool queda_tiempo_ejecucion(int t) const;
         
         
         // MODIFICADORAS ######################################################
 
         /** @brief Avanza el tiempo que ha transcurrido en la simulación del proceso.
-            \pre tiempo_ejecucion > t.
+            \pre tiempo_ejecucion > t >= 0.
             \post tiempo_ejecucion -= t.
         */
-        void avanzar_tiempo(unsigned int t);
+        void avanzar_tiempo(int t);
 
 
         // LECTURA/ESCRITURA ##################################################

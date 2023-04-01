@@ -23,24 +23,24 @@ class ProcesosPendientes {
 
         struct Prioridad {
             queue<Proceso> procesos;
-            unsigned int procesos_colocados = 0;
-            unsigned int procesos_rechazados = 0;
+            int procesos_colocados = 0;
+            int procesos_rechazados = 0;
         };
         map<string, Prioridad> mapa_prioridades;
 
         // CONSULTORAS ########################################################
 
         /** @brief Consulta si existe una cierta prioridad en el parámetro implícito.
-            \pre Cierto.
+            \pre id_prioridad contiene únicamente letras y números.
             \post El resultado indica si existe una Prioridad con llave igual a id_prioridad en mapa_prioridades del parámetro implícito.
         */
         bool existe_prioridad(const string& id_prioridad) const;
 
         /** @brief Consulta si existe un cierto proceso en una cierta prioridad del parámetro implícito
-            \pre Existe una llave en mapa_prioridades igual a id_prioridad.
+            \pre Existe una llave en mapa_prioridades igual a id_prioridad. id_proceso >= 0.
             \post El resultado indica si existe el proceso con id = id_proceso en la Prioridad con llave igual a id_prioridad en el mapa_prioridades del parámetro implícito.
         */
-        bool existe_proceso_en_prioridad(unsigned int id_proceso, const string& id_prioridad) const;
+        bool existe_proceso_en_prioridad(int id_proceso, const string& id_prioridad) const;
 
     public:
         // CONSTRUCTORAS ######################################################
@@ -55,7 +55,7 @@ class ProcesosPendientes {
         // MODIFICADORAS ######################################################
 
         /** @brief Da de alta una nueva prioridad en el parámetro implícito.
-            \pre No existe una llave en mapa_prioridades igual a id_prioridad.
+            \pre id_prioridad contiene únicamente letras y números y no existe una llave en mapa_prioridades igual a id_prioridad.
             \post Existe una llave en mapa_prioridades igual a id_prioridad con valor sin inicializar.
         */
         void alta_prioridad(const string& id_prioridad);
@@ -73,10 +73,10 @@ class ProcesosPendientes {
         void alta_proceso_espera(const Proceso& proceso, const string& id_prioridad);
 
         /** @brief Envía n procesos en espera para que se ejecuten en un clúster.
-            \pre cierto.
+            \pre n >= 0.
             \post Se han enviado entre 0 y n procesos con éxito al procesador en orden de prioridad y antigüedad. Quedan registradas la cantidad de éxitos y la de fracasos en procesos_colocados y procesos_rechazados de la Prioridad con llave igual a id_prioridad. Los procesos colocados abandonan la Prioridad en la que estaban, y los rechazados vuelven a ella como si fueran nuevos.
         */
-        void enviar_procesos_cluster(unsigned int n, Cluster& cluster);
+        void enviar_procesos_cluster(int n, Cluster& cluster);
         
 
         // LECTURA/ESCRITURA ##################################################

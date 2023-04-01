@@ -33,7 +33,7 @@ bool Cluster::alta_proceso(const Proceso& proceso, bool& colocado) {
     ;//implementar recurs.
 }
 
-void Cluster::avanzar_tiempo(unsigned int t) {
+void Cluster::avanzar_tiempo(int t) {
     ;//implementar recurs.
 }
 

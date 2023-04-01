@@ -72,10 +72,10 @@ class Cluster {
         bool alta_proceso(const Proceso& proceso, bool& colocado);
 
         /** @brief Avanza el tiempo que ha transcurrido en la simulación de los procesadores.
-            \pre cierto.
+            \pre t >= 0.
             \post Todos los procesadores del clúster han avanzado en t el tiempo de simulación de sus procesos.
         */
-        void avanzar_tiempo(unsigned int t);
+        void avanzar_tiempo(int t);
 
         /** @brief Compacta los procesos en memoria de un cierto Procesador del parámetro implícito.
             \pre Existe un procesador con id = id_procesador en procesadores del parámetro implícito.

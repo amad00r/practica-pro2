@@ -25,7 +25,7 @@ void ProcesosPendientes::baja_prioridad(const string& id_prioridad) {
     else cout << "error" << endl; //imprimir error
 }
 
-bool ProcesosPendientes::existe_proceso_en_prioridad(unsigned int id_proceso, const string& id_prioridad) {
+bool ProcesosPendientes::existe_proceso_en_prioridad(int id_proceso, const string& id_prioridad) {
     queue<Proceso> cola_procesos = queue<Proceso>(mapa_prioridades[id_prioridad].procesos);
     while (not cola_procesos.empty()) {
         if (cola_procesos.front().id_coincide(id_proceso)) return true;
@@ -42,7 +42,7 @@ void ProcesosPendientes::alta_proceso_espera(const Proceso& proceso, const strin
     else cout << "error" << endl;
 }
 
-void ProcesosPendientes::enviar_procesos_cluster(unsigned int n, Cluster& cluster) {
+void ProcesosPendientes::enviar_procesos_cluster(int n, Cluster& cluster) {
     ;//implementar
 }
 

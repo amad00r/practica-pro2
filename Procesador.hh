@@ -20,8 +20,8 @@ using namespace std;
 class Procesador {
     private:
         string id;
-        unsigned int memoria;
-        list< pair<unsigned int, Proceso> > procesos_memoria;
+        int memoria;
+        list< pair<int, Proceso> > procesos_memoria;
 
     public:
         // CONSTRUCTORAS ######################################################
@@ -33,10 +33,10 @@ class Procesador {
         Procesador();
 
         /** @brief Constructora inicializadora de identificador y memoria.
-            \pre cierto.
+            \pre id_procesador contiene únicamente letras y números. memoria > 0.
             \post El resultado es un Procesador inicializado con identificador y memoria.
         */  
-        Procesador(const string& id_procesador, unsigned int memoria);
+        Procesador(const string& id_procesador, int memoria);
 
 
         // CONSULTORAS ########################################################
@@ -69,10 +69,10 @@ class Procesador {
         // MODIFICADORAS ######################################################
 
         /** @brief Avanza el tiempo que ha transcurrido en la simulación de los procesos del parámetro implícito.
-            \pre El parámetro implícito está inicializado.
+            \pre El parámetro implícito está inicializado. t >= 0.
             \post Todos los procesos del parámetro implícito incrementan en t unidades de tiempo el tiempo que llevan ejecutándose.
         */
-        void avanzar_tiempo(unsigned int t);
+        void avanzar_tiempo(int t);
 
         /** @brief Compacta los procesos en memoria del parámetro implícito.
             \pre cierto.

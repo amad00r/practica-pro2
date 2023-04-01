@@ -43,7 +43,7 @@ int main() {
         }
 
         else if (comando == "alta_proceso_espera" or comando == "ape") {
-            unsigned int id_proceso, memoria, tiempo_ejecucion;
+            int id_proceso, memoria, tiempo_ejecucion;
             string id_prioridad;
             cin >> id_proceso >> memoria >> tiempo_ejecucion >> id_prioridad;
             pendientes.alta_proceso_espera(Proceso(id_proceso, memoria, tiempo_ejecucion), id_prioridad);
@@ -51,26 +51,26 @@ int main() {
 
         else if (comando == "alta_proceso_procesador" or comando == "apendientes") {
             string id_procesador;
-            unsigned int id_proceso, memoria, tiempo_ejecucion;
+            int id_proceso, memoria, tiempo_ejecucion;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_ejecucion;
             cluster.alta_proceso_procesador(Proceso(id_proceso, memoria, tiempo_ejecucion), id_procesador);
         }
 
         else if (comando == "baja_proceso_procesador" or comando == "bpendientes") {
             string id_procesador;
-            unsigned int id_proceso, memoria, tiempo_ejecucion;
+            int id_proceso, memoria, tiempo_ejecucion;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_ejecucion;
             cluster.baja_proceso_procesador(Proceso(id_proceso, memoria, tiempo_ejecucion), id_procesador);
         }
 
         else if (comando == "enviar_procesos_cluster" or comando == "epc") {
-            unsigned int n;
+            int n;
             cin >> n;
             pendientes.enviar_procesos_cluster(n, cluster);
         }
 
         else if (comando == "avanzar_tiempo" or comando == "at") {
-            unsigned int t;
+            int t;
             cin >> t;
             cluster.avanzar_tiempo(t);
         }

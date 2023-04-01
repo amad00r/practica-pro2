@@ -29,9 +29,7 @@ int main() {
 
     while (comando != "fin") {
 
-        int error = NO_ERROR; // se pasa como parámetro por referencia de salida para determinar los posibles casos de error de la función.
-
-        // TRATAMIENTO DEL COMANDO ############################################
+        int error = NO_HAY_ERROR; // se pasa como parámetro por referencia de salida para determinar los posibles casos de error de la función.
 
         if (comando == "configurar_cluster" or comando == "cc") {
             // Se garantiza que los identificadores de los procesadores no están repetidos
@@ -43,40 +41,58 @@ int main() {
             //implementar errores en modificar_cluster para cuando no se cumple la pre
             string p;
             cin >> p;
-            cluster.modificar_cluster(p);
+            cluster.modificar_cluster(p, error);
+
+            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == PROCESOS_EN_EJECUCION) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == TIENE_PROCESADORES_AUXILIARES) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "alta_prioridad" or comando == "ap") {
             string id_prioridad;
             cin >> id_prioridad;
-            pendientes.alta_prioridad(id_prioridad);
+            pendientes.alta_prioridad(id_prioridad, error);
+
+            if (error == PRIORIDAD_EXISTENTE) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "baja_prioridad" or comando == "bp") {
             string id_prioridad;
             cin >> id_prioridad;
-            pendientes.baja_prioridad(id_prioridad);
+            pendientes.baja_prioridad(id_prioridad, error);
+
+            if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "alta_proceso_espera" or comando == "ape") {
             int id_proceso, memoria, tiempo_estimado;
             string id_prioridad;
             cin >> id_proceso >> memoria >> tiempo_estimado >> id_prioridad;
-            pendientes.alta_proceso_espera(Proceso(id_proceso, memoria, tiempo_estimado), id_prioridad);
+            pendientes.alta_proceso_espera(Proceso(id_proceso, memoria, tiempo_estimado), id_prioridad, error);
+
+            if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == PROCESO_EXISTENTE_EN_PRIORIDAD) cout << "pendiente del juego de pruebas" << endl;
         }
 
-        else if (comando == "alta_proceso_procesador" or comando == "apendientes") {
+        else if (comando == "alta_proceso_procesador" or comando == "app") {
             string id_procesador;
             int id_proceso, memoria, tiempo_estimado;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
-            cluster.alta_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador);
+            cluster.alta_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador, error);
+
+            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == PROCESO_EXISTENTE_EN_PROCESADOR) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == PROCESO_NO_COLOCABLE) cout << "pendiente del juego de pruebas" << endl;
         }
 
-        else if (comando == "baja_proceso_procesador" or comando == "bpendientes") {
+        else if (comando == "baja_proceso_procesador" or comando == "bpp") {
             string id_procesador;
             int id_proceso, memoria, tiempo_estimado;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
-            cluster.baja_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador);
+            cluster.baja_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador, error);
+
+            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == PROCESO_INEXISTENTE_EN_PROCESADOR) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "enviar_procesos_cluster" or comando == "epc") {
@@ -94,7 +110,9 @@ int main() {
         else if (comando == "imprimir_prioridad" or comando == "ipri") {
             string id_prioridad;
             cin >> id_prioridad;
-            pendientes.imprimir_prioridad(id_prioridad);
+            pendientes.imprimir_prioridad(id_prioridad, error);
+
+            if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "imprimir_area_espera" or comando == "iae") {
@@ -104,7 +122,9 @@ int main() {
         else if (comando == "imprimir_procesador" or comando == "ipro") {
             string id_procesador;
             cin >> id_procesador;
-            cluster.imprimir_procesador(id_procesador);
+            cluster.imprimir_procesador(id_procesador, error);
+
+            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "imprimir_procesadores_cluster" or comando == "ipc") {
@@ -118,15 +138,14 @@ int main() {
         else if (comando == "compactar_memoria_procesador" or comando == "cmp") {
             string id_procesador;
             cin >> id_procesador;
-            cluster.compactar_memoria_procesador(id_procesador);
+            cluster.compactar_memoria_procesador(id_procesador, error);
+
+            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
         }
         
         else if (comando == "compactar_memoria_cluster" or comando == "cmc") {
             cluster.compactar_memoria_cluster();
         }
-
-
-        // TRATAMIENTO DE LOS POSIBLES ERRORES ################################
 
         cin >> comando;
     }

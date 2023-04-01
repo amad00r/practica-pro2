@@ -59,19 +59,19 @@ class ProcesosPendientes {
             \pre id_prioridad contiene únicamente letras y números, y no existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
             \post Existe una prioridad con identificador igual a id_prioridad y sin procesos pendientes en el parámetro implícito.
         */
-        void alta_prioridad(const string& id_prioridad);
+        void alta_prioridad(const string& id_prioridad, int& error);
 
         /** @brief Da de baja una prioridad del parámetro implícito.
             \pre Existe una prioridad con identificador igual a id_prioridad, y no tiene procesos pendientes.
             \post No existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
         */
-        void baja_prioridad(const string& id_prioridad);
+        void baja_prioridad(const string& id_prioridad, int& error);
 
         /** @brief Da de alta un proceso en una prioridad del parámetro implícito.
             \pre Existe una prioridad con identificador igual a id_prioridad en el parámetro implícito, y dicha prioridad no tiene asignada ningún Proceso igual a proceso.
             \post La prioridad con identificador igual a id_prioridad del parámetro implícito tiene asignada un Proceso igual a proceso.
         */
-        void alta_proceso_espera(const Proceso& proceso, const string& id_prioridad);
+        void alta_proceso_espera(const Proceso& proceso, const string& id_prioridad, int& error);
 
         /** @brief Envía n procesos pendientes a un determinado Cluster para que sean ejecutados.
             \pre n >= 0. cluster está inicializado con almenos un Procesador.
@@ -86,7 +86,7 @@ class ProcesosPendientes {
             \pre Existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
             \post Quedan escritos en el canal de salida estándar los procesos pendientes de la prioridad con identificador igual a id_prioridad del parámetro implícito en orden decreciente de antigüedad, y el número de procesos colocados y rechazados de dicha prioridad.
         */
-        void imprimir_prioridad(const string& id_prioridad) const;
+        void imprimir_prioridad(const string& id_prioridad, int& error) const;
 
         /** @brief Imprime todas las prioridades del parámetro implícito por el canal de salida estándar.
             \pre Cierto.

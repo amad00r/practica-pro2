@@ -3,6 +3,7 @@
 #include "Cluster.hh"
 #include <string>
 #include <queue>
+#include "Errores.hh" ///////////////////////////?¿?? hace falta
 
 using namespace std;
 

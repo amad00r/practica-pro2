@@ -7,9 +7,10 @@
     @brief Programa principal de la práctica de PRO2 (Simulación del rendimiento de procesadores interconectados).
 */
 
-#include "Cluster.hh"
 #include "ProcesosPendientes.hh"
+#include "Cluster.hh"
 #include "Proceso.hh"
+#include "Errores.hh"
 
 #ifndef NO_DIAGRAM
 #include <iostream>
@@ -18,13 +19,19 @@
 
 using namespace std;
 
+
 int main() {
     Cluster cluster;
     ProcesosPendientes pendientes;
 
     string comando;
     cin >> comando;
+
     while (comando != "fin") {
+
+        int error = NO_ERROR; // se pasa como parámetro por referencia de salida para determinar los posibles casos de error de la función.
+
+        // TRATAMIENTO DEL COMANDO ############################################
 
         if (comando == "configurar_cluster" or comando == "cc") {
             // Se garantiza que los identificadores de los procesadores no están repetidos
@@ -117,6 +124,9 @@ int main() {
         else if (comando == "compactar_memoria_cluster" or comando == "cmc") {
             cluster.compactar_memoria_cluster();
         }
+
+
+        // TRATAMIENTO DE LOS POSIBLES ERRORES ################################
 
         cin >> comando;
     }

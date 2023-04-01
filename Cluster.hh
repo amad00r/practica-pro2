@@ -4,10 +4,10 @@
 
 #include "Procesador.hh"
 #include "Proceso.hh"
-#include "BinTree.hh"
 
 #ifndef NO_DIAGRAM
 #include <string>
+#include "BinTree.hh"
 #endif
 
 using namespace std;

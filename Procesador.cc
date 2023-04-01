@@ -3,6 +3,8 @@
 #include <string>
 #include <list>
 
+#include "Errores.hh" ///////////////////////////?¿?? hace falta
+
 using namespace std;
 
 Procesador::Procesador() {}

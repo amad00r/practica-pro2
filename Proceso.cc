@@ -1,4 +1,5 @@
 #include "Proceso.hh"
+#include "Errores.hh" ///////////////////////////?¿?? hace falta
 
 using namespace std;
 

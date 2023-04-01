@@ -3,6 +3,8 @@
 #include "Procesador.hh"
 #include <string>
 
+#include "Errores.hh" ///////////////////////////?¿?? hace falta
+
 using namespace std;
 
 Cluster::Cluster() {}

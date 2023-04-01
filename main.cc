@@ -43,24 +43,24 @@ int main() {
         }
 
         else if (comando == "alta_proceso_espera" or comando == "ape") {
-            int id_proceso, memoria, tiempo_ejecucion;
+            int id_proceso, memoria, tiempo_estimado;
             string id_prioridad;
-            cin >> id_proceso >> memoria >> tiempo_ejecucion >> id_prioridad;
-            pendientes.alta_proceso_espera(Proceso(id_proceso, memoria, tiempo_ejecucion), id_prioridad);
+            cin >> id_proceso >> memoria >> tiempo_estimado >> id_prioridad;
+            pendientes.alta_proceso_espera(Proceso(id_proceso, memoria, tiempo_estimado), id_prioridad);
         }
 
         else if (comando == "alta_proceso_procesador" or comando == "apendientes") {
             string id_procesador;
-            int id_proceso, memoria, tiempo_ejecucion;
-            cin >> id_procesador >> id_proceso >> memoria >> tiempo_ejecucion;
-            cluster.alta_proceso_procesador(Proceso(id_proceso, memoria, tiempo_ejecucion), id_procesador);
+            int id_proceso, memoria, tiempo_estimado;
+            cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
+            cluster.alta_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador);
         }
 
         else if (comando == "baja_proceso_procesador" or comando == "bpendientes") {
             string id_procesador;
-            int id_proceso, memoria, tiempo_ejecucion;
-            cin >> id_procesador >> id_proceso >> memoria >> tiempo_ejecucion;
-            cluster.baja_proceso_procesador(Proceso(id_proceso, memoria, tiempo_ejecucion), id_procesador);
+            int id_proceso, memoria, tiempo_estimado;
+            cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
+            cluster.baja_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador);
         }
 
         else if (comando == "enviar_procesos_cluster" or comando == "epc") {

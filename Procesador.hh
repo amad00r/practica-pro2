@@ -14,8 +14,6 @@ using namespace std;
 
 /** @class Procesador
     @brief Representa un procesador que puede ejecutar procesos simultáneamente.
-
-    ...
 */
 class Procesador {
     private:
@@ -27,7 +25,7 @@ class Procesador {
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al declarar un Procesador.
-            \pre cierto.
+            \pre Cierto.
             \post El resultado es un Procesador no inicializado.
         */  
         Procesador();
@@ -41,25 +39,25 @@ class Procesador {
 
         // CONSULTORAS ########################################################
 
-        /** @brief Consulta si un identificador coincide con el del parámetro implícito.
-            \pre El parámetro implícito está inicializado.
-            \post El resultado indica si el id del parámetro implícito coincide con id_procesador.
+        /** @brief Consulta si un determinado identificador coincide con el del parámetro implícito.
+            \pre El parámetro implícito está inicializado. id_procesador contiene únicamente letras y números.
+            \post El resultado indica si el identificador del parámetro implícito coincide con id_procesador.
         */
         bool id_coincide(const string& id_procesador) const;
 
-        /** @brief Consulta si un cierto Proceso en el parámetro implícito.
-            \pre El parámetro implícito está inicializado.
-            \post El resultado indica si existe un Proceso con id = id_proceso ejecutándose en el parámetro implícito.
+        /** @brief Consulta si un cierto Proceso se encuentra ejecutándose en el parámetro implícito.
+            \pre El parámetro implícito está inicializado. id_proceso >= 0.
+            \post El resultado indica si existe un Proceso con identificador igual a id_proceso ejecutándose en el parámetro implícito.
         */
-        bool existe_id_proceso(const string& id_proceso) const;
+        bool existe_id_proceso(int id_proceso) const;
 
-        /** @brief Consulta si existen procesos activos en el parámetro implícito.
+        /** @brief Consulta si existe algún Proceso activo en el parámetro implícito.
             \pre El parámetro implícito está inicializado.
-            \post El resultado indica si hay procesos ejecutándose en el parámetro implícito.
+            \post El resultado indica si existe algún Proceso ejecutándose en el parámetro implícito.
         */
         bool hay_procesos() const;
 
-        /** @brief Consulta si un cierto proceso se puede colocar en la memoria del parámetro implícito.
+        /** @brief Consulta si un determinado Proceso se puede colocar en la memoria del parámetro implícito.
             \pre El parámetro implícito está inicializado.
             \post El resultado indica si proceso se puede colocar en la memoria del parámetro implícito.
         */
@@ -68,15 +66,15 @@ class Procesador {
 
         // MODIFICADORAS ######################################################
 
-        /** @brief Avanza el tiempo que ha transcurrido en la simulación de los procesos del parámetro implícito.
+        /** @brief Avanza el tiempo que ha transcurrido en la ejecución de los Proceso del parámetro implícito.
             \pre El parámetro implícito está inicializado. t >= 0.
-            \post Todos los procesos del parámetro implícito incrementan en t unidades de tiempo el tiempo que llevan ejecutándose.
+            \post El tiempo estimado de los Proceso del parámetro implícito se ha visto decrementado en t. Si un Proceso tenía un tiempo estimado menor que t se ha liberado de la memoria.
         */
         void avanzar_tiempo(int t);
 
-        /** @brief Compacta los procesos en memoria del parámetro implícito.
-            \pre cierto.
-            \post Los procesos en memoria del parámetro implícito quedan compactados hacia el comienzo de la memoria sin dejar huecos, sin solaparse, y respetando el orden inicial.
+        /** @brief Compacta los Proceso en memoria del parámetro implícito.
+            \pre Cierto.
+            \post Los Proceso en memoria del parámetro implícito quedan compactados hacia el comienzo de la memoria sin dejar huecos, sin solaparse, y respetando el orden inicial.
         */
         void compactar_memoria();
 
@@ -85,7 +83,7 @@ class Procesador {
 
         /** @brief Imprime el parámetro implícito por el canal de salida estándar.
             \pre El parámetro implícito está inicializado.
-            \post Quedan escritos en el canal de salida estándar los procesos del parámetro implícito en orden creciente de primera posición de memoria, incluyendo dicha posición.
+            \post Quedan escritos en el canal de salida estándar los Proceso del parámetro implícito en orden creciente de primera posición de memoria, incluyendo dicha posición.
         */
         void imprimir() const;
 };

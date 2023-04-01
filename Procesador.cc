@@ -33,10 +33,7 @@ bool Procesador::se_puede_colocar(const Proceso& proceso) {
 void Procesador::avanzar_tiempo(int t) {
     list<Proceso>::const_iterator it = procesos_memoria.begin();
     while (it != procesos_memoria.end()) {
-        if (it->second.queda_tiempo_ejecucion(t)) {
-            it->second.avanzar_tiempo(t);
-            ++it;
-        }
+        if (it->second.avanzar_tiempo(t)) ++it;
         else it = procesos_memoria.erase(it);
     }
 }

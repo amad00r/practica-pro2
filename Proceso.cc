@@ -4,10 +4,10 @@ using namespace std;
 
 Proceso::Proceso() {}
 
-Proceso::Proceso(int id, int memoria, int tiempo_ejecucion) {
+Proceso::Proceso(int id, int memoria, int tiempo_estimado) {
     this->id = id;
     this->memoria = memoria;
-    this->tiempo_ejecucion = tiempo_ejecucion;
+    this->tiempo_estimado = tiempo_estimado;
 }
 
 int Proceso::consultar_id() const {
@@ -18,14 +18,11 @@ bool Proceso::id_coincide(int id_proceso) const {
     return id == id_proceso;
 }
 
-bool Proceso::queda_tiempo_ejecucion(int t) const {
-    return tiempo_ejecucion > t;
-}
-
-void Proceso::avanzar_tiempo(int t) {
-    tiempo_ejecucion -= t;
+bool Proceso::avanzar_tiempo(int t) {
+    tiempo_estimado -= t;
+    return tiempo_estimado > 0;
 }
 
 void Proceso::imprimir() const {
-    cout << id << " " << memoria << " " << tiempo_ejecucion << endl;
+    cout << id << " " << memoria << " " << tiempo_estimado << endl;
 }

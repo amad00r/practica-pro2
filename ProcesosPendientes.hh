@@ -20,7 +20,7 @@ using namespace std;
 */
 class ProcesosPendientes {
     private:
-
+    
         struct Prioridad {
             queue<Proceso> procesos;
             int procesos_colocados = 0;
@@ -28,17 +28,18 @@ class ProcesosPendientes {
         };
         map<string, Prioridad> mapa_prioridades;
 
+
         // CONSULTORAS ########################################################
 
-        /** @brief Consulta si existe una cierta prioridad en el parámetro implícito.
+        /** @brief Consulta si existe una determinada prioridad en el parámetro implícito.
             \pre id_prioridad contiene únicamente letras y números.
-            \post El resultado indica si existe una Prioridad con llave igual a id_prioridad en mapa_prioridades del parámetro implícito.
+            \post El resultado indica si existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
         */
         bool existe_prioridad(const string& id_prioridad) const;
 
-        /** @brief Consulta si existe un cierto proceso en una cierta prioridad del parámetro implícito
-            \pre Existe una llave en mapa_prioridades igual a id_prioridad. id_proceso >= 0.
-            \post El resultado indica si existe el proceso con id = id_proceso en la Prioridad con llave igual a id_prioridad en el mapa_prioridades del parámetro implícito.
+        /** @brief Consulta si existe un determinado Proceso con una determinada prioridad en el parámetro implícito.
+            \pre id_proceso >= 0. Existe una prioridad con identificador igual a id_prioridad en el parámetro implícito. 
+            \post El resultado indica si existe el Proceso con identificador igual a id_proceso en la prioridad con identificador igual a id_prioridad en el parámetro implícito.
         */
         bool existe_proceso_en_prioridad(int id_proceso, const string& id_prioridad) const;
 
@@ -46,50 +47,50 @@ class ProcesosPendientes {
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al declarar un ProcesosPendientes.
-            \pre cierto.
-            \post El resultado es un ProcesosPendientes con mapa_prioridades vacío.
+            \pre Cierto.
+            \post El resultado es un ProcesosPendientes sin prioridades ni procesos pendientes.
         */
         ProcesosPendientes();
 
 
         // MODIFICADORAS ######################################################
 
-        /** @brief Da de alta una nueva prioridad en el parámetro implícito.
-            \pre id_prioridad contiene únicamente letras y números y no existe una llave en mapa_prioridades igual a id_prioridad.
-            \post Existe una llave en mapa_prioridades igual a id_prioridad con valor sin inicializar.
+        /** @brief Da de alta una prioridad en el parámetro implícito.
+            \pre id_prioridad contiene únicamente letras y números, y no existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
+            \post Existe una prioridad con identificador igual a id_prioridad y sin procesos pendientes en el parámetro implícito.
         */
         void alta_prioridad(const string& id_prioridad);
 
         /** @brief Da de baja una prioridad del parámetro implícito.
-            \pre Existe una llave en mapa_prioridades igual a id_prioridad, y dicha llave corresponde a una Prioridad sin procesos.
-            \post No existe una llave en mapa_prioridades igual a id_prioridad.
+            \pre Existe una prioridad con identificador igual a id_prioridad, y no tiene procesos pendientes.
+            \post No existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
         */
         void baja_prioridad(const string& id_prioridad);
 
         /** @brief Da de alta un proceso en una prioridad del parámetro implícito.
-            \pre Existe una llave en mapa_prioridades igual a id_prioridad, y dicha llave corresponde a una Prioridad sin que no contiene procesos iguales a proceso.
-            \post proceso está en la cola de la Prioridad con llave igual a id_prioridad de mapa_prioridades del parámetro implícito.
+            \pre Existe una prioridad con identificador igual a id_prioridad en el parámetro implícito, y dicha prioridad no tiene asignada ningún Proceso igual a proceso.
+            \post La prioridad con identificador igual a id_prioridad del parámetro implícito tiene asignada un Proceso igual a proceso.
         */
         void alta_proceso_espera(const Proceso& proceso, const string& id_prioridad);
 
-        /** @brief Envía n procesos en espera para que se ejecuten en un clúster.
-            \pre n >= 0.
-            \post Se han enviado entre 0 y n procesos con éxito al procesador en orden de prioridad y antigüedad. Quedan registradas la cantidad de éxitos y la de fracasos en procesos_colocados y procesos_rechazados de la Prioridad con llave igual a id_prioridad. Los procesos colocados abandonan la Prioridad en la que estaban, y los rechazados vuelven a ella como si fueran nuevos.
+        /** @brief Envía n procesos pendientes a un determinado Cluster para que sean ejecutados.
+            \pre n >= 0. cluster está inicializado con almenos un Procesador.
+            \post Se han enviado entre 0 y n procesos con éxito en orden de prioridad y antigüedad a cluster. Quedan registradas la cantidad de éxitos y la de fracasos en la prioridad correspondiente del parámetro implícito. Los procesos colocados en cluster abandonan la prioridad en la que estaban, y los rechazados vuelven a ella como si fueran nuevos.
         */
-        void enviar_procesos_cluster(int n, Cluster& cluster);
+        void enviar_procesos_cluster(int n, const Cluster& cluster);
         
 
         // LECTURA/ESCRITURA ##################################################
 
-        /** @brief Imprime una cierta Prioridad por el canal de salida estándar.
-            \pre Existe una llave en mapa_prioridades igual a id_prioridad.
-            \post Quedan escritos los procesos pendientes de la Prioridad con llave igual a id_prioridad por orden decreciente de antigüedad, y el número de procesos colocados y rechazados por un clúster de dicha Prioridad.
+        /** @brief Imprime una determinada prioridad del parámetro implícito por el canal de salida estándar.
+            \pre Existe una prioridad con identificador igual a id_prioridad en el parámetro implícito.
+            \post Quedan escritos en el canal de salida estándar los procesos pendientes de la prioridad con identificador igual a id_prioridad del parámetro implícito en orden decreciente de antigüedad, y el número de procesos colocados y rechazados de dicha prioridad.
         */
         void imprimir_prioridad(const string& id_prioridad) const;
 
-        /** @brief Imprime todas las prioridades por el canal de salida estándar.
-            \pre cierto.
-            \post Quedan escritos los procesos pendientes de la todas las prioridades por orden decreciente de antigüedad, y el número de procesos colocados y rechazados por un clúster de cada una.
+        /** @brief Imprime todas las prioridades del parámetro implícito por el canal de salida estándar.
+            \pre Cierto.
+            \post Quedan escritos en el canal de salida estándar los procesos pendientes de todas las prioridades del parámetro implícito en orden decreciente de antigüedad, y el número de procesos colocados y rechazados de cada una de ellas.
         */
         void imprimir_area_espera() const;
 };

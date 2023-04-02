@@ -68,7 +68,8 @@ int main() {
             int id_proceso, memoria, tiempo_estimado;
             string id_prioridad;
             cin >> id_proceso >> memoria >> tiempo_estimado >> id_prioridad;
-            pendientes.alta_proceso_espera(Proceso(id_proceso, memoria, tiempo_estimado), id_prioridad, error);
+            Proceso proceso(id_proceso, memoria, tiempo_estimado);
+            pendientes.alta_proceso_espera(proceso, id_prioridad, error);
 
             if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
             else if (error == PROCESO_EXISTENTE_EN_PRIORIDAD) cout << "pendiente del juego de pruebas" << endl;
@@ -78,7 +79,8 @@ int main() {
             string id_procesador;
             int id_proceso, memoria, tiempo_estimado;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
-            cluster.alta_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador, error);
+            Proceso proceso(id_proceso, memoria, tiempo_estimado);
+            cluster.alta_proceso_procesador(proceso, id_procesador, error);
 
             if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
             else if (error == PROCESO_EXISTENTE_EN_PROCESADOR) cout << "pendiente del juego de pruebas" << endl;
@@ -89,7 +91,8 @@ int main() {
             string id_procesador;
             int id_proceso, memoria, tiempo_estimado;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
-            cluster.baja_proceso_procesador(Proceso(id_proceso, memoria, tiempo_estimado), id_procesador, error);
+            Proceso proceso(id_proceso, memoria, tiempo_estimado);
+            cluster.baja_proceso_procesador(proceso, id_procesador, error);
 
             if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
             else if (error == PROCESO_INEXISTENTE_EN_PROCESADOR) cout << "pendiente del juego de pruebas" << endl;

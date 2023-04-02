@@ -76,7 +76,7 @@ class Cluster {
         */
         void avanzar_tiempo(int t);
 
-        /** @brief Compacta los Proceso en memoria de un cierto Procesador del parámetro implícito.
+        /** @brief Compacta los Proceso en memoria de un determinado Procesador del parámetro implícito.
             \pre Existe un Procesador con identificador igual a id_procesador en el parámetro implícito.
             \post Los Proceso en memoria del Procesador con identificador igual a id_procesador del parámetro implícito quedan compactados hacia el comienzo de la memoria sin dejar huecos, sin solaparse, y respetando el orden inicial. El resultado indica si se ha encontrado el Procesador con identificador igual a id_procesador en el parámetro implícito.
         */
@@ -91,7 +91,7 @@ class Cluster {
 
         // LECTURA/ESCRITURA ##################################################
 
-        /** @brief Imprime un cierto Procesador del parámetro implícito por el canal de salida estándar.
+        /** @brief Imprime un determinado Procesador del parámetro implícito por el canal de salida estándar.
             \pre Existe un Procesador con identificador igual a id_procesador en el parámetro implícito.
             \post Quedan escritos en el canal de salida estándar los Proceso de dicho Procesador en orden creciente de primera posición de memoria, incluyendo dicha posición. El resultado indica si se ha encontrado el Procesador con identificador igual a id_procesador en el parámetro implícito.
         */

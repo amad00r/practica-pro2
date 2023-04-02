@@ -45,7 +45,7 @@ class Procesador {
         */
         bool id_coincide(const string& id_procesador) const;
 
-        /** @brief Consulta si un cierto Proceso se encuentra ejecutándose en el parámetro implícito.
+        /** @brief Consulta si un determinado Proceso se encuentra ejecutándose en el parámetro implícito.
             \pre El parámetro implícito está inicializado. id_proceso >= 0.
             \post El resultado indica si existe un Proceso con identificador igual a id_proceso ejecutándose en el parámetro implícito.
         */

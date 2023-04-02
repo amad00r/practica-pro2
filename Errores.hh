@@ -1,7 +1,8 @@
 /** @file Errores.hh
     @brief Definición de constantes.
 
-    Se definen los errores que se pueden producir en los métodos de los módulos: ProcesosPendientes.hh, Cluster.hh.
+    Se definen los errores que se pueden producir en los métodos de los
+    módulos: ProcesosPendientes.hh, Cluster.hh.
 */
 
 const int NO_HAY_ERROR = -1;

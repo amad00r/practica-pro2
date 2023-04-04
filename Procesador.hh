@@ -6,22 +6,16 @@
 
 #ifndef NO_DIAGRAM
 #include <string>
-#include <list>
 #endif
 
 using namespace std;
 
 
 /** @class Procesador
-    @brief Representa un procesador que puede ejecutar procesos
+    @brief Representa un procesador que puede ejecutar múltiples Proceso
            simultáneamente.
 */
 class Procesador {
-    private:
-        string id;
-        int memoria;
-        list< pair<int, Proceso> > procesos_memoria;
-
     public:
         // CONSTRUCTORAS ######################################################
 

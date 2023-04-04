@@ -14,9 +14,9 @@
 using namespace std;
 
 /** @class ProcesosPendientes
-    @brief Representa una sala de espera de procesos pendientes a ejecutarse.
+    @brief Representa una sala de espera de Proceso pendientes a ejecutarse.
 
-    En cada momento puede contener un número variable de procesos pendientes
+    En cada momento puede contener un número variable de Proceso pendientes
     con diferentes prioridades.
 */
 class ProcesosPendientes {

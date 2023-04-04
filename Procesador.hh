@@ -6,6 +6,7 @@
 
 #ifndef NO_DIAGRAM
 #include <string>
+#include <list>
 #endif
 
 using namespace std;
@@ -16,6 +17,11 @@ using namespace std;
            simultáneamente.
 */
 class Procesador {
+    private:
+        string id;
+        int memoria;
+        list< pair<int, Proceso> > procesos_memoria;
+
     public:
         // CONSTRUCTORAS ######################################################
 

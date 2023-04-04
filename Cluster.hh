@@ -65,42 +65,55 @@ class Cluster {
                    clúster de Procesador leído del canal de entrada estándar.
 
             \pre El canal de entrada estándar contiene una secuencia de
-                 identificadores no repetidos de Procesador. Existe un
-                 Procesador en el parámetro implícito con identificador igual a
-                 id_procesador. Dicho Procesador no tiene ningún Proceso en
-                 ejecución ni ningún Procesador auxiliar.
+                 identificadores no repetidos de Procesador.
 
-            \post El Procesador del parámetro implícito con identificador igual
-                  a id_procesador es el clúster de Procesador leído del canal
-                  de entrada estándar.
+            \post Si no existe un Procesador en el parámetro implícito con
+                  identificador igual a id_procesador, error vale 
+                  PROCESADOR_INEXISTENTE.
+                  Si dicho Procesador tiene algún Proceso en ejecución, error
+                  vale PROCESOS_EN_EJECUCION.
+                  Si dicho Procesador tiene algún Procesador auxiliar, error
+                  vale TIENE_PROCESADORES_AUXILIARES.
+                  Si no se dan estos casos, el Procesador del parámetro
+                  implícito con identificador igual a id_procesador es el
+                  clúster de Procesador leído del canal de entrada estándar.
         */
         void modificar_cluster(const string& id_procesador, int& error);
         
         /** @brief Da de alta un Proceso en un Procesador del parámetro
                    implícito.
 
-            \pre Existe un Procesador con identificador igual a id_procesador
-                 en el parámetro implícito. No existe ningún Proceso idéntico
-                 a proceso en dicho Procesador. proceso se puede colocar en
-                 dicho Procesador.
+            \pre Cierto.
 
-            \post proceso se ejecuta en el Procesador del parámetro implícito
-                  con identificador igual a id_procesador. proceso se coloca en
-                  la posición de memoria más pequeña de dicho Procesador que
-                  deje el hueco más ajustado.
+            \post Si no existe un Procesador con identificador igual a
+                  id_procesador en el parámetro implícito, error vale
+                  PROCESADOR_INEXISTENTE.
+                  Si existe algún Proceso idéntico a proceso en dicho
+                  Procesador, error vale PROCESO_EXISTENTE_EN_PROCESADOR.
+                  Si proceso no se puede colocar en dicho Procesador, error
+                  vale PROCESO_NO_COLOCABLE.
+                  Si no se dan estos casos, proceso se ejecuta en el Procesador
+                  del parámetro implícito con identificador igual a
+                  id_procesador. proceso es colocado en la posición de memoria
+                  más pequeña de dicho Procesador que deje el hueco más
+                  ajustado posible.
         */
         void alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
 
         /** @brief Da de baja un Proceso de un Procesador del parámetro
                    implícito.
 
-            \pre Existe un Procesador con identificador igual a id_procesador
-                 el parámetro implícito. Existe un Proceso idéntico a proceso
-                 en dicho Procesador.
+            \pre Cierto.
 
-            \post proceso ya no se ejecuta en el Procesador del parámetro
-                  implícito con identificador igual a id_procesador. Se ha
-                  liberado la memoria de dicho Procesador que ocupaba proceso.
+            \post Si no existe un Procesador con identificador igual a
+                  id_procesador el parámetro implícito, error vale
+                  PROCESADOR_INEXISTENTE.
+                  Si no existe un Proceso idéntico a proceso en dicho
+                  Procesador, error vale PROCESO_INEXISTENTE_EN_PROCESADOR.
+                  Si no se dan estos casos, proceso ya no se ejecuta en el
+                  Procesador del parámetro implícito con identificador igual a
+                  id_procesador. Se ha liberado la memoria de dicho Procesador
+                  que ocupaba proceso.
         */
         void baja_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
 
@@ -114,6 +127,7 @@ class Cluster {
                   proceso, disponga de más memoria libre, se encuentre más
                   cerca de la raíz del árbol de procesadores, o, en última
                   instancia, se encuentre más a la izquierda.
+                  Si proceso no se ha colocado, error vale PROCESO_NO_COLOCABLE.
         */
         void alta_proceso(const Proceso& proceso, int& error);
 
@@ -132,13 +146,14 @@ class Cluster {
         /** @brief Compacta los Proceso en memoria de un determinado Procesador
                    del parámetro implícito.
 
-            \pre Existe un Procesador con identificador igual a id_procesador
-                 en el parámetro implícito.
+            \pre Cierto.
 
-            \post Los Proceso en memoria del Procesador con identificador igual
-                  a id_procesador del parámetro implícito quedan compactados
-                  hacia el comienzo de la memoria sin dejar huecos, sin
-                  solaparse, y respetando el orden inicial.
+            \post Si no existe un Procesador con identificador igual a
+                  id_procesador en el parámetro implícito, error vale
+                  PROCESADOR_INEXISTENTE.
+                  Si existe dicho Procesador, sus Proceso en memoria quedan
+                  compactados hacia el comienzo de la memoria sin dejar huecos,
+                  sin solaparse, y respetando el orden inicial.
         */
         void compactar_memoria_procesador(const string& id_procesador, int& error);
 
@@ -159,12 +174,14 @@ class Cluster {
         /** @brief Imprime un determinado Procesador del parámetro implícito
                    por el canal de salida estándar.
 
-            \pre Existe un Procesador con identificador igual a id_procesador
-                 en el parámetro implícito.
+            \pre Cierto.
 
-            \post Quedan escritos en el canal de salida estándar los Proceso de
-                  dicho Procesador en orden creciente de primera posición de
-                  memoria, incluyendo dicha posición.
+            \post Si no existe un Procesador con identificador igual a
+                  id_procesador en el parámetro implícito, error vale
+                  PROCESADOR_INEXISTENTE.
+                  Si existe dicho Procesador, quedan escritos en el canal de
+                  salida estándar sus Proceso de en orden creciente de primera
+                  posición de memoria, incluyendo dicha posición.
         */
         void imprimir_procesador(const string& id_procesador, int& error) const;
 

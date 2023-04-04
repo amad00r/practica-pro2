@@ -60,6 +60,7 @@ int main() {
             pendientes.baja_prioridad(id_prioridad, error);
 
             if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            else if (error == PRIORIDAD_CON_PROCESOS_PENDIENTES) cout << "pendiente del juego de pruebas" << endl;
         }
 
         else if (comando == "alta_proceso_espera" or comando == "ape") {

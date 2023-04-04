@@ -72,34 +72,43 @@ class ProcesosPendientes {
 
         /** @brief Da de alta una prioridad en el parámetro implícito.
 
-            \pre id_prioridad contiene únicamente letras y números, y no existe
-                 una prioridad con identificador igual a id_prioridad en el
-                 parámetro implícito.
+            \pre id_prioridad contiene únicamente letras y números.
 
-            \post Existe una prioridad con identificador igual a id_prioridad y
-                  sin procesos pendientes en el parámetro implícito.
+            \post Si existe una prioridad con identificador igual a
+                  id_prioridad en el parámetro implícito, error vale
+                  PRIORIDAD_EXISTENTE.
+                  Si no existe, se crea en el parámetro implícito dicha
+                  prioridad sin procesos pendientes.
         */
         void alta_prioridad(const string& id_prioridad, int& error);
 
         /** @brief Da de baja una prioridad del parámetro implícito.
 
-            \pre Existe una prioridad con identificador igual a id_prioridad, y
-                 no tiene procesos pendientes.
+            \pre Cierto.
 
-            \post No existe una prioridad con identificador igual a
-                  id_prioridad en el parámetro implícito.
+            \post Si no existe una prioridad con identificador igual a
+                  id_prioridad en el parámetro implícito, error vale
+                  PRIORIDAD_INEXISTENTE.
+                  Si dicha prioridad tiene algún Proceso pendiente, error vale
+                  PROCESO_EXISTENTE_EN_PRIORIDAD.
+                  Si no se dan estos casos, ya no existe una prioridad con
+                  identificador igual a id_prioridad en el parámetro implícito.
         */
         void baja_prioridad(const string& id_prioridad, int& error);
 
         /** @brief Da de alta un proceso en una prioridad del parámetro
                    implícito.
 
-            \pre Existe una prioridad con identificador igual a id_prioridad en
-                 el parámetro implícito, y dicha prioridad no tiene asignada
-                 ningún Proceso igual a proceso.
+            \pre Cierto.
                  
-            \post La prioridad con identificador igual a id_prioridad del
-                  parámetro implícito tiene asignada un Proceso igual a proceso.
+            \post Si no existe una prioridad con identificador igual a
+                  id_prioridad en el parámetro implícito, error vale
+                  PRIORIDAD_INEXISTENTE.
+                  Si dicha prioridad tiene asignada algún Proceso igual a
+                  proceso, error vale PROCESO_EXISTENTE_EN_PRIORIDAD.
+                  Si no se dan estos casos, la prioridad con identificador
+                  igual a id_prioridad del parámetro implícito pasa a tener
+                  asignada un Proceso igual a proceso.
         */
         void alta_proceso_espera(const Proceso& proceso, const string& id_prioridad, int& error);
 
@@ -127,11 +136,13 @@ class ProcesosPendientes {
             \pre Existe una prioridad con identificador igual a id_prioridad en
                  el parámetro implícito.
 
-            \post Quedan escritos en el canal de salida estándar los procesos
-                  pendientes de la prioridad con identificador igual a
-                  id_prioridad del parámetro implícito en orden decreciente de
-                  antigüedad, y el número de procesos colocados y rechazados de
-                  dicha prioridad.
+            \post Si no existe una prioridad con identificador igual a
+                  id_prioridad en el parámetro implícito, error vale
+                  PRIORIDAD_INEXISTENTE.
+                  Si existe, quedan escritos en el canal de salida estándar los
+                  procesos pendientes de dicha prioridad en orden decreciente
+                  de antigüedad, y su número de procesos colocados y
+                  rechazados.
         */
         void imprimir_prioridad(const string& id_prioridad, int& error) const;
 

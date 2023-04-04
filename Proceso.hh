@@ -16,7 +16,7 @@ class Proceso {
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
-                   declarar un Proceso.
+                   declarar un Proceso sin pasar parámetros.
 
             \pre Cierto.
 

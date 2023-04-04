@@ -20,7 +20,7 @@ class Procesador {
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
-                   declarar un Procesador.
+                   declarar un Procesador sin pasar parámetros.
 
             \pre Cierto.
 

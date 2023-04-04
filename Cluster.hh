@@ -71,12 +71,10 @@ class Cluster {
                  ejecución ni ningún Procesador auxiliar.
 
             \post El Procesador del parámetro implícito con identificador igual
-                  a id_procesador es el clúster de Procesador leído del cana
-                  de entrada estándar. El resultado indica si se ha encontrado
-                  el Procesador del parámetro implícito con identificador igual
-                  a id_procesador en el parámetro implícito.
+                  a id_procesador es el clúster de Procesador leído del canal
+                  de entrada estándar.
         */
-        bool modificar_cluster(const string& id_procesador, int& error);
+        void modificar_cluster(const string& id_procesador, int& error);
         
         /** @brief Da de alta un Proceso en un Procesador del parámetro
                    implícito.
@@ -89,11 +87,9 @@ class Cluster {
             \post proceso se ejecuta en el Procesador del parámetro implícito
                   con identificador igual a id_procesador. proceso se coloca en
                   la posición de memoria más pequeña de dicho Procesador que
-                  deje el hueco más ajustado. El resultado indica si se ha
-                  encontrado el Procesador con identificador igual a
-                  id_procesador en el parámetro implícito.
+                  deje el hueco más ajustado.
         */
-        bool alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
+        void alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
 
         /** @brief Da de baja un Proceso de un Procesador del parámetro
                    implícito.
@@ -105,28 +101,21 @@ class Cluster {
             \post proceso ya no se ejecuta en el Procesador del parámetro
                   implícito con identificador igual a id_procesador. Se ha
                   liberado la memoria de dicho Procesador que ocupaba proceso.
-                  El resultado indica si se ha encontrado el Procesador con
-                  identificador igual a id_procesador en el parámetro
-                  implícito.
         */
-        bool baja_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
+        void baja_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
 
         /** @brief Da de alta un Proceso en un Procesador del parámetro
                    implícito.
 
             \pre Cierto.
 
-            \post Si proceso se ha colocado, colocado vale true y proceso se
-                  ejecuta en el Procesador que disponga de un hueco más
-                  ajustado respecto a proceso, disponga de más memoria libre,
-                  se encuentre más cerca de la raíz del árbol de procesadores,
-                  o, en última instancia, se encuentre más a la izquierda. Si,
-                  por otro lado, proceso no se ha colocado, colocado vale
-                  false. El resultado indica si se ha encontrado el Procesador
-                  con identificador igual a id_procesador en el parámetro
-                  implícito.
+            \post Si proceso se ha colocado, proceso se ejecuta en el
+                  Procesador que disponga de un hueco más ajustado respecto a
+                  proceso, disponga de más memoria libre, se encuentre más
+                  cerca de la raíz del árbol de procesadores, o, en última
+                  instancia, se encuentre más a la izquierda.
         */
-        bool alta_proceso(const Proceso& proceso, int& error);
+        void alta_proceso(const Proceso& proceso, int& error);
 
         /** @brief Avanza el tiempo que ha transcurrido en la ejecución de los
                    Proceso de los Procesador del parámetro implícito.
@@ -149,11 +138,9 @@ class Cluster {
             \post Los Proceso en memoria del Procesador con identificador igual
                   a id_procesador del parámetro implícito quedan compactados
                   hacia el comienzo de la memoria sin dejar huecos, sin
-                  solaparse, y respetando el orden inicial. El resultado indica
-                  si se ha encontrado el Procesador con identificador igual a
-                  id_procesador en el parámetro implícito.
+                  solaparse, y respetando el orden inicial.
         */
-        bool compactar_memoria_procesador(const string& id_procesador, int& error);
+        void compactar_memoria_procesador(const string& id_procesador, int& error);
 
         /** @brief Compacta los Proceso en memoria de todos los Procesador del
                    parámetro implícito.
@@ -177,11 +164,9 @@ class Cluster {
 
             \post Quedan escritos en el canal de salida estándar los Proceso de
                   dicho Procesador en orden creciente de primera posición de
-                  memoria, incluyendo dicha posición. El resultado indica si se
-                  ha encontrado el Procesador con identificador igual a
-                  id_procesador en el parámetro implícito.
+                  memoria, incluyendo dicha posición.
         */
-        bool imprimir_procesador(const string& id_procesador, int& error) const;
+        void imprimir_procesador(const string& id_procesador, int& error) const;
 
         /** @brief Imprime todo Procesador del parámetro implícito por el canal
                    de salida estándar.

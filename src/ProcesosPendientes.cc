@@ -1,7 +1,7 @@
 #include "ProcesosPendientes.hh"
 #include "Proceso.hh"
 #include "Cluster.hh"
-#include "Errores.hh" ///////////////////////////?¿?? hace falta
+#include "Errores.hh"
 
 #include <string>
 #include <queue>

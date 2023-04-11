@@ -1,7 +1,7 @@
 #include "Cluster.hh"
 #include "BinTree.hh"
 #include "Procesador.hh"
-#include "Errores.hh" ///////////////////////////?¿?? hace falta
+#include "Errores.hh"
 
 #include <string>
 #include <iostream>

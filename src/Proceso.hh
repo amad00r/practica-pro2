@@ -1,3 +1,5 @@
+#pragma once
+
 /** @file Proceso.hh
     @brief Especificación de la clase Proceso.
 */

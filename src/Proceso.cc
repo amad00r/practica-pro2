@@ -1,5 +1,6 @@
 #include "Proceso.hh"
-#include "Errores.hh" ///////////////////////////?¿?? hace falta
+
+#include <iostream>
 
 using namespace std;
 

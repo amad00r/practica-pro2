@@ -1,3 +1,5 @@
+#pragma once
+
 /** @file Cluster.hh
     @brief Especificación de la clase Cluster.
 */
@@ -196,6 +198,12 @@ class Cluster {
                   identificador) del parámetro implícito.
         */
         void imprimir_procesadores_cluster() const;
+
+
+
+
+
+       void imprimir_arbol_procesadores(const BinTree<Procesador>& arbol) const;
 
         /** @brief Imprime la estructura interna del parámetro implícito por el
                    canal de salida estándar.

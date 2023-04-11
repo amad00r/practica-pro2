@@ -22,6 +22,16 @@ int main() {
     Cluster cluster;
     ProcesosPendientes pendientes;
 
+    cluster.configurar_cluster();
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        int error;
+        string id_prioridad;
+        cin >> id_prioridad;
+        pendientes.alta_prioridad(id_prioridad, error);
+    }
+
     string comando;
     cin >> comando;
 

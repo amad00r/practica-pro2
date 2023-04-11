@@ -1,3 +1,5 @@
+#pragma once
+
 /** @file Procesador.hh
     @brief Especificación de la clase Procesador.
 */
@@ -46,6 +48,12 @@ class Procesador {
 
 
         // CONSULTORAS ########################################################
+
+
+
+
+
+        string consultar_id() const;
 
         /** @brief Consulta si un determinado identificador coincide con el del
                    parámetro implícito.

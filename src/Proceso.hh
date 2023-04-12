@@ -56,6 +56,8 @@ class Proceso {
                   implícito coincide con id_proceso.
         */
         bool id_coincide(int id_proceso) const;
+
+        int consultar_memoria() const;
         
         
         // MODIFICADORAS ######################################################

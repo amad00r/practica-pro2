@@ -20,6 +20,10 @@ bool Proceso::id_coincide(int id_proceso) const {
     return id == id_proceso;
 }
 
+int consultar_memoria() const {
+    return memoria;
+}
+
 bool Proceso::avanzar_tiempo(int t) {
     tiempo_estimado -= t;
     return tiempo_estimado > 0;

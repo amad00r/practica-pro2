@@ -33,7 +33,13 @@ class Cluster {
             \post El parámetro tree contiene los Procesador leídos del canal de
                   entrada estándar.
         */
-        void leer_procesadores(BinTree<Procesador>& tree);
+        void leer_procesadores(BinTree<Procesador>& tree) const;
+
+        void auxiliar_imprimir_estructura_cluster(const BinTree<Procesador>& arbol) const;
+
+        void auxiliar_imprimir_procesadores_cluster(const BinTree<Procesador>& arbol) const;
+
+        bool buscar_procesador(const BinTree<Procesador>& arbol, const string& id_procesador, Procesador& procesador) const;
 
     public:
         // CONSTRUCTORAS ######################################################
@@ -198,12 +204,6 @@ class Cluster {
                   identificador) del parámetro implícito.
         */
         void imprimir_procesadores_cluster() const;
-
-
-
-
-
-       void imprimir_arbol_procesadores(const BinTree<Procesador>& arbol) const;
 
         /** @brief Imprime la estructura interna del parámetro implícito por el
                    canal de salida estándar.

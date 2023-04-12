@@ -113,6 +113,8 @@ class Procesador {
         */
         void avanzar_tiempo(int t);
 
+        bool colocar(const Proceso& proceso);
+
         /** @brief Compacta los Proceso en memoria del parámetro implícito.
          
             \pre Cierto.

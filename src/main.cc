@@ -91,7 +91,7 @@ int main() {
             Proceso proceso(id_proceso, memoria, tiempo_estimado);
             cluster.alta_proceso_procesador(proceso, id_procesador, error);
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
             else if (error == PROCESO_EXISTENTE_EN_PROCESADOR) cout << "pendiente del juego de pruebas" << endl;
             else if (error == PROCESO_NO_COLOCABLE) cout << "pendiente del juego de pruebas" << endl;
         }

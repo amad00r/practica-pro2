@@ -49,9 +49,12 @@ class Procesador {
 
         // CONSULTORAS ########################################################
 
+        /** @brief Consulta el identificador del parámetro implícito.
 
+            \pre El parámetro implícito está inicializado.
 
-
+            \post El resultado es el identificador del parámetro implícito.
+        */
 
         string consultar_id() const;
 

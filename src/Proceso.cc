@@ -12,6 +12,12 @@ Proceso::Proceso(int id, int memoria, int tiempo_estimado) {
     this->tiempo_estimado = tiempo_estimado;
 }
 
+Proceso::Proceso(const Proceso& proceso) {
+    this->id = proceso.id;
+    this->memoria = proceso.memoria;
+    this->tiempo_estimado = proceso.tiempo_estimado;
+}
+
 int Proceso::consultar_id() const {
     return id;
 }
@@ -20,7 +26,7 @@ bool Proceso::id_coincide(int id_proceso) const {
     return id == id_proceso;
 }
 
-int consultar_memoria() const {
+int Proceso::consultar_memoria() const {
     return memoria;
 }
 

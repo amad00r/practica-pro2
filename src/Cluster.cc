@@ -70,7 +70,10 @@ void Cluster::avanzar_tiempo(int t) {
 }
 
 void Cluster::imprimir_procesador(const string& id_procesador, int& error) const {
-    ;//implementar recurs.
+    Procesador procesador;
+    if (buscar_procesador(procesadores, id_procesador, procesador))
+        procesador.imprimir();
+    else error = PROCESADOR_INEXISTENTE;
 }
 
 

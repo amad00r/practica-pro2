@@ -45,6 +45,7 @@ void Procesador::avanzar_tiempo(int t) {
 }
 
 
+/*
 // IMPORTANTE EFICIENCIA
 bool Procesador::colocar(const Proceso& proceso) {
     list<pair<int, Proceso>>::iterator it_insert;
@@ -67,22 +68,24 @@ bool Procesador::colocar(const Proceso& proceso) {
             encontrado = true;
         }
 
-        list<pair<int, Proceso>>::const_iterator it = procesos_memoria.begin();
-        while (it < procesos_memoria.end() - 1) {
+        list<pair<int, Proceso>>::iterator it = procesos_memoria.begin();
+        list<pair<int, Proceso>>::iterator it_next = next(it);
+        while (it_next != procesos_memoria.end()) {
             posicion_hueco = it->first + it->second.consultar_memoria();
-            espacio_hueco = *(it + 1)->first - posicion_hueco;
+            espacio_hueco = it_next->first - posicion_hueco;
 
-            else if (espacio_hueco >= proceso.consultar_memoria()) {
-                it_insert = it + 1;
+            if (espacio_hueco >= proceso.consultar_memoria() and espacio_hueco < espacio_min_hueco) {
+                it_insert = it_next;
                 posicion_min_hueco = posicion_hueco;
                 espacio_min_hueco = espacio_hueco;
                 encontrado = true;
             }
             ++it;
+            ++it_next;
         }
 
         posicion_hueco = it->first + it->second.consultar_memoria();
-        if (memoria - posicion_hueco >= proceso.consultar_memoria()) {
+        if (memoria - posicion_hueco >= proceso.consultar_memoria() and espacio_hueco < espacio_min_hueco) {
             it_insert = procesos_memoria.end();
             posicion_min_hueco = posicion_hueco;
             encontrado = true;
@@ -91,20 +94,34 @@ bool Procesador::colocar(const Proceso& proceso) {
     
 
     if (encontrado)
-        procesos_memoria.insert(it_insert, make_pair(posicion_min_hueco, proceso));
+        procesos_memoria.insert(it_insert, { posicion_min_hueco, proceso });
         
     return encontrado;
+}
+*/
+
+bool Procesador::colocar(const Proceso& proceso) {
+    if (procesos_memoria.empty()) {
+        bool colocable = memoria >= proceso.consultar_id();
+        if (colocable) procesos_memoria.insert(procesos_memoria.end(), { 0, Proceso(proceso) });
+        return colocable;
+    }
+
+    //list<pair<int, Proceso>>::iterator it_insert;
+    return false;
 }
 
 
 void Procesador::imprimir() const {
+    cout << procesos_memoria.size() << endl;
     for (
         list<pair<int, Proceso>>::const_iterator it = procesos_memoria.begin();
         it != procesos_memoria.end();
         ++it
     ) {
+        cout << "hola";
+        cout << it->first << " ";
         it->second.imprimir();
-        cout << " " << it->first << ", ";
     }
     cout << endl;
 }

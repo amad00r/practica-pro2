@@ -41,62 +41,6 @@ void Procesador::avanzar_tiempo(int t) {
     }
 }
 
-
-/*
-// IMPORTANTE EFICIENCIA
-bool Procesador::colocar(const Proceso& proceso) {
-    list<pair<int, Proceso>>::iterator it_insert;
-    int posicion_min_hueco, espacio_min_hueco;
-    bool encontrado = false;
-
-    if (procesos_memoria.empty()) {
-        it_insert = procesos_memoria.begin();
-        posicion_min_hueco = 0;
-        encontrado = true;
-    }
-    else {
-        int posicion_hueco;
-        int espacio_hueco = procesos_memoria.begin()->first;
-
-        if (espacio_hueco >= proceso.consultar_memoria()) {
-            it_insert = procesos_memoria.begin();
-            posicion_min_hueco = 0;
-            espacio_min_hueco = espacio_hueco;
-            encontrado = true;
-        }
-
-        list<pair<int, Proceso>>::iterator it = procesos_memoria.begin();
-        list<pair<int, Proceso>>::iterator it_next = next(it);
-        while (it_next != procesos_memoria.end()) {
-            posicion_hueco = it->first + it->second.consultar_memoria();
-            espacio_hueco = it_next->first - posicion_hueco;
-
-            if (espacio_hueco >= proceso.consultar_memoria() and espacio_hueco < espacio_min_hueco) {
-                it_insert = it_next;
-                posicion_min_hueco = posicion_hueco;
-                espacio_min_hueco = espacio_hueco;
-                encontrado = true;
-            }
-            ++it;
-            ++it_next;
-        }
-
-        posicion_hueco = it->first + it->second.consultar_memoria();
-        if (memoria - posicion_hueco >= proceso.consultar_memoria() and espacio_hueco < espacio_min_hueco) {
-            it_insert = procesos_memoria.end();
-            posicion_min_hueco = posicion_hueco;
-            encontrado = true;
-        }
-    }
-    
-
-    if (encontrado)
-        procesos_memoria.insert(it_insert, { posicion_min_hueco, proceso });
-        
-    return encontrado;
-}
-*/
-
 bool Procesador::colocar(const Proceso& proceso) {
     if (memoria_disponible < proceso.consultar_memoria()) return false;
 

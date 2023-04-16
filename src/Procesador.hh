@@ -8,7 +8,7 @@
 
 #ifndef NO_DIAGRAM
 #include <string>
-#include <list>
+#include <map>
 #endif
 
 using namespace std;
@@ -21,8 +21,8 @@ using namespace std;
 class Procesador {
     private:
         string id;
-        int memoria;
-        list< pair<int, Proceso> > procesos_memoria;
+        int memoria, memoria_disponible;
+        map<int, Proceso> procesos_memoria;
 
     public:
         // CONSTRUCTORAS ######################################################
@@ -88,16 +88,6 @@ class Procesador {
                   el parámetro implícito.
         */
         bool hay_procesos() const;
-
-        /** @brief Consulta si un determinado Proceso se puede colocar en la
-                   memoria del parámetro implícito.
-
-            \pre El parámetro implícito está inicializado.
-
-            \post El resultado indica si proceso se puede colocar en la memoria
-                  del parámetro implícito.
-        */
-        bool se_puede_colocar(const Proceso& proceso) const;
 
 
         // MODIFICADORAS ######################################################

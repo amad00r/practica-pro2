@@ -30,14 +30,19 @@ void Cluster::leer_procesadores(BinTree<Procesador>& arbol) const {
 
 }
 
-bool Cluster::buscar_procesador(const BinTree<Procesador>& arbol, const string& id_procesador, Procesador& procesador) const {
+bool Cluster::consultar_procesador(
+    const BinTree<Procesador>& arbol,
+    const string& id_procesador,
+    Procesador& procesador_consultado
+) const {
     if (arbol.empty()) return false;
     if (arbol.value().consultar_id() == id_procesador) {
-        procesador = arbol.value();
+        procesador_consultado = arbol.value();
         return true;
     }
-    if (buscar_procesador(arbol.left(), id_procesador, procesador)) return true;
-    return buscar_procesador(arbol.right(), id_procesador, procesador);
+    if (consultar_procesador(arbol.left(), id_procesador, procesador_consultado))
+        return true;
+    return consultar_procesador(arbol.right(), id_procesador, procesador_consultado);
 }
 
 void Cluster::modificar_cluster(const string& id_procesador, int& error) {
@@ -46,15 +51,36 @@ void Cluster::modificar_cluster(const string& id_procesador, int& error) {
     //implementar errores
 }
 
+bool Cluster::sustituir_procesador_modificado(BinTree<Procesador>& arbol, const Procesador& procesador) {
+    if (arbol.empty()) return false;
+    if (arbol.value().consultar_id() == procesador.consultar_id()) {
+        arbol = BinTree<Procesador>(procesador, arbol.left(), arbol.right());
+        return true;
+    }       
+    BinTree<Procesador> izquierdo = arbol.left();
+    if (sustituir_procesador_modificado(izquierdo, procesador)) {
+        arbol = BinTree<Procesador>(arbol.value(), izquierdo, arbol.right());
+        return true;
+    }
+    BinTree<Procesador> derecho = arbol.right();
+    bool encontrado = sustituir_procesador_modificado(derecho, procesador);
+    arbol = BinTree<Procesador>(arbol.value(), izquierdo, derecho);
+    return encontrado;
+}
+
 void Cluster::alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error) {
-    Procesador procesador;
-    bool encontrado = buscar_procesador(procesadores, id_procesador, procesador);
-    if (not encontrado) 
-        error = PROCESADOR_INEXISTENTE;
-    else if (procesador.existe_id_proceso(proceso.consultar_id()))
-        error = PROCESO_EXISTENTE_EN_PROCESADOR;
-    else if (not procesador.colocar(proceso))
-        error = PROCESO_NO_COLOCABLE;
+    Procesador procesador_consultado;
+    if (consultar_procesador(procesadores, id_procesador, procesador_consultado)){
+        if (procesador_consultado.existe_id_proceso(proceso.consultar_id()))
+            error = PROCESO_EXISTENTE_EN_PROCESADOR;
+        else {
+            if (procesador_consultado.colocar(proceso))
+                sustituir_procesador_modificado(procesadores, procesador_consultado);
+            else
+                error = PROCESO_NO_COLOCABLE;
+        }
+    }
+    else error = PROCESADOR_INEXISTENTE;
 }
 
 void Cluster::baja_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error) {
@@ -69,17 +95,28 @@ void Cluster::avanzar_tiempo(int t) {
     ;//implementar recurs.
 }
 
+
+bool Cluster::auxiliar_imprimir_procesador(const BinTree<Procesador>& arbol, const string& id_procesador) const {
+    if (arbol.empty()) return false;
+    if (arbol.value().consultar_id() == id_procesador) {
+        if (arbol.value().hay_procesos()) arbol.value().imprimir();
+        else cout << endl;
+        return true;
+    }
+    if (auxiliar_imprimir_procesador(arbol.left(), id_procesador)) return true;
+    return auxiliar_imprimir_procesador(arbol.right(), id_procesador);
+}
+
 void Cluster::imprimir_procesador(const string& id_procesador, int& error) const {
-    Procesador procesador;
-    if (buscar_procesador(procesadores, id_procesador, procesador))
-        procesador.imprimir();
-    else error = PROCESADOR_INEXISTENTE;
+    if (not auxiliar_imprimir_procesador(procesadores, id_procesador))
+        error = PROCESADOR_INEXISTENTE;
 }
 
 
 void Cluster::auxiliar_imprimir_procesadores_cluster(const BinTree<Procesador>& arbol) const {
     if (not arbol.empty()) {
         cout << arbol.value().consultar_id() << endl;
+        arbol.value().imprimir();
         auxiliar_imprimir_procesadores_cluster(arbol.left());
         auxiliar_imprimir_procesadores_cluster(arbol.right());
     }

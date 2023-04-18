@@ -99,6 +99,23 @@ bool Procesador::colocar(const Proceso& proceso) {
     return encontrado;
 }
 
+bool Procesador::quitar(int id_proceso) {
+    for (
+        map<int, Proceso>::iterator it = procesos_memoria.begin();
+        it != procesos_memoria.end();
+        ++it
+    ) {
+        if (it->second.consultar_id() == id_proceso) {
+            memoria_disponible += it->second.consultar_memoria();
+            procesos_memoria.erase(it);
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 
 void Procesador::imprimir() const {
     for (

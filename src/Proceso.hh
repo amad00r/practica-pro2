@@ -36,10 +36,6 @@ class Proceso {
         */  
         Proceso(int id, int memoria, int tiempo_estimado);
 
-        // CONSTRUCTORA DE COPIA
-        Proceso(const Proceso& proceso);
-
-
         // CONSULTORAS ########################################################
         
         /** @brief Consulta el identificador del parámetro implícito.

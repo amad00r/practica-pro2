@@ -105,6 +105,8 @@ class Procesador {
 
         bool colocar(const Proceso& proceso);
 
+        bool quitar(int id_proceso);
+
         /** @brief Compacta los Proceso en memoria del parámetro implícito.
          
             \pre Cierto.

@@ -70,7 +70,7 @@ bool Cluster::sustituir_procesador_modificado(BinTree<Procesador>& arbol, const 
 
 void Cluster::alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error) {
     Procesador procesador_consultado;
-    if (consultar_procesador(procesadores, id_procesador, procesador_consultado)){
+    if (consultar_procesador(procesadores, id_procesador, procesador_consultado)) {
         if (procesador_consultado.existe_id_proceso(proceso.consultar_id()))
             error = PROCESO_EXISTENTE_EN_PROCESADOR;
         else {
@@ -83,8 +83,15 @@ void Cluster::alta_proceso_procesador(const Proceso& proceso, const string& id_p
     else error = PROCESADOR_INEXISTENTE;
 }
 
-void Cluster::baja_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error) {
-    ;//implementar recurs.
+void Cluster::baja_proceso_procesador(int id_proceso, const string& id_procesador, int& error) {
+    Procesador procesador_consultado;
+    if (consultar_procesador(procesadores, id_procesador, procesador_consultado)) {
+        if (procesador_consultado.quitar(id_proceso))
+            sustituir_procesador_modificado(procesadores, procesador_consultado);
+        else
+            error = PROCESO_INEXISTENTE_EN_PROCESADOR;
+    }
+    else error = PROCESADOR_INEXISTENTE;
 }
 
 void Cluster::alta_proceso(const Proceso& proceso, int& error) {

@@ -124,14 +124,16 @@ class Cluster {
             \post Si no existe un Procesador con identificador igual a
                   id_procesador el parámetro implícito, error vale
                   PROCESADOR_INEXISTENTE.
-                  Si no existe un Proceso idéntico a proceso en dicho
-                  Procesador, error vale PROCESO_INEXISTENTE_EN_PROCESADOR.
-                  Si no se dan estos casos, proceso ya no se ejecuta en el
-                  Procesador del parámetro implícito con identificador igual a
-                  id_procesador. Se ha liberado la memoria de dicho Procesador
-                  que ocupaba proceso.
+                  Si no existe un Proceso con identificador igual a id_proceso
+                  en dicho Procesador, error vale
+                  PROCESO_INEXISTENTE_EN_PROCESADOR.
+                  Si no se dan estos casos, ya no se ejecuta ningún Proceso con
+                  identificador igual a id_proceso en el Procesador del
+                  parámetro implícito con identificador igual a id_procesador.
+                  Se ha liberado la memoria de dicho Procesador que ocupaba
+                  dicho Proceso.
         */
-        void baja_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
+        void baja_proceso_procesador(int id_proceso, const string& id_procesador, int& error);
 
         /** @brief Da de alta un Proceso en un Procesador del parámetro
                    implícito.

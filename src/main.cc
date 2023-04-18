@@ -98,13 +98,12 @@ int main() {
 
         else if (comando == "baja_proceso_procesador" or comando == "bpp") {
             string id_procesador;
-            int id_proceso, memoria, tiempo_estimado;
-            cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
-            Proceso proceso(id_proceso, memoria, tiempo_estimado);
-            cluster.baja_proceso_procesador(proceso, id_procesador, error);
+            int id_proceso;
+            cin >> id_procesador >> id_proceso;
+            cluster.baja_proceso_procesador(id_proceso, id_procesador, error);
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
-            else if (error == PROCESO_INEXISTENTE_EN_PROCESADOR) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
+            else if (error == PROCESO_INEXISTENTE_EN_PROCESADOR) cout << "error: no existe proceso" << endl;
         }
 
         else if (comando == "enviar_procesos_cluster" or comando == "epc") {

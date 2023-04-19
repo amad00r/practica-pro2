@@ -8,7 +8,7 @@
 
 #ifndef NO_DIAGRAM
 #include <string>
-#include <map>
+#include <list>
 #endif
 
 using namespace std;
@@ -22,7 +22,7 @@ class Procesador {
     private:
         string id;
         int memoria, memoria_disponible;
-        map<int, Proceso> procesos_memoria;
+        list<pair<int, Proceso>> procesos_memoria;
 
     public:
         // CONSTRUCTORAS ######################################################

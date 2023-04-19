@@ -24,8 +24,11 @@ bool Procesador::id_coincide(const string& id_procesador) const {
 }
 
 bool Procesador::existe_id_proceso(int id_proceso) const {
-    for (map<int, Proceso>::const_iterator it = procesos_memoria.begin(); it != procesos_memoria.end(); ++it)
-        if (it->second.id_coincide(id_proceso)) return true;
+    for (
+        list<pair<int, Proceso>>::const_iterator it = procesos_memoria.begin();
+        it != procesos_memoria.end();
+        ++it
+    ) if (it->second.id_coincide(id_proceso)) return true;
     return false;
 }
 
@@ -34,7 +37,7 @@ bool Procesador::hay_procesos() const {
 }
 
 void Procesador::avanzar_tiempo(int t) {
-    map<int, Proceso>::iterator it = procesos_memoria.begin();
+    list<pair<int, Proceso>>::iterator it = procesos_memoria.begin();
     while (it != procesos_memoria.end()) {
         if (it->second.avanzar_tiempo(t)) ++it;
         else it = procesos_memoria.erase(it);
@@ -50,8 +53,8 @@ bool Procesador::colocar(const Proceso& proceso) {
         return true;
     }   
 
-    map<int, Proceso>::const_iterator it = procesos_memoria.begin();
-    map<int, Proceso>::const_iterator it_insert;
+    list<pair<int, Proceso>>::const_iterator it = procesos_memoria.begin();
+    list<pair<int, Proceso>>::const_iterator it_insert;
     int posicion_min_hueco, espacio_min_hueco;
     int espacio_hueco = it->first;
     bool encontrado = false;
@@ -63,7 +66,7 @@ bool Procesador::colocar(const Proceso& proceso) {
         encontrado = true;
     }
 
-    map<int, Proceso>::const_iterator it_next = next(it);
+    list<pair<int, Proceso>>::const_iterator it_next = ++procesos_memoria.begin();
     int posicion_hueco;
 
     while (it_next != procesos_memoria.end()) {
@@ -101,7 +104,7 @@ bool Procesador::colocar(const Proceso& proceso) {
 
 bool Procesador::quitar(int id_proceso) {
     for (
-        map<int, Proceso>::iterator it = procesos_memoria.begin();
+        list<pair<int, Proceso>>::iterator it = procesos_memoria.begin();
         it != procesos_memoria.end();
         ++it
     ) {
@@ -119,7 +122,7 @@ bool Procesador::quitar(int id_proceso) {
 
 void Procesador::imprimir() const {
     for (
-        map<int, Proceso>::const_iterator it = procesos_memoria.begin();
+        list<pair<int, Proceso>>::const_iterator it = procesos_memoria.begin();
         it != procesos_memoria.end();
         ++it
     ) {

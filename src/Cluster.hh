@@ -49,6 +49,8 @@ class Cluster {
 
         bool auxiliar_imprimir_procesador(const BinTree<Procesador>& arbol, const string& id_procesador) const;
 
+        void auxiliar_avanzar_tiempo(BinTree<Procesador>& arbol, int t);
+
     public:
         // CONSTRUCTORAS ######################################################
 

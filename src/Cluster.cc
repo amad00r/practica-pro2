@@ -98,8 +98,22 @@ void Cluster::alta_proceso(const Proceso& proceso, int& error) {
     ;//implementar recurs.
 }
 
+void Cluster::auxiliar_avanzar_tiempo(BinTree<Procesador>& arbol, int t) {
+    if (not arbol.empty()) {
+        BinTree<Procesador> izquierdo = arbol.left();
+        auxiliar_avanzar_tiempo(izquierdo, t);
+        BinTree<Procesador> derecho = arbol.right();
+        auxiliar_avanzar_tiempo(derecho, t);
+
+        Procesador procesador = arbol.value();
+        procesador.avanzar_tiempo(t);
+
+        arbol = BinTree<Procesador>(procesador, izquierdo, derecho);
+    }
+}
+
 void Cluster::avanzar_tiempo(int t) {
-    ;//implementar recurs.
+    auxiliar_avanzar_tiempo(procesadores, t);
 }
 
 

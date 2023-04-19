@@ -88,6 +88,8 @@ int main() {
             string id_procesador;
             int id_proceso, memoria, tiempo_estimado;
             cin >> id_procesador >> id_proceso >> memoria >> tiempo_estimado;
+            cout << "#" << comando << " " << id_procesador << " " << id_proceso << endl;
+
             Proceso proceso(id_proceso, memoria, tiempo_estimado);
             cluster.alta_proceso_procesador(proceso, id_procesador, error);
 
@@ -100,6 +102,8 @@ int main() {
             string id_procesador;
             int id_proceso;
             cin >> id_procesador >> id_proceso;
+            cout << "#" << comando << " " << id_procesador << " " << id_proceso << endl;
+
             cluster.baja_proceso_procesador(id_proceso, id_procesador, error);
 
             if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
@@ -115,6 +119,8 @@ int main() {
         else if (comando == "avanzar_tiempo" or comando == "at") {
             int t;
             cin >> t;
+            cout << "#" << comando << " " << t << endl;
+
             cluster.avanzar_tiempo(t);
         }
 
@@ -127,22 +133,27 @@ int main() {
         }
 
         else if (comando == "imprimir_area_espera" or comando == "iae") {
+            cout << "#" << comando << endl;
             pendientes.imprimir_area_espera();
         }
 
         else if (comando == "imprimir_procesador" or comando == "ipro") {
             string id_procesador;
             cin >> id_procesador;
+            cout << "#" << comando << " " << id_procesador << endl;
+
             cluster.imprimir_procesador(id_procesador, error);
 
             if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
         }
 
         else if (comando == "imprimir_procesadores_cluster" or comando == "ipc") {
+            cout << "#" << comando << endl;
             cluster.imprimir_procesadores_cluster();
         }
 
         else if (comando == "imprimir_estructura_cluster" or comando == "iec") {
+            cout << "#" << comando << endl;
             cluster.imprimir_estructura_cluster();
         }
 

@@ -27,6 +27,7 @@ class ProcesosPendientes {
             int procesos_colocados = 0;
             int procesos_rechazados = 0;
         };
+
         map<string, Prioridad> mapa_prioridades;
 
 
@@ -45,14 +46,16 @@ class ProcesosPendientes {
         /** @brief Consulta si existe un determinado Proceso con una
                    determinada prioridad en el parámetro implícito.
 
-            \pre id_proceso >= 0. Existe una prioridad con identificador igual
-                 a id_prioridad en el parámetro implícito.
+            \pre id_proceso >= 0. it_prioridad apunta a una prioridad válida
+                 del parámetro implícito.
 
             \post El resultado indica si existe el Proceso con identificador
-                  igual a id_proceso en la prioridad con identificador igual a
-                  id_prioridad en el parámetro implícito.
+                  igual a id_proceso ejecutándose en el parámetro implícito.
         */
-        bool existe_proceso_en_prioridad(int id_proceso, const string& id_prioridad) const;
+        bool existe_proceso_en_prioridad(
+            int id_proceso,
+            const map<string, Prioridad>::const_iterator& it_prioridad
+        ) const;
 
     public:
         // CONSTRUCTORAS ######################################################

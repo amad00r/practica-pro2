@@ -74,14 +74,16 @@ int main() {
         }
 
         else if (comando == "alta_proceso_espera" or comando == "ape") {
-            int id_proceso, memoria, tiempo_estimado;
             string id_prioridad;
-            cin >> id_proceso >> memoria >> tiempo_estimado >> id_prioridad;
+            int id_proceso, memoria, tiempo_estimado;
+            cin >> id_prioridad >> id_proceso >> memoria >> tiempo_estimado;
+            cout << "#" << comando << " " << id_prioridad << " " << id_proceso << endl;
+
             Proceso proceso(id_proceso, memoria, tiempo_estimado);
             pendientes.alta_proceso_espera(proceso, id_prioridad, error);
 
-            if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
-            else if (error == PROCESO_EXISTENTE_EN_PRIORIDAD) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PRIORIDAD_INEXISTENTE) cout << "error: no existe prioridad" << endl;
+            else if (error == PROCESO_EXISTENTE_EN_PRIORIDAD) cout << "error: ya existe proceso" << endl;
         }
 
         else if (comando == "alta_proceso_procesador" or comando == "app") {
@@ -127,9 +129,11 @@ int main() {
         else if (comando == "imprimir_prioridad" or comando == "ipri") {
             string id_prioridad;
             cin >> id_prioridad;
+            cout << "#" << comando << " " << id_prioridad << endl;
+
             pendientes.imprimir_prioridad(id_prioridad, error);
 
-            if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PRIORIDAD_INEXISTENTE) cout << "error: no existe prioridad" << endl;
         }
 
         else if (comando == "imprimir_area_espera" or comando == "iae") {

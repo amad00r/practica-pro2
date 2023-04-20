@@ -59,6 +59,8 @@ int main() {
         else if (comando == "alta_prioridad" or comando == "ap") {
             string id_prioridad;
             cin >> id_prioridad;
+            cout << "#" << comando << " " << id_prioridad << endl;
+
             pendientes.alta_prioridad(id_prioridad, error);
 
             if (error == PRIORIDAD_EXISTENTE) cout << "pendiente del juego de pruebas" << endl;
@@ -67,6 +69,8 @@ int main() {
         else if (comando == "baja_prioridad" or comando == "bp") {
             string id_prioridad;
             cin >> id_prioridad;
+            cout << "#" << comando << " " << id_prioridad << endl;
+
             pendientes.baja_prioridad(id_prioridad, error);
 
             if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;

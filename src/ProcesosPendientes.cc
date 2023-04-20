@@ -11,21 +11,25 @@ using namespace std;
 
 ProcesosPendientes::ProcesosPendientes() {}
 
-bool ProcesosPendientes::existe_prioridad(const string& id_prioridad) const {
+/* bool ProcesosPendientes::existe_prioridad(const string& id_prioridad) const {
     return mapa_prioridades.find(id_prioridad) != mapa_prioridades.end();
-}
+} */
 
 void ProcesosPendientes::alta_prioridad(const string& id_prioridad, int& error) {
-    if (existe_prioridad(id_prioridad)) error = PRIORIDAD_EXISTENTE;
-    else mapa_prioridades[id_prioridad];
+    map<string, Prioridad>::iterator it_prioridad = mapa_prioridades.find(id_prioridad);
+    if (it_prioridad == mapa_prioridades.end()) mapa_prioridades[id_prioridad];
+    else error = PRIORIDAD_EXISTENTE;
 }
 
 void ProcesosPendientes::baja_prioridad(const string& id_prioridad, int& error) {
-    if (
-        existe_prioridad(id_prioridad) and 
-        mapa_prioridades[id_prioridad].procesos.empty()
-    ) mapa_prioridades.erase(id_prioridad);
-    //else cout << "error" << endl; //imprimir error
+    map<string, Prioridad>::iterator it_prioridad = mapa_prioridades.find(id_prioridad);
+
+    if (it_prioridad == mapa_prioridades.end())
+        error = PRIORIDAD_INEXISTENTE;
+    else if (not it_prioridad->second.procesos.empty())
+        error = PRIORIDAD_CON_PROCESOS_PENDIENTES;
+    else
+        mapa_prioridades.erase(it_prioridad);
 }
 
 bool ProcesosPendientes::existe_proceso_en_prioridad(

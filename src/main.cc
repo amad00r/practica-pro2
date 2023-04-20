@@ -41,6 +41,7 @@ int main() {
 
         if (comando == "configurar_cluster" or comando == "cc") {
             // Se garantiza que los identificadores de los procesadores no están repetidos
+            cout << "#" << comando << endl;
             cluster.configurar_cluster();
         }
 
@@ -63,7 +64,7 @@ int main() {
 
             pendientes.alta_prioridad(id_prioridad, error);
 
-            if (error == PRIORIDAD_EXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PRIORIDAD_EXISTENTE) cout << "error: ya existe prioridad" << endl;
         }
 
         else if (comando == "baja_prioridad" or comando == "bp") {
@@ -73,8 +74,8 @@ int main() {
 
             pendientes.baja_prioridad(id_prioridad, error);
 
-            if (error == PRIORIDAD_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
-            else if (error == PRIORIDAD_CON_PROCESOS_PENDIENTES) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PRIORIDAD_INEXISTENTE) cout << "error: no existe prioridad" << endl;
+            else if (error == PRIORIDAD_CON_PROCESOS_PENDIENTES) cout << "error: prioridad con procesos" << endl;
         }
 
         else if (comando == "alta_proceso_espera" or comando == "ape") {

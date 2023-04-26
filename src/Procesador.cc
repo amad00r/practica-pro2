@@ -55,7 +55,8 @@ bool Procesador::colocar(const Proceso& proceso) {
 
     list<pair<int, Proceso>>::const_iterator it = procesos_memoria.begin();
     list<pair<int, Proceso>>::const_iterator it_insert;
-    int posicion_min_hueco, espacio_min_hueco;
+    int posicion_min_hueco;
+    int espacio_min_hueco = -1;
     int espacio_hueco = it->first;
     bool encontrado = false;
 
@@ -87,7 +88,10 @@ bool Procesador::colocar(const Proceso& proceso) {
     }
 
     posicion_hueco = it->first + it->second.consultar_memoria();
-    if (memoria - posicion_hueco >= proceso.consultar_memoria() and espacio_hueco < espacio_min_hueco) {
+    if (
+        memoria - posicion_hueco >= proceso.consultar_memoria() and 
+        (not encontrado or espacio_hueco < espacio_min_hueco)
+    ) {
         it_insert = procesos_memoria.end();
         posicion_min_hueco = posicion_hueco;
         encontrado = true;

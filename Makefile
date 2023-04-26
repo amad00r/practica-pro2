@@ -1,4 +1,4 @@
-OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
+#OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
 
 program.exe: build/program.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
 	g++ -o build/program.exe build/program.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
@@ -26,4 +26,4 @@ build/ProcesosPendientes.o: src/ProcesosPendientes.cc src/ProcesosPendientes.hh 
 
 clean:
 	rm build/*.o
-	rm build/*.x
+	rm build/program.exe

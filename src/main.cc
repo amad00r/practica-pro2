@@ -37,7 +37,7 @@ int main() {
 
     while (comando != "fin") {
 
-        int error = NO_HAY_ERROR; // se pasa como parámetro por referencia de salida para determinar los posibles casos de error de la función.
+        int error = NO_HAY_ERROR;
 
         if (comando == "configurar_cluster" or comando == "cc") {
             // Se garantiza que los identificadores de los procesadores no están repetidos

@@ -1,12 +1,12 @@
-#OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
+OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
 
-main.x: build/main.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
-	g++ -o build/main.x build/main.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
+program.exe: build/program.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
+	g++ -o build/program.exe build/program.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
 
 
-build/main.o: src/main.cc src/Errores.hh
-	g++ -c src/main.cc $(OPCIONS)
-	mv main.o build/main.o
+build/program.o: src/program.cc src/Errores.hh
+	g++ -c src/program.cc $(OPCIONS)
+	mv program.o build/program.o
 
 build/Cluster.o: src/Cluster.cc src/Cluster.hh src/BinTree.hh src/Procesador.hh src/Errores.hh
 	g++ -c src/Cluster.cc $(OPCIONS)

@@ -30,21 +30,6 @@ void Cluster::leer_procesadores(BinTree<Procesador>& arbol) const {
 
 }
 
-bool Cluster::consultar_procesador(
-    const BinTree<Procesador>& arbol,
-    const string& id_procesador,
-    Procesador& procesador_consultado
-) const {
-    if (arbol.empty()) return false;
-    if (arbol.value().consultar_id() == id_procesador) {
-        procesador_consultado = arbol.value();
-        return true;
-    }
-    if (consultar_procesador(arbol.left(), id_procesador, procesador_consultado))
-        return true;
-    return consultar_procesador(arbol.right(), id_procesador, procesador_consultado);
-}
-
 void Cluster::modificar_cluster(const string& id_procesador, int& error) {
     ;//implementar recursivamente la búsqueda del procesador comparando id con id_coincide y verificando si hay procesos activos
     //usa leer_procesadores
@@ -68,30 +53,56 @@ bool Cluster::sustituir_procesador_modificado(BinTree<Procesador>& arbol, const 
     return encontrado;
 }
 
-void Cluster::alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error) {
-    Procesador procesador_consultado;
-    if (consultar_procesador(procesadores, id_procesador, procesador_consultado)) {
-        if (procesador_consultado.existe_id_proceso(proceso.consultar_id()))
+bool Cluster::auxiliar_alta_proceso_procesador(
+    const BinTree<Procesador>& arbol,
+    const string& id_procesador,
+    const Proceso& proceso,
+    int &error
+) {
+    if (arbol.empty()) return false;
+    if (arbol.value().consultar_id() == id_procesador) {
+        if (arbol.value().existe_id_proceso(proceso.consultar_id()))
             error = PROCESO_EXISTENTE_EN_PROCESADOR;
         else {
-            if (procesador_consultado.colocar(proceso))
-                sustituir_procesador_modificado(procesadores, procesador_consultado);
+            Procesador procesador_modificado = Procesador(arbol.value());
+            if (procesador_modificado.colocar(proceso))
+                sustituir_procesador_modificado(procesadores, procesador_modificado);
             else
                 error = PROCESO_NO_COLOCABLE;
         }
+        return true;
     }
-    else error = PROCESADOR_INEXISTENTE;
+    if (auxiliar_alta_proceso_procesador(arbol.left(), id_procesador, proceso, error)) return true;
+    return auxiliar_alta_proceso_procesador(arbol.right(), id_procesador, proceso, error);
+}
+
+void Cluster::alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error) {
+    if (not auxiliar_alta_proceso_procesador(procesadores, id_procesador, proceso, error))
+        error = PROCESADOR_INEXISTENTE;
+}
+
+bool Cluster::auxiliar_baja_proceso_procesador(
+    const BinTree<Procesador>& arbol,
+    const string& id_procesador,
+    int id_proceso,
+    int &error
+) {
+    if (arbol.empty()) return false;
+    if (arbol.value().consultar_id() == id_procesador) {
+        Procesador procesador_modificado = Procesador(arbol.value());
+        if (procesador_modificado.quitar(id_proceso))
+            sustituir_procesador_modificado(procesadores, procesador_modificado);
+        else
+            error = PROCESO_INEXISTENTE_EN_PROCESADOR;
+        return true;
+    }
+    if (auxiliar_baja_proceso_procesador(arbol.left(), id_procesador, id_proceso, error)) return true;
+    return auxiliar_baja_proceso_procesador(arbol.right(), id_procesador, id_proceso, error);
 }
 
 void Cluster::baja_proceso_procesador(int id_proceso, const string& id_procesador, int& error) {
-    Procesador procesador_consultado;
-    if (consultar_procesador(procesadores, id_procesador, procesador_consultado)) {
-        if (procesador_consultado.quitar(id_proceso))
-            sustituir_procesador_modificado(procesadores, procesador_consultado);
-        else
-            error = PROCESO_INEXISTENTE_EN_PROCESADOR;
-    }
-    else error = PROCESADOR_INEXISTENTE;
+    if (not auxiliar_baja_proceso_procesador(procesadores, id_procesador, id_proceso, error))
+        error = PROCESADOR_INEXISTENTE;
 }
 
 void Cluster::alta_proceso(const Proceso& proceso, int& error) {

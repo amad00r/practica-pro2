@@ -34,22 +34,23 @@ class Cluster {
                   entrada estándar.
         */
         void leer_procesadores(BinTree<Procesador>& tree) const;
-
-        bool consultar_procesador(
+        void auxiliar_imprimir_estructura_cluster(const BinTree<Procesador>& arbol) const;
+        void auxiliar_imprimir_procesadores_cluster(const BinTree<Procesador>& arbol) const;
+        bool sustituir_procesador_modificado(BinTree<Procesador>& arbol, const Procesador& procesador);
+        bool auxiliar_imprimir_procesador(const BinTree<Procesador>& arbol, const string& id_procesador) const;
+        void auxiliar_avanzar_tiempo(BinTree<Procesador>& arbol, int t);
+        bool auxiliar_alta_proceso_procesador(
             const BinTree<Procesador>& arbol,
             const string& id_procesador,
-            Procesador& procesador_consultado
-        ) const;
-
-        void auxiliar_imprimir_estructura_cluster(const BinTree<Procesador>& arbol) const;
-
-        void auxiliar_imprimir_procesadores_cluster(const BinTree<Procesador>& arbol) const;
-
-        bool sustituir_procesador_modificado(BinTree<Procesador>& arbol, const Procesador& procesador);
-
-        bool auxiliar_imprimir_procesador(const BinTree<Procesador>& arbol, const string& id_procesador) const;
-
-        void auxiliar_avanzar_tiempo(BinTree<Procesador>& arbol, int t);
+            const Proceso& proceso,
+            int &error
+        );
+        bool auxiliar_baja_proceso_procesador(
+            const BinTree<Procesador>& arbol,
+            const string& id_procesador,
+            int id_proceso,
+            int &error
+        );
 
     public:
         // CONSTRUCTORAS ######################################################

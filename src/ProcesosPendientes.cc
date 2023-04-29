@@ -36,10 +36,10 @@ bool ProcesosPendientes::existe_proceso_en_prioridad(
     int id_proceso,
     const map<string, Prioridad>::const_iterator& it_prioridad
 ) const {
-    queue<Proceso> cola_procesos = queue<Proceso>(it_prioridad->second.procesos);
-    while (not cola_procesos.empty()) {
-        if (cola_procesos.front().id_coincide(id_proceso)) return true;
-        cola_procesos.pop();
+    list<Proceso>::const_iterator it = it_prioridad->second.procesos.begin();
+    while (it != it_prioridad->second.procesos.end()) {
+        if (it->id_coincide(id_proceso)) return true;
+        ++it;
     }
     return false;
 }
@@ -52,11 +52,25 @@ void ProcesosPendientes::alta_proceso_espera(const Proceso& proceso, const strin
     else if (existe_proceso_en_prioridad(proceso.consultar_id(), it_prioridad))
         error = PROCESO_EXISTENTE_EN_PRIORIDAD;
     else
-        it_prioridad->second.procesos.push(proceso);
+        it_prioridad->second.procesos.push_back(proceso);
 }
 
 void ProcesosPendientes::enviar_procesos_cluster(int n, const Cluster& cluster) {
     ;//implementar
+}
+
+
+
+void ProcesosPendientes::auxiliar_imprimir_prioridad(
+    const map<string, Prioridad>::const_iterator &it_prioridad
+) const {
+    list<Proceso>::const_iterator it = it_prioridad->second.procesos.begin();
+    while (it != it_prioridad->second.procesos.end()) {
+        it->imprimir();
+        ++it;
+    }
+    cout << it_prioridad->second.procesos_colocados << " "
+         << it_prioridad->second.procesos_rechazados << endl;
 }
 
 void ProcesosPendientes::imprimir_prioridad(const string& id_prioridad, int& error) const {
@@ -64,15 +78,8 @@ void ProcesosPendientes::imprimir_prioridad(const string& id_prioridad, int& err
 
     if (it_prioridad == mapa_prioridades.end())
         error = PRIORIDAD_INEXISTENTE;
-    else {
-        queue<Proceso> cola_procesos = queue<Proceso>(it_prioridad->second.procesos);
-        while (not cola_procesos.empty()) {
-            cola_procesos.front().imprimir();
-            cola_procesos.pop();
-        }
-        cout << it_prioridad->second.procesos_colocados << " "
-             << it_prioridad->second.procesos_rechazados << endl;
-    }
+    else
+        auxiliar_imprimir_prioridad(it_prioridad);
 }
 
 void ProcesosPendientes::imprimir_area_espera() const {
@@ -82,7 +89,6 @@ void ProcesosPendientes::imprimir_area_espera() const {
         ++it
     ) {
         cout << it->first << endl;
-        int error;
-        imprimir_prioridad(it->first, error);
+        auxiliar_imprimir_prioridad(it);
     }
 }

@@ -23,7 +23,7 @@ class ProcesosPendientes {
     private:
     
         struct Prioridad {
-            queue<Proceso> procesos;
+            list<Proceso> procesos;
             int procesos_colocados = 0;
             int procesos_rechazados = 0;
         };
@@ -56,6 +56,11 @@ class ProcesosPendientes {
             int id_proceso,
             const map<string, Prioridad>::const_iterator& it_prioridad
         ) const;
+
+        void auxiliar_imprimir_prioridad(
+            const map<string, Prioridad>::const_iterator &it_prioridad
+        ) const;
+
 
     public:
         // CONSTRUCTORAS ######################################################

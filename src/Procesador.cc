@@ -40,7 +40,10 @@ void Procesador::avanzar_tiempo(int t) {
     list<pair<int, Proceso>>::iterator it = procesos_memoria.begin();
     while (it != procesos_memoria.end()) {
         if (it->second.avanzar_tiempo(t)) ++it;
-        else it = procesos_memoria.erase(it);
+        else {
+            memoria_disponible += it->second.consultar_memoria();
+            it = procesos_memoria.erase(it);
+        }
     }
 }
 
@@ -76,7 +79,7 @@ bool Procesador::colocar(const Proceso& proceso) {
 
         if (
             espacio_hueco >= proceso.consultar_memoria() and 
-            (encontrado or espacio_hueco < espacio_min_hueco)
+            (not encontrado or espacio_hueco < espacio_min_hueco)
         ) {
             it_insert = it_next;
             posicion_min_hueco = posicion_hueco;

@@ -9,6 +9,7 @@
 
 #ifndef NO_DIAGRAM
 #include <string>
+#include <vector>
 #include "BinTree.hh"
 #endif
 
@@ -51,6 +52,10 @@ class Cluster {
             int id_proceso,
             int &error
         );
+        void auxiliar_imprimir_procesadores_cluster(
+            const BinTree<Procesador>& arbol,
+            vector<Procesador> &p
+        ) const;
 
     public:
         // CONSTRUCTORAS ######################################################

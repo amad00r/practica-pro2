@@ -5,6 +5,8 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -144,18 +146,27 @@ void Cluster::imprimir_procesador(const string& id_procesador, int& error) const
         error = PROCESADOR_INEXISTENTE;
 }
 
-
-void Cluster::auxiliar_imprimir_procesadores_cluster(const BinTree<Procesador>& arbol) const {
+void Cluster::auxiliar_imprimir_procesadores_cluster(const BinTree<Procesador>& arbol, vector<Procesador> &p) const {
     if (not arbol.empty()) {
-        cout << arbol.value().consultar_id() << endl;
-        arbol.value().imprimir();
-        auxiliar_imprimir_procesadores_cluster(arbol.left());
-        auxiliar_imprimir_procesadores_cluster(arbol.right());
+        p.push_back(Procesador(arbol.value()));
+        auxiliar_imprimir_procesadores_cluster(arbol.left(), p);
+        auxiliar_imprimir_procesadores_cluster(arbol.right(), p);
     }
 }
 
+bool id_order(const Procesador &p1, const Procesador &p2) {
+    if (p1.consultar_id() < p2.consultar_id()) return true;
+    return false;
+}
+
 void Cluster::imprimir_procesadores_cluster() const {
-    auxiliar_imprimir_procesadores_cluster(procesadores);
+    vector<Procesador> p;
+    auxiliar_imprimir_procesadores_cluster(procesadores, p);
+    sort(p.begin(), p.end(), id_order);
+    for (int i = 0; i < p.size(); ++i) {
+        cout << p[i].consultar_id() << endl;
+        p[i].imprimir();
+    }
 }
 
 void Cluster::auxiliar_imprimir_estructura_cluster(const BinTree<Procesador>& arbol) const {

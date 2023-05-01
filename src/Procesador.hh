@@ -28,6 +28,8 @@ class Procesador {
         map<int, int> posiciones_procesos;
         map<int, set<int>> huecos_memoria;
 
+        void recalcular_huecos();
+
     public:
         // CONSTRUCTORAS ######################################################
 

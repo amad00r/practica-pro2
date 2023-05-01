@@ -30,8 +30,11 @@ void Procesador::avanzar_tiempo(int t) {
     while (it != procesos_memoria.end()) {
         if (it->second.avanzar_tiempo(t)) ++it;
         else {
-            quitar(it->second.consultar_id());
-            // implementar quitar directamente con iterador
+            memoria_disponible += it->second.consultar_memoria();
+            posiciones_procesos.erase(it->second.consultar_id());
+            procesos_memoria.erase(it);
+
+            recalcular_huecos();
         }
     }
 }
@@ -56,64 +59,40 @@ bool Procesador::colocar(const Proceso& proceso) {
 }
 
 void Procesador::recalcular_huecos() {
-    map<int, Procesador>
+    huecos_memoria.clear();
+
+    if (procesos_memoria.empty())
+        huecos_memoria.insert(huecos_memoria.begin(), make_pair(memoria, set<int>{ 0 }));
+    else {
+        map<int, Proceso>::const_iterator it = procesos_memoria.begin();
+
+        if (it->first != 0)
+            huecos_memoria.insert(huecos_memoria.begin(), make_pair(it->first, set<int>{ 0 }));
+
+        int tmp = it->first + it->second.consultar_memoria();
+        
+        ++it;
+        while (it != procesos_memoria.end()) {
+            if (tmp != it->first) huecos_memoria[it->first - tmp].insert(tmp);
+            tmp = it->first + it->second.consultar_memoria();
+            ++it;
+        }
+
+        if (tmp != memoria)
+            huecos_memoria[memoria - tmp].insert(tmp);
+    }
 }
 
 bool Procesador::quitar(int id_proceso) {
     map<int, int>::iterator it = posiciones_procesos.find(id_proceso);
     if (it == posiciones_procesos.end()) return false;
-    int pos_proceso = it->second;
-    int mem_proceso = procesos_memoria[pos_proceso].consultar_memoria();
 
-    memoria_disponible += mem_proceso;
-
-    map<int, Proceso>::iterator it_aux;
-    map<int, Proceso>::iterator next_it_aux = procesos_memoria.begin();
-    while (next_it_aux->first != pos_proceso) {
-        it_aux = next_it_aux;
-        ++next_it_aux;
-    }
+    memoria_disponible += procesos_memoria[it->second].consultar_memoria();
+    procesos_memoria.erase(it->second);
     posiciones_procesos.erase(it);
 
-    int pos_inicial_hueco;
-    if (it_aux == procesos_memoria.begin()) {
-        pos_inicial_hueco = 0;
-        if (pos_proceso != 0) {
-            if (huecos_memoria[pos_proceso].size() == 1) huecos_memoria.erase(pos_proceso);
-            else huecos_memoria[pos_proceso].erase(0);
-        }
-    }
-    else {
-        pos_inicial_hueco = it_aux->first + it_aux->second.consultar_memoria();
-        int espacio_hueco = pos_proceso - pos_inicial_hueco;
-        if (espacio_hueco != 0) {
-            if (huecos_memoria[espacio_hueco].size() == 1) huecos_memoria.erase(espacio_hueco);
-            else huecos_memoria[espacio_hueco].erase(pos_inicial_hueco);
-        }
-    }
+    recalcular_huecos();
 
-    ++it_aux;
-    it_aux = procesos_memoria.erase(it_aux);
-
-    int pos_final_hueco;
-    if (it_aux == procesos_memoria.end()) {
-        pos_final_hueco = memoria;
-        int espacio_hueco = memoria - pos_proceso - mem_proceso;
-        if (espacio_hueco != 0) {
-            if (huecos_memoria[espacio_hueco].size() == 1) huecos_memoria.erase(espacio_hueco);
-            else huecos_memoria[espacio_hueco].erase(pos_proceso + mem_proceso);
-        }
-    }
-    else {
-        pos_final_hueco = it_aux->first;
-        int espacio_hueco = it_aux->first - pos_proceso - mem_proceso;
-        if (espacio_hueco != 0) {
-            if (huecos_memoria[espacio_hueco].size() == 1) huecos_memoria.erase(espacio_hueco);
-            else huecos_memoria[espacio_hueco].erase(pos_proceso + mem_proceso);
-        }
-    }
-
-    huecos_memoria[pos_final_hueco - pos_inicial_hueco].insert(pos_inicial_hueco);
     return true;
 }
 

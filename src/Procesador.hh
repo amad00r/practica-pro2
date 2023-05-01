@@ -23,9 +23,10 @@ class Procesador {
     private:
         string id;
         int memoria, memoria_disponible;
+
         map<int, Proceso> procesos_memoria;
         map<int, int> posiciones_procesos;
-        map<int, set<int>, greater<int>> huecos;
+        map<int, set<int>> huecos_memoria;
 
     public:
         // CONSTRUCTORAS ######################################################

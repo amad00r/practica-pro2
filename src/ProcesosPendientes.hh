@@ -8,6 +8,7 @@
 #ifndef NO_DIAGRAM
 #include <queue>
 #include <string>
+#include <list>
 #include <map>
 #endif
 

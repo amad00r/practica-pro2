@@ -32,7 +32,7 @@ void Procesador::avanzar_tiempo(int t) {
         else {
             memoria_disponible += it->second.consultar_memoria();
             posiciones_procesos.erase(it->second.consultar_id());
-            procesos_memoria.erase(it);
+            it = procesos_memoria.erase(it);
 
             recalcular_huecos();
         }
@@ -45,8 +45,8 @@ bool Procesador::colocar(const Proceso& proceso) {
 
     int pos_hueco = *(hueco_minimo->second.begin());
 
-    posiciones_procesos.insert(make_pair(proceso.consultar_id(), pos_hueco));
-    procesos_memoria.insert(make_pair(pos_hueco, proceso));
+    posiciones_procesos[proceso.consultar_id()] = pos_hueco;
+    procesos_memoria[pos_hueco] = proceso;
     memoria_disponible -= proceso.consultar_memoria();
 
     if (hueco_minimo->first != proceso.consultar_memoria())
@@ -87,8 +87,9 @@ bool Procesador::quitar(int id_proceso) {
     map<int, int>::iterator it = posiciones_procesos.find(id_proceso);
     if (it == posiciones_procesos.end()) return false;
 
-    memoria_disponible += procesos_memoria[it->second].consultar_memoria();
-    procesos_memoria.erase(it->second);
+    map<int, Proceso>::iterator it_aux = procesos_memoria.find(it->second);
+    memoria_disponible += it_aux->second.consultar_memoria();
+    procesos_memoria.erase(it_aux);
     posiciones_procesos.erase(it);
 
     recalcular_huecos();

@@ -60,8 +60,6 @@ void ProcesosPendientes::enviar_procesos_cluster(int n, const Cluster& cluster) 
     ;//implementar
 }
 
-
-
 void ProcesosPendientes::auxiliar_imprimir_prioridad(
     const map<string, Prioridad>::const_iterator &it_prioridad
 ) const {

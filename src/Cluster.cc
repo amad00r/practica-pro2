@@ -133,8 +133,7 @@ void Cluster::avanzar_tiempo(int t) {
 bool Cluster::auxiliar_imprimir_procesador(const BinTree<Procesador>& arbol, const string& id_procesador) const {
     if (arbol.empty()) return false;
     if (arbol.value().consultar_id() == id_procesador) {
-        if (arbol.value().hay_procesos()) arbol.value().imprimir();
-        else cout << endl;
+        arbol.value().imprimir();
         return true;
     }
     if (auxiliar_imprimir_procesador(arbol.left(), id_procesador)) return true;

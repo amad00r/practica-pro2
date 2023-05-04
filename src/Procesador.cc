@@ -33,10 +33,9 @@ void Procesador::avanzar_tiempo(int t) {
             memoria_disponible += it->second.consultar_memoria();
             posiciones_procesos.erase(it->second.consultar_id());
             it = procesos_memoria.erase(it);
-
-            recalcular_huecos();
         }
     }
+    recalcular_huecos();
 }
 
 bool Procesador::colocar(const Proceso& proceso) {

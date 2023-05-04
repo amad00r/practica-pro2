@@ -18,7 +18,7 @@ ProcesosPendientes::ProcesosPendientes() {}
 
 void ProcesosPendientes::alta_prioridad(const string& id_prioridad, int& error) {
     map<string, Prioridad>::iterator it_prioridad = mapa_prioridades.find(id_prioridad);
-    if (it_prioridad == mapa_prioridades.end()) mapa_prioridades[id_prioridad];
+    if (it_prioridad == mapa_prioridades.end()) mapa_prioridades.insert(make_pair(id_prioridad, Prioridad()));
     else error = PRIORIDAD_EXISTENTE;
 }
 

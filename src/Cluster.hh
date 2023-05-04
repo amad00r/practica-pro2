@@ -9,7 +9,7 @@
 
 #ifndef NO_DIAGRAM
 #include <string>
-#include <vector>
+#include <map>
 #include "BinTree.hh"
 #endif
 
@@ -20,8 +20,8 @@ using namespace std;
 */
 class Cluster {
     private:
-        BinTree<Procesador> procesadores;
-
+        map<string, Procesador> mapa_procesadores;
+        BinTree<map<string, Procesador>::iterator> arbol_procesadores;
 
         // LECTURA/ESCRITURA ##################################################
 
@@ -31,30 +31,11 @@ class Cluster {
             \pre El canal de entrada estándar contiene una secuencia de
                  identificadores no repetidos de Procesador.
 
-            \post El parámetro tree contiene los Procesador leídos del canal de
+            \post El parámetro arbol contiene los Procesador leídos del canal de
                   entrada estándar.
         */
-        void leer_procesadores(BinTree<Procesador>& tree) const;
-        void auxiliar_imprimir_estructura_cluster(const BinTree<Procesador>& arbol) const;
-        bool sustituir_procesador_modificado(BinTree<Procesador>& arbol, const Procesador& procesador);
-        bool auxiliar_imprimir_procesador(const BinTree<Procesador>& arbol, const string& id_procesador) const;
-        void auxiliar_avanzar_tiempo(BinTree<Procesador>& arbol, int t);
-        bool auxiliar_alta_proceso_procesador(
-            const BinTree<Procesador>& arbol,
-            const string& id_procesador,
-            const Proceso& proceso,
-            int &error
-        );
-        bool auxiliar_baja_proceso_procesador(
-            const BinTree<Procesador>& arbol,
-            const string& id_procesador,
-            int id_proceso,
-            int &error
-        );
-        void auxiliar_imprimir_procesadores_cluster(
-            const BinTree<Procesador>& arbol,
-            vector<Procesador> &p
-        ) const;
+        void leer_procesadores(BinTree<map<string, Procesador>::iterator> &arbol);
+        void auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) const;
 
     public:
         // CONSTRUCTORAS ######################################################

@@ -11,10 +11,6 @@ using namespace std;
 
 ProcesosPendientes::ProcesosPendientes() {}
 
-/* bool ProcesosPendientes::existe_prioridad(const string& id_prioridad) const {
-    return mapa_prioridades.find(id_prioridad) != mapa_prioridades.end();
-} */
-
 void ProcesosPendientes::alta_prioridad(const string &id_prioridad, int &error) {
     map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
 

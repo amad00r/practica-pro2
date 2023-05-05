@@ -12,6 +12,7 @@ using namespace std;
 Cluster::Cluster() {}
 
 void Cluster::configurar_cluster() {
+    mapa_procesadores.clear();
     leer_procesadores(arbol_procesadores);
 }
 
@@ -46,8 +47,8 @@ void Cluster::alta_proceso_procesador(const Proceso &proceso, const string &id_p
 void Cluster::baja_proceso_procesador(int id_proceso, const string &id_procesador, int &error) {
     map<string, Procesador>::iterator it = mapa_procesadores.find(id_procesador);
 
-    if      (it == mapa_procesadores.end()) error = PROCESADOR_INEXISTENTE;
-    else if (not it->second.quitar(id_proceso))    error = PROCESO_INEXISTENTE_EN_PROCESADOR;
+    if      (it == mapa_procesadores.end())     error = PROCESADOR_INEXISTENTE;
+    else if (not it->second.quitar(id_proceso)) error = PROCESO_INEXISTENTE_EN_PROCESADOR;
 }
 
 void Cluster::alta_proceso(const Proceso& proceso, int& error) {}

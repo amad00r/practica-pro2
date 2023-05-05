@@ -11,11 +11,11 @@ using namespace std;
 
 Procesador::Procesador() {}
 
-Procesador::Procesador(const string& id_procesador, int memoria) {
-    this->id = id_procesador;
-    this->memoria = memoria;
-    memoria_disponible = memoria;
-    huecos_memoria.insert(huecos_memoria.begin(), make_pair(memoria, set<int>{ 0 }));
+Procesador::Procesador(const string& id_procesador, int mem) {
+    id = id_procesador;
+    memoria = mem;
+    memoria_disponible = mem;
+    huecos_memoria.insert(huecos_memoria.begin(), make_pair(mem, set<int>{ 0 }));
 }
 
 string Procesador::consultar_id() const { return id; }
@@ -27,18 +27,23 @@ bool Procesador::hay_procesos() const { return not posiciones_procesos.empty(); 
 
 void Procesador::avanzar_tiempo(int t) {
     map<int, Proceso>::iterator it = procesos_memoria.begin();
+
+    bool recalcular = false;
     while (it != procesos_memoria.end()) {
         if (it->second.avanzar_tiempo(t)) ++it;
         else {
+            recalcular = true;
             memoria_disponible += it->second.consultar_memoria();
             posiciones_procesos.erase(it->second.consultar_id());
             it = procesos_memoria.erase(it);
         }
     }
-    recalcular_huecos();
+    if (recalcular) recalcular_huecos();
 }
 
 bool Procesador::colocar(const Proceso& proceso) {
+    if (memoria_disponible < proceso.consultar_memoria()) return false;
+
     map<int, set<int>>::iterator hueco_minimo = huecos_memoria.lower_bound(proceso.consultar_memoria());
     if (hueco_minimo == huecos_memoria.end()) return false;
 
@@ -77,8 +82,7 @@ void Procesador::recalcular_huecos() {
             ++it;
         }
 
-        if (tmp != memoria)
-            huecos_memoria[memoria - tmp].insert(tmp);
+        if (tmp != memoria) huecos_memoria[memoria - tmp].insert(tmp);
     }
 }
 
@@ -108,6 +112,4 @@ void Procesador::imprimir() const {
     }
 }
 
-void Procesador::compactar_memoria() {
-    ;// implementar. tiene q ser muy eficiente.
-}
+void Procesador::compactar_memoria() {}

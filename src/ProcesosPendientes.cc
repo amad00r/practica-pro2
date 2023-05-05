@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include <string>
-#include <queue>
 #include <list>
 
 using namespace std;
@@ -16,55 +15,36 @@ ProcesosPendientes::ProcesosPendientes() {}
     return mapa_prioridades.find(id_prioridad) != mapa_prioridades.end();
 } */
 
-void ProcesosPendientes::alta_prioridad(const string& id_prioridad, int& error) {
-    map<string, Prioridad>::iterator it_prioridad = mapa_prioridades.find(id_prioridad);
-    if (it_prioridad == mapa_prioridades.end()) mapa_prioridades.insert(make_pair(id_prioridad, Prioridad()));
-    else error = PRIORIDAD_EXISTENTE;
+void ProcesosPendientes::alta_prioridad(const string &id_prioridad, int &error) {
+    map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
+
+    if (it == mapa_prioridades.end()) mapa_prioridades.insert(make_pair(id_prioridad, Prioridad()));
+    else                              error = PRIORIDAD_EXISTENTE;
 }
 
-void ProcesosPendientes::baja_prioridad(const string& id_prioridad, int& error) {
-    map<string, Prioridad>::iterator it_prioridad = mapa_prioridades.find(id_prioridad);
+void ProcesosPendientes::baja_prioridad(const string &id_prioridad, int &error) {
+    map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
 
-    if (it_prioridad == mapa_prioridades.end())
-        error = PRIORIDAD_INEXISTENTE;
-    else if (not it_prioridad->second.procesos.empty())
-        error = PRIORIDAD_CON_PROCESOS_PENDIENTES;
-    else
-        mapa_prioridades.erase(it_prioridad);
+    if      (it == mapa_prioridades.end())             error = PRIORIDAD_INEXISTENTE;
+    else if (not it->second.conjunto_procesos.empty()) error = PRIORIDAD_CON_PROCESOS_PENDIENTES;
+    else                                               mapa_prioridades.erase(it);
 }
 
-bool ProcesosPendientes::existe_proceso_en_prioridad(
-    int id_proceso,
-    const map<string, Prioridad>::const_iterator& it_prioridad
-) const {
-    list<Proceso>::const_iterator it = it_prioridad->second.procesos.begin();
-    while (it != it_prioridad->second.procesos.end()) {
-        if (it->id_coincide(id_proceso)) return true;
-        ++it;
-    }
-    return false;
+void ProcesosPendientes::alta_proceso_espera(const Proceso &proceso, const string &id_prioridad, int &error) {
+    map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
+
+    if      (it == mapa_prioridades.end())                                       error = PRIORIDAD_INEXISTENTE;
+    else if (it->second.conjunto_procesos.insert(proceso.consultar_id()).second) it->second.lista_procesos.push_back(proceso);
+    else                                                                         error = PROCESO_EXISTENTE_EN_PRIORIDAD;
 }
 
-void ProcesosPendientes::alta_proceso_espera(const Proceso& proceso, const string& id_prioridad, int& error) {
-    map<string, Prioridad>::iterator it_prioridad = mapa_prioridades.find(id_prioridad);
-
-    if (it_prioridad == mapa_prioridades.end())
-        error = PRIORIDAD_INEXISTENTE;
-    else if (existe_proceso_en_prioridad(proceso.consultar_id(), it_prioridad))
-        error = PROCESO_EXISTENTE_EN_PRIORIDAD;
-    else
-        it_prioridad->second.procesos.push_back(proceso);
-}
-
-void ProcesosPendientes::enviar_procesos_cluster(int n, const Cluster& cluster) {
-    ;//implementar
-}
+void ProcesosPendientes::enviar_procesos_cluster(int n, const Cluster &cluster) {}
 
 void ProcesosPendientes::auxiliar_imprimir_prioridad(
     const map<string, Prioridad>::const_iterator &it_prioridad
 ) const {
-    list<Proceso>::const_iterator it = it_prioridad->second.procesos.begin();
-    while (it != it_prioridad->second.procesos.end()) {
+    list<Proceso>::const_iterator it = it_prioridad->second.lista_procesos.begin();
+    while (it != it_prioridad->second.lista_procesos.end()) {
         it->imprimir();
         ++it;
     }
@@ -72,13 +52,11 @@ void ProcesosPendientes::auxiliar_imprimir_prioridad(
          << it_prioridad->second.procesos_rechazados << endl;
 }
 
-void ProcesosPendientes::imprimir_prioridad(const string& id_prioridad, int& error) const {
-    map<string, Prioridad>::const_iterator it_prioridad = mapa_prioridades.find(id_prioridad);
+void ProcesosPendientes::imprimir_prioridad(const string &id_prioridad, int &error) const {
+    map<string, Prioridad>::const_iterator it = mapa_prioridades.find(id_prioridad);
 
-    if (it_prioridad == mapa_prioridades.end())
-        error = PRIORIDAD_INEXISTENTE;
-    else
-        auxiliar_imprimir_prioridad(it_prioridad);
+    if (it == mapa_prioridades.end()) error = PRIORIDAD_INEXISTENTE;
+    else                              auxiliar_imprimir_prioridad(it);
 }
 
 void ProcesosPendientes::imprimir_area_espera() const {

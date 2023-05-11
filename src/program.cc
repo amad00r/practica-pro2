@@ -40,21 +40,20 @@ int main() {
         int error = NO_HAY_ERROR;
 
         if (comando == "configurar_cluster" or comando == "cc") {
-            // Se garantiza que los identificadores de los procesadores no están repetidos
             cout << "#" << comando << endl;
             cluster.configurar_cluster();
         }
 
         else if (comando == "modificar_cluster" or comando == "mc") {
-            //tener en cuenta el caso en que te entre un arbol vacío, borrar el procesador, maybe a ver como es el juego de pruebas
-            //implementar errores en modificar_cluster para cuando no se cumple la pre
-            string p;
-            cin >> p;
-            cluster.modificar_cluster(p, error);
+            string id_procesador;
+            cin >> id_procesador;
+            cout << "#" << comando << " " << id_procesador << endl;
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
-            else if (error == PROCESOS_EN_EJECUCION) cout << "pendiente del juego de pruebas" << endl;
-            else if (error == TIENE_PROCESADORES_AUXILIARES) cout << "pendiente del juego de pruebas" << endl;
+            cluster.modificar_cluster(id_procesador, error);
+
+            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
+            else if (error == PROCESOS_EN_EJECUCION) cout << "error: procesador con procesos" << endl;
+            else if (error == TIENE_PROCESADORES_AUXILIARES) cout << "error: procesador con auxiliares" << endl;
         }
 
         else if (comando == "alta_prioridad" or comando == "ap") {

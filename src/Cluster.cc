@@ -34,7 +34,52 @@ void Cluster::leer_procesadores(BinTree<map<string, Procesador>::iterator> &arbo
     }
 }
 
-void Cluster::modificar_cluster(const string &id_procesador, int &error) {}
+void Cluster::consumir_cluster_input() const {
+    string id_procesador;
+    cin >> id_procesador;
+
+    if (id_procesador != "*") {
+        int memoria;
+        cin >> memoria;
+        consumir_cluster_input();
+        consumir_cluster_input();
+    }
+}
+
+bool Cluster::auxiliar_modificar_cluster(
+    BinTree<map<string, Procesador>::iterator> &arbol,
+    const string &id_procesador,
+    int &error
+) {
+    if (arbol.empty() or error != NO_HAY_ERROR) return false;
+    if (arbol.value()->first == id_procesador) {
+        if      (arbol.value()->second.hay_procesos())                  error = PROCESOS_EN_EJECUCION;
+        else if (not arbol.left().empty() or not arbol.right().empty()) error = TIENE_PROCESADORES_AUXILIARES;
+        else {
+            mapa_procesadores.erase(arbol.value());
+            leer_procesadores(arbol);
+        }
+        return true;
+    }
+
+    BinTree<map<string, Procesador>::iterator> aux1 = arbol.left();
+    if (auxiliar_modificar_cluster(aux1, id_procesador, error)) {
+        arbol = BinTree<map<string, Procesador>::iterator>(arbol.value(), aux1, arbol.right());
+        return true;
+    }
+    BinTree<map<string, Procesador>::iterator> aux2 = arbol.right();
+    bool found = auxiliar_modificar_cluster(aux2, id_procesador, error);
+    arbol = BinTree<map<string, Procesador>::iterator>(arbol.value(), aux1, aux2);
+    return found;
+}
+
+void Cluster::modificar_cluster(const string &id_procesador, int &error) {
+    if (not auxiliar_modificar_cluster(arbol_procesadores, id_procesador, error)) {
+        error = PROCESADOR_INEXISTENTE;
+        consumir_cluster_input();
+    }
+    else if (error != NO_HAY_ERROR) consumir_cluster_input();
+}
 
 void Cluster::alta_proceso_procesador(const Proceso &proceso, const string &id_procesador, int &error) {
     map<string, Procesador>::iterator it = mapa_procesadores.find(id_procesador);

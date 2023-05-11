@@ -35,6 +35,12 @@ class Cluster {
                   entrada estándar.
         */
         void leer_procesadores(BinTree<map<string, Procesador>::iterator> &arbol);
+        void consumir_cluster_input() const;
+        bool auxiliar_modificar_cluster(
+            BinTree<map<string, Procesador>::iterator> &arbol,
+            const string &id_procesador,
+            int &error
+        );
         void auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) const;
 
     public:

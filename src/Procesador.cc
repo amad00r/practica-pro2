@@ -19,11 +19,23 @@ Procesador::Procesador(const string& id_procesador, int mem) {
 }
 
 string Procesador::consultar_id() const { return id; }
+
 bool Procesador::id_coincide(const string& id_procesador) const { return id == id_procesador; }
+
+int Procesador::consultar_memoria_disponible() const { return memoria_disponible; }
+
 bool Procesador::existe_id_proceso(int id_proceso) const {
     return posiciones_procesos.find(id_proceso) != posiciones_procesos.end();
 }
+
 bool Procesador::hay_procesos() const { return not posiciones_procesos.empty(); }
+
+int Procesador::consultar_espacio_hueco_minimo(int proceso_mem) const {
+    if (memoria_disponible < proceso_mem) return 0;
+    map<int, set<int>>::const_iterator hueco_minimo = huecos_memoria.lower_bound(proceso_mem);
+    if (hueco_minimo == huecos_memoria.end()) return 0;
+    return hueco_minimo->first;
+}
 
 void Procesador::avanzar_tiempo(int t) {
     map<int, Proceso>::iterator it = procesos_memoria.begin();

@@ -119,6 +119,8 @@ int main() {
         else if (comando == "enviar_procesos_cluster" or comando == "epc") {
             int n;
             cin >> n;
+            cout << "#" << comando << " " << n << endl;
+
             pendientes.enviar_procesos_cluster(n, cluster);
         }
 

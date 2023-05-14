@@ -42,6 +42,16 @@ class Cluster {
             int &error
         );
         void auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) const;
+        bool procesador_preferido(
+            map<string, Procesador>::iterator it1,
+            map<string, Procesador>::iterator it2,
+            const Proceso &proceso
+        );
+        void auxiliar_alta_proceso(
+            map<string, Procesador>::iterator &it_preferido,
+            const BinTree<map<string, Procesador>::iterator> &arbol,
+            const Proceso &proceso
+        );
 
     public:
         // CONSTRUCTORAS ######################################################
@@ -141,7 +151,7 @@ class Cluster {
                   instancia, se encuentre más a la izquierda.
                   Si proceso no se ha colocado, error vale PROCESO_NO_COLOCABLE.
         */
-        void alta_proceso(const Proceso& proceso, int& error);
+        bool alta_proceso(const Proceso& proceso);
 
         /** @brief Avanza el tiempo que ha transcurrido en la ejecución de los
                    Proceso de los Procesador del parámetro implícito.

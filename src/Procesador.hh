@@ -75,6 +75,10 @@ class Procesador {
         */
         bool id_coincide(const string& id_procesador) const;
 
+        int consultar_espacio_hueco_minimo(int proceso_mem) const;
+
+        int consultar_memoria_disponible() const;
+
         /** @brief Consulta si un determinado Proceso se encuentra ejecutándose
                    en el parámetro implícito.
 

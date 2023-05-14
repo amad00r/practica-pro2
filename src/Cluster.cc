@@ -53,8 +53,10 @@ bool Cluster::auxiliar_modificar_cluster(
 ) {
     if (arbol.empty() or error != NO_HAY_ERROR) return false;
     if (arbol.value()->first == id_procesador) {
-        if      (arbol.value()->second.hay_procesos())                  error = PROCESOS_EN_EJECUCION;
-        else if (not arbol.left().empty() or not arbol.right().empty()) error = TIENE_PROCESADORES_AUXILIARES;
+        if (arbol.value()->second.hay_procesos())
+            error = PROCESOS_EN_EJECUCION;
+        else if (not arbol.left().empty() or not arbol.right().empty())
+            error = TIENE_PROCESADORES_AUXILIARES;
         else {
             mapa_procesadores.erase(arbol.value());
             leer_procesadores(arbol);
@@ -96,7 +98,52 @@ void Cluster::baja_proceso_procesador(int id_proceso, const string &id_procesado
     else if (not it->second.quitar(id_proceso)) error = PROCESO_INEXISTENTE_EN_PROCESADOR;
 }
 
-void Cluster::alta_proceso(const Proceso& proceso, int& error) {}
+bool Cluster::procesador_preferido(
+    map<string, Procesador>::iterator it1,
+    map<string, Procesador>::iterator it2,
+    const Proceso &proceso
+) {
+    int hueco_min_it2 = it2->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+    bool candidato_it2 = (hueco_min_it2 != 0 and not it2->second.existe_id_proceso(proceso.consultar_id()));
+
+    if (it1 == mapa_procesadores.end()) return not candidato_it2;
+
+    int hueco_min_it1 = it1->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+    bool candidato_it1 = (hueco_min_it1 != 0 and not it1->second.existe_id_proceso(proceso.consultar_id()));
+
+    if (not candidato_it2) return true;
+    if (not candidato_it1) return false;
+
+    if (hueco_min_it1 < hueco_min_it2) return true;
+    if (hueco_min_it1 > hueco_min_it2) return false;
+
+    if (it1->second.consultar_memoria_disponible() > it2->second.consultar_memoria_disponible()) return true;
+    if (it1->second.consultar_memoria_disponible() < it2->second.consultar_memoria_disponible()) return false;
+
+    return true;
+}
+
+void Cluster::auxiliar_alta_proceso(
+    map<string, Procesador>::iterator &it_preferido,
+    const BinTree<map<string, Procesador>::iterator> &arbol,
+    const Proceso &proceso
+) {
+    if (not arbol.empty()) {
+        if (not procesador_preferido(it_preferido, arbol.value(), proceso))
+            it_preferido = arbol.value();
+        auxiliar_alta_proceso(it_preferido, arbol.left(), proceso);
+        auxiliar_alta_proceso(it_preferido, arbol.right(), proceso);
+    }
+}
+
+bool Cluster::alta_proceso(const Proceso &proceso) {
+    //map<string, Procesador>::iterator it = auxiliar_alta_proceso(arbol_procesadores, proceso);
+    map<string, Procesador>::iterator it = mapa_procesadores.end();
+    auxiliar_alta_proceso(it, arbol_procesadores, proceso);
+    if (it == mapa_procesadores.end()) return false;
+    it->second.colocar(proceso);
+    return true;
+}
 
 void Cluster::avanzar_tiempo(int t) {
     for (

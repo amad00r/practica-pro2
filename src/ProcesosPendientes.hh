@@ -117,7 +117,7 @@ class ProcesosPendientes {
                   estaban, y los rechazados vuelven a ella como si fueran
                   nuevos.
         */
-        void enviar_procesos_cluster(int n, const Cluster& cluster);
+        void enviar_procesos_cluster(int n, Cluster& cluster);
         
 
         // LECTURA/ESCRITURA ##################################################

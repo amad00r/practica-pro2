@@ -34,7 +34,26 @@ void ProcesosPendientes::alta_proceso_espera(const Proceso &proceso, const strin
     else                                                                         error = PROCESO_EXISTENTE_EN_PRIORIDAD;
 }
 
-void ProcesosPendientes::enviar_procesos_cluster(int n, const Cluster &cluster) {}
+void ProcesosPendientes::enviar_procesos_cluster(int n, Cluster &cluster) {
+    for (
+        map<string, Prioridad>::iterator it = mapa_prioridades.begin();
+        n != 0 and it != mapa_prioridades.end();
+        ++it
+    ) {
+        for (int i = it->second.lista_procesos.size(); n != 0 and i > 0; --i) {
+            if (cluster.alta_proceso(it->second.lista_procesos.front())) {
+                --n;
+                ++it->second.procesos_colocados;
+                it->second.conjunto_procesos.erase(it->second.lista_procesos.front().consultar_id());
+            }
+            else {
+                ++it->second.procesos_rechazados;
+                it->second.lista_procesos.push_back(it->second.lista_procesos.front());
+            }
+            it->second.lista_procesos.pop_front();
+        }
+    }
+}
 
 void ProcesosPendientes::auxiliar_imprimir_prioridad(
     const map<string, Prioridad>::const_iterator &it_prioridad

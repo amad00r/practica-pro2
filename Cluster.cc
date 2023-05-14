@@ -99,48 +99,53 @@ void Cluster::baja_proceso_procesador(int id_proceso, const string &id_procesado
 }
 
 bool Cluster::procesador_preferido(
-    map<string, Procesador>::iterator it1,
-    map<string, Procesador>::iterator it2,
-    const Proceso &proceso
-) {
-    int hueco_min_it2 = it2->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
-    bool candidato_it2 = (hueco_min_it2 != 0 and not it2->second.existe_id_proceso(proceso.consultar_id()));
+    const pair<map<string, Procesador>::iterator, int> &preferido,
+    const map<string, Procesador>::iterator &it,
+    const Proceso &proceso,
+    int profundidad
+) const {
+    int hueco_min_it = it->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+    bool candidato_it = (hueco_min_it != 0 and not it->second.existe_id_proceso(proceso.consultar_id()));
 
-    if (it1 == mapa_procesadores.end()) return not candidato_it2;
+    if (preferido.first == mapa_procesadores.end()) return not candidato_it;
 
-    int hueco_min_it1 = it1->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
-    bool candidato_it1 = (hueco_min_it1 != 0 and not it1->second.existe_id_proceso(proceso.consultar_id()));
+    int hueco_min_preferido = preferido.first->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+    bool candidato_preferido = (hueco_min_preferido != 0 and not preferido.first->second.existe_id_proceso(proceso.consultar_id()));
 
-    if (not candidato_it2) return true;
-    if (not candidato_it1) return false;
+    if (not candidato_it) return true;
+    if (not candidato_preferido) return false;
 
-    if (hueco_min_it1 < hueco_min_it2) return true;
-    if (hueco_min_it1 > hueco_min_it2) return false;
+    if (hueco_min_preferido < hueco_min_it) return true;
+    if (hueco_min_preferido > hueco_min_it) return false;
 
-    if (it1->second.consultar_memoria_disponible() > it2->second.consultar_memoria_disponible()) return true;
-    if (it1->second.consultar_memoria_disponible() < it2->second.consultar_memoria_disponible()) return false;
+    if (preferido.second < profundidad) return true;
+    if (preferido.second > profundidad) return false;
+
+    if (preferido.first->second.consultar_memoria_disponible() > it->second.consultar_memoria_disponible()) return true;
+    if (preferido.first->second.consultar_memoria_disponible() < it->second.consultar_memoria_disponible()) return false;
 
     return true;
 }
 
 void Cluster::auxiliar_alta_proceso(
-    map<string, Procesador>::iterator &it_preferido,
+    pair<map<string, Procesador>::iterator, int> &preferido,
+    int profundidad,
     const BinTree<map<string, Procesador>::iterator> &arbol,
     const Proceso &proceso
-) {
+) const {
     if (not arbol.empty()) {
-        if (not procesador_preferido(it_preferido, arbol.value(), proceso))
-            it_preferido = arbol.value();
-        auxiliar_alta_proceso(it_preferido, arbol.left(), proceso);
-        auxiliar_alta_proceso(it_preferido, arbol.right(), proceso);
+        if (not procesador_preferido(preferido, arbol.value(), proceso, profundidad))
+            preferido = make_pair(arbol.value(), profundidad);
+        auxiliar_alta_proceso(preferido, profundidad + 1, arbol.left(), proceso);
+        auxiliar_alta_proceso(preferido, profundidad + 1, arbol.right(), proceso);
     }
 }
 
 bool Cluster::alta_proceso(const Proceso &proceso) {
-    map<string, Procesador>::iterator it = mapa_procesadores.end();
-    auxiliar_alta_proceso(it, arbol_procesadores, proceso);
-    if (it == mapa_procesadores.end()) return false;
-    it->second.colocar(proceso);
+    pair<map<string, Procesador>::iterator, int> preferido = make_pair(mapa_procesadores.end(), -1);
+    auxiliar_alta_proceso(preferido, 0, arbol_procesadores, proceso);
+    if (preferido.first == mapa_procesadores.end()) return false;
+    preferido.first->second.colocar(proceso);
     return true;
 }
 

@@ -43,15 +43,17 @@ class Cluster {
         );
         void auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) const;
         bool procesador_preferido(
-            map<string, Procesador>::iterator it1,
-            map<string, Procesador>::iterator it2,
-            const Proceso &proceso
-        );
+            const pair<map<string, Procesador>::iterator, int> &preferido,
+            const map<string, Procesador>::iterator &it,
+            const Proceso &proceso,
+            int profundidad
+        ) const;
         void auxiliar_alta_proceso(
-            map<string, Procesador>::iterator &it_preferido,
+            pair<map<string, Procesador>::iterator, int> &preferido,
+            int profundidad,
             const BinTree<map<string, Procesador>::iterator> &arbol,
             const Proceso &proceso
-        );
+        ) const;
 
     public:
         // CONSTRUCTORAS ######################################################

@@ -1,31 +1,29 @@
-#OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
+OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
 
-debug: build/program.exe
-	gdb build/program.exe
+practica.tar:
+	tar -cvf practica.tar Makefile *.hh *.cc
 
-build/program.exe: build/program.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
-	g++ -g -o build/program.exe build/program.o build/Cluster.o build/Procesador.o build/Proceso.o build/ProcesosPendientes.o
+debug: program.exe
+	gdb program.exe
 
-build/program.o: src/program.cc src/Errores.hh
-	g++ -g -c src/program.cc $(OPCIONS)
-	mv program.o build/program.o
+program.exe: program.o Cluster.o Procesador.o Proceso.o ProcesosPendientes.o
+	g++ -g -o program.exe program.o Cluster.o Procesador.o Proceso.o ProcesosPendientes.o
 
-build/Cluster.o: src/Cluster.cc src/Cluster.hh src/BinTree.hh src/Procesador.hh src/Errores.hh
-	g++ -g -c src/Cluster.cc $(OPCIONS)
-	mv Cluster.o build/Cluster.o
+program.o: program.cc Errores.hh
+	g++ -g -c program.cc $(OPCIONS)
 
-build/Procesador.o: src/Procesador.cc src/Procesador.hh src/Proceso.hh
-	g++ -g -c src/Procesador.cc $(OPCIONS)
-	mv Procesador.o build/Procesador.o
+Cluster.o: Cluster.cc Cluster.hh BinTree.hh Procesador.hh Errores.hh
+	g++ -g -c Cluster.cc $(OPCIONS)
 
-build/Proceso.o: src/Proceso.cc src/Proceso.hh
-	g++ -g -c src/Proceso.cc $(OPCIONS)
-	mv Proceso.o build/Proceso.o
+Procesador.o: Procesador.cc Procesador.hh Proceso.hh
+	g++ -g -c Procesador.cc $(OPCIONS)
 
-build/ProcesosPendientes.o: src/ProcesosPendientes.cc src/ProcesosPendientes.hh src/Proceso.hh src/Cluster.hh
-	g++ -g -c src/ProcesosPendientes.cc $(OPCIONS)
-	mv ProcesosPendientes.o build/ProcesosPendientes.o
+Proceso.o: Proceso.cc Proceso.hh
+	g++ -g -c Proceso.cc $(OPCIONS)
+
+ProcesosPendientes.o: ProcesosPendientes.cc ProcesosPendientes.hh Proceso.hh Cluster.hh
+	g++ -g -c ProcesosPendientes.cc $(OPCIONS)
 
 clean:
-	rm build/*.o
-	rm build/program.exe
+	rm *.o
+	rm program.exe

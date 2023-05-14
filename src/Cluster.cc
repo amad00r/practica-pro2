@@ -137,7 +137,6 @@ void Cluster::auxiliar_alta_proceso(
 }
 
 bool Cluster::alta_proceso(const Proceso &proceso) {
-    //map<string, Procesador>::iterator it = auxiliar_alta_proceso(arbol_procesadores, proceso);
     map<string, Procesador>::iterator it = mapa_procesadores.end();
     auxiliar_alta_proceso(it, arbol_procesadores, proceso);
     if (it == mapa_procesadores.end()) return false;
@@ -186,5 +185,16 @@ void Cluster::imprimir_estructura_cluster() const {
     cout << endl;
 }
 
-void Cluster::compactar_memoria_procesador(const string& id_procesador, int& error) {}
-void Cluster::compactar_memoria_cluster() {}
+void Cluster::compactar_memoria_procesador(const string& id_procesador, int& error) {
+    map<string, Procesador>::iterator it = mapa_procesadores.find(id_procesador);
+    if (it == mapa_procesadores.end()) error = PROCESADOR_INEXISTENTE;
+    else it->second.compactar_memoria();
+}
+
+void Cluster::compactar_memoria_cluster() {
+    for (
+        map<string, Procesador>::iterator it = mapa_procesadores.begin();
+        it != mapa_procesadores.end();
+        ++it
+    ) it->second.compactar_memoria();
+}

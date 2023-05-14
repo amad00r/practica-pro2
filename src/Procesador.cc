@@ -112,7 +112,6 @@ bool Procesador::quitar(int id_proceso) {
     return true;
 }
 
-
 void Procesador::imprimir() const {
     for (
         map<int, Proceso>::const_iterator it = procesos_memoria.begin();
@@ -124,4 +123,30 @@ void Procesador::imprimir() const {
     }
 }
 
-void Procesador::compactar_memoria() {}
+void Procesador::compactar_memoria() {
+    map<int, Proceso>::iterator it = procesos_memoria.begin();
+    if (it == procesos_memoria.end()) return;
+
+    int tmp = 0;
+    while (it != procesos_memoria.end()) {
+        if (it->first != tmp) {
+            procesos_memoria.insert(it, make_pair(tmp, it->second));
+
+            map<int, int>::iterator it_aux = posiciones_procesos.find(it->second.consultar_id());
+            posiciones_procesos[it->second.consultar_id()] = tmp;
+
+            tmp += it->second.consultar_memoria();
+            it = procesos_memoria.erase(it);  
+        }
+        else {
+            tmp += it->second.consultar_memoria();
+            ++it;
+        }
+    }
+    
+    huecos_memoria.clear();
+    if (tmp != memoria)
+        huecos_memoria.insert(huecos_memoria.begin(), make_pair(memoria - tmp, set<int>{ tmp }));
+
+    // no hace falta recalcular huecos, el hueco empieza donde acaba el ultimo proceso
+}

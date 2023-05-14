@@ -170,12 +170,15 @@ int main() {
         else if (comando == "compactar_memoria_procesador" or comando == "cmp") {
             string id_procesador;
             cin >> id_procesador;
+            cout << "#" << comando << " " << id_procesador << endl;
+
             cluster.compactar_memoria_procesador(id_procesador, error);
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "pendiente del juego de pruebas" << endl;
+            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
         }
         
         else if (comando == "compactar_memoria_cluster" or comando == "cmc") {
+            cout << "#" << comando << endl;
             cluster.compactar_memoria_cluster();
         }
 

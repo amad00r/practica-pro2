@@ -11,16 +11,11 @@ using namespace std;
 
 Procesador::Procesador() {}
 
-Procesador::Procesador(const string& id_procesador, int mem) {
-    id = id_procesador;
+Procesador::Procesador(int mem) {
     memoria = mem;
     memoria_disponible = mem;
     huecos_memoria.insert(huecos_memoria.begin(), make_pair(mem, set<int>{ 0 }));
 }
-
-string Procesador::consultar_id() const { return id; }
-
-bool Procesador::id_coincide(const string& id_procesador) const { return id == id_procesador; }
 
 int Procesador::consultar_memoria_disponible() const { return memoria_disponible; }
 

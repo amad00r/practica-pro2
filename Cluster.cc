@@ -27,7 +27,7 @@ void Cluster::leer_procesadores(BinTree<map<string, Procesador>::iterator> &arbo
         leer_procesadores(aux1);
         leer_procesadores(aux2);
         arbol = BinTree<map<string, Procesador>::iterator>(
-            mapa_procesadores.insert(make_pair(id_procesador, Procesador(id_procesador, memoria))).first,
+            mapa_procesadores.insert(make_pair(id_procesador, Procesador(memoria))).first,
             aux1,
             aux2
         );

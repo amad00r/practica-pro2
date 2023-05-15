@@ -21,7 +21,6 @@ using namespace std;
 */
 class Procesador {
     private:
-        string id;
         int memoria, memoria_disponible;
 
         map<int, Proceso> procesos_memoria;
@@ -50,30 +49,10 @@ class Procesador {
             \post El resultado es un Procesador inicializado con identificador
                   y memoria.
         */  
-        Procesador(const string& id_procesador, int memoria);
+        Procesador(int memoria);
 
 
         // CONSULTORAS ########################################################
-
-        /** @brief Consulta el identificador del parámetro implícito.
-
-            \pre El parámetro implícito está inicializado.
-
-            \post El resultado es el identificador del parámetro implícito.
-        */
-
-        string consultar_id() const;
-
-        /** @brief Consulta si un determinado identificador coincide con el del
-                   parámetro implícito.
-
-            \pre El parámetro implícito está inicializado. id_procesador
-                 contiene únicamente letras y números.
-
-            \post El resultado indica si el identificador del parámetro
-                  implícito coincide con id_procesador.
-        */
-        bool id_coincide(const string& id_procesador) const;
 
         int consultar_espacio_hueco_minimo(int proceso_mem) const;
 

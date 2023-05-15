@@ -99,18 +99,19 @@ void Cluster::baja_proceso_procesador(int id_proceso, const string &id_procesado
 }
 
 bool Cluster::procesador_preferido(
-    const pair<map<string, Procesador>::iterator, int> &preferido,
+    const map<string, Procesador>::iterator &preferido,
+    int profundidad_preferido,
     const map<string, Procesador>::iterator &it,
-    const Proceso &proceso,
-    int profundidad
+    int profundidad,
+    const Proceso &proceso
 ) const {
     int hueco_min_it = it->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
     bool candidato_it = (hueco_min_it != 0 and not it->second.existe_id_proceso(proceso.consultar_id()));
 
-    if (preferido.first == mapa_procesadores.end()) return not candidato_it;
+    if (preferido == mapa_procesadores.end()) return not candidato_it;
 
-    int hueco_min_preferido = preferido.first->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
-    bool candidato_preferido = (hueco_min_preferido != 0 and not preferido.first->second.existe_id_proceso(proceso.consultar_id()));
+    int hueco_min_preferido = preferido->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+    bool candidato_preferido = (hueco_min_preferido != 0 and not preferido->second.existe_id_proceso(proceso.consultar_id()));
 
     if (not candidato_it) return true;
     if (not candidato_preferido) return false;
@@ -118,34 +119,39 @@ bool Cluster::procesador_preferido(
     if (hueco_min_preferido < hueco_min_it) return true;
     if (hueco_min_preferido > hueco_min_it) return false;
 
-    if (preferido.second < profundidad) return true;
-    if (preferido.second > profundidad) return false;
+    if (profundidad_preferido < profundidad) return true;
+    if (profundidad_preferido > profundidad) return false;
 
-    if (preferido.first->second.consultar_memoria_disponible() > it->second.consultar_memoria_disponible()) return true;
-    if (preferido.first->second.consultar_memoria_disponible() < it->second.consultar_memoria_disponible()) return false;
+    if (preferido->second.consultar_memoria_disponible() > it->second.consultar_memoria_disponible()) return true;
+    if (preferido->second.consultar_memoria_disponible() < it->second.consultar_memoria_disponible()) return false;
 
     return true;
 }
 
 void Cluster::auxiliar_alta_proceso(
-    pair<map<string, Procesador>::iterator, int> &preferido,
-    int profundidad,
+    map<string, Procesador>::iterator &preferido,
+    int &profundidad_preferido,
     const BinTree<map<string, Procesador>::iterator> &arbol,
+    int profundidad,
     const Proceso &proceso
 ) const {
     if (not arbol.empty()) {
-        if (not procesador_preferido(preferido, arbol.value(), proceso, profundidad))
-            preferido = make_pair(arbol.value(), profundidad);
-        auxiliar_alta_proceso(preferido, profundidad + 1, arbol.left(), proceso);
-        auxiliar_alta_proceso(preferido, profundidad + 1, arbol.right(), proceso);
+        if (not procesador_preferido(preferido, profundidad_preferido, arbol.value(), profundidad, proceso)) {
+            preferido = arbol.value();
+            profundidad_preferido = profundidad;
+        }  
+        auxiliar_alta_proceso(preferido, profundidad_preferido, arbol.left(), profundidad + 1, proceso);
+        auxiliar_alta_proceso(preferido, profundidad_preferido, arbol.right(), profundidad + 1, proceso);
     }
 }
 
 bool Cluster::alta_proceso(const Proceso &proceso) {
-    pair<map<string, Procesador>::iterator, int> preferido = make_pair(mapa_procesadores.end(), -1);
-    auxiliar_alta_proceso(preferido, 0, arbol_procesadores, proceso);
-    if (preferido.first == mapa_procesadores.end()) return false;
-    preferido.first->second.colocar(proceso);
+    map<string, Procesador>::iterator preferido = mapa_procesadores.end();
+    int profundidad_preferido = -1;
+
+    auxiliar_alta_proceso(preferido, profundidad_preferido, arbol_procesadores, 0, proceso);
+    if (preferido == mapa_procesadores.end()) return false;
+    preferido->second.colocar(proceso);
     return true;
 }
 

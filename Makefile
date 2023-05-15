@@ -25,4 +25,6 @@ ProcesosPendientes.o: ProcesosPendientes.cc ProcesosPendientes.hh Proceso.hh Clu
 	g++ -c ProcesosPendientes.cc $(OPCIONS)
 
 clean:
-	rm *.o || rm program.exe || rm practica.tar
+	rm -f *.o
+	rm -f program.exe
+	rm -f practica.tar

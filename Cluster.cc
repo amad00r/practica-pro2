@@ -53,7 +53,7 @@ bool Cluster::auxiliar_modificar_cluster(
     const string &id_procesador,
     int &error
 ) {
-    if (arbol.empty() or error != NO_HAY_ERROR) return false;
+    if (arbol.empty() or error != OK) return false;
     if (arbol.value()->first == id_procesador) {
         if (arbol.value()->second.hay_procesos())
             error = PROCESOS_EN_EJECUCION;
@@ -82,7 +82,7 @@ void Cluster::modificar_cluster(const string &id_procesador, int &error) {
         error = PROCESADOR_INEXISTENTE;
         consumir_cluster_input();
     }
-    else if (error != NO_HAY_ERROR) consumir_cluster_input();
+    else if (error != OK) consumir_cluster_input();
 }
 
 void Cluster::alta_proceso_procesador(const Proceso &proceso, const string &id_procesador, int &error) {

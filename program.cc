@@ -27,7 +27,7 @@ int main() {
 
     while (comando != "fin") {
 
-        int error = NO_HAY_ERROR;
+        int error = OK;
 
         if (comando == "configurar_cluster" or comando == "cc") {
             cout << "#" << comando << endl;

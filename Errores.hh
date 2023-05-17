@@ -5,7 +5,7 @@
     módulos: ProcesosPendientes.hh, Cluster.hh.
 */
 
-const int NO_HAY_ERROR = -1;
+const int OK = -1;
 
 // ProcesosPendientes.hh ######################################################
 

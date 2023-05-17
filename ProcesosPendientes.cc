@@ -9,7 +9,15 @@
 
 using namespace std;
 
-ProcesosPendientes::ProcesosPendientes() {}
+ProcesosPendientes::ProcesosPendientes() {
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        string id_prioridad;
+        cin >> id_prioridad;
+        mapa_prioridades.insert(make_pair(id_prioridad, Prioridad()));
+    }
+}
 
 void ProcesosPendientes::alta_prioridad(const string &id_prioridad, int &error) {
     map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);

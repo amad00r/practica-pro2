@@ -9,7 +9,9 @@
 
 using namespace std;
 
-Cluster::Cluster() {}
+Cluster::Cluster() {
+    leer_procesadores(arbol_procesadores);
+}
 
 void Cluster::configurar_cluster() {
     mapa_procesadores.clear();

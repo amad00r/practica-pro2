@@ -142,6 +142,4 @@ void Procesador::compactar_memoria() {
     huecos_memoria.clear();
     if (tmp != memoria)
         huecos_memoria.insert(huecos_memoria.begin(), make_pair(memoria - tmp, set<int>{ tmp }));
-
-    // no hace falta recalcular huecos, el hueco empieza donde acaba el ultimo proceso
 }

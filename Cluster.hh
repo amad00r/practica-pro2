@@ -16,32 +16,103 @@
 using namespace std;
 
 /** @class Cluster
-    @brief Representa un clúster de Procesador.
+    @brief Representa un clúster de procesadores.
+
+    Los procesadores se encuentran organizados en una jerarquía dónde cada uno
+    puede tener dos procesadores auxiliares.
 */
 class Cluster {
+
     private:
+        /** @brief Mapa de identificador->Procesador que contiene los
+                   procesadores del Cluster.
+        */
         map<string, Procesador> mapa_procesadores;
+
+        /** @brief Árbol binario que representa una jerarquía de procesadores.
+        */
         BinTree<map<string, Procesador>::iterator> arbol_procesadores;
 
         // LECTURA/ESCRITURA ##################################################
 
-        /** @brief Lee un árbol binario de Procesador del canal de entrada 
+        /** @brief Lee un árbol binario de procesadores del canal de entrada 
                    estándar.
 
             \pre El canal de entrada estándar contiene una secuencia de
-                 identificadores no repetidos de Procesador.
+                 identificadores no repetidos de procesadores.
 
-            \post El parámetro arbol contiene los Procesador leídos del canal de
-                  entrada estándar.
+            \post El parámetro arbol contiene los procesadores leídos del canal
+                  de entrada estándar. El canal de entrada estándar no contiene
+                  una secuencia de identificadores de procesadores.
         */
-        void leer_procesadores(BinTree<map<string, Procesador>::iterator> &arbol);
-        void consumir_cluster_input() const;
+        void leer_procesadores(
+            BinTree<map<string, Procesador>::iterator> &arbol
+        );
+
+        /** @brief Consume un árbol binario de procesadores del canal de
+                   entrada estándar.
+                
+            \pre El canal de entrada estándar contiene una secuencia de
+                 identificadores de procesadores.
+
+            \post El canal de entrada estándar no contiene una secuencia de
+                  identificadores de procesadores.
+        */
+        static void consumir_cluster_input() const;
+
+        /** @brief Auxiliar recursiva para imprimir la estructura del clúster
+         
+            \pre Cierto.
+
+            \post Se ha escrito en el canal de salida estándar la estructura
+                  interna de los procesadores del parámetro implícito.
+        */
+        static void auxiliar_imprimir_estructura_cluster(
+            const BinTree<map<string, Procesador>::iterator> &arbol
+        ) const;
+
+        // MODIFICADORAS ######################################################
+
+        /** @brief Sustituye un procesador por un nuevo clúster
+        
+            \pre El canal de entrada estándar contiene una secuencia de
+                 identificadores no repetidos de procesadores.
+
+            \post Si no existe un procesador en el parámetro implícito con
+                  identificador igual a id_procesador, error vale
+                  PROCESADOR_INEXISTENTE.
+                  Si dicho procesador tiene algún proceso en ejecución, error
+                  vale PROCESOS_EN_EJECUCION.
+                  Si dicho procesador tiene algún procesador auxiliar, error
+                  vale TIENE_PROCESADORES_AUXILIARES.
+                  Si no se dan estos casos, el procesador del parámetro
+                  implícito con identificador igual a id_procesador es
+                  sustituido por el clúster leído del canal de entrada
+                  estándar.
+        */
         bool auxiliar_modificar_cluster(
             BinTree<map<string, Procesador>::iterator> &arbol,
             const string &id_procesador,
             int &error
         );
-        void auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) const;
+
+        // CONSULTORAS ########################################################
+
+        /** @brief Determina si un procesador es más adecuado que otro para
+                   almacenar un cierto proceso.
+
+            \pre preferido apunta a mapa_procesadores.end() o a un procesador
+                 inicializado.
+                 it apunta a un procesador inicializado.
+                 proceso está inicializado.
+
+            \post El resultado es true si el procesador apuntado por preferido
+                  que se encuentra a una profundidad igual a
+                  profundidad_prferido es igual de preferido o más que el
+                  procesador apuntado por el iterador it que se encuentra a una
+                  profundidad igual a profundidad.
+                  De otra manera, el resultado es false.
+        */
         bool procesador_preferido(
             const map<string, Procesador>::iterator &preferido,
             int profundidad_preferido,
@@ -49,6 +120,22 @@ class Cluster {
             int profundidad,
             const Proceso &proceso
         ) const;
+
+        /** @brief Auxiliar recursiva para dar de alta un cierto proceso en el
+                   procesador más adecuado del parámetro implícito
+
+            \pre preferido apunta a mapa_procesadores.end() o a un procesador
+                 inicializado.
+                 profundidad_preferido, profundidad >= 0.
+                 proceso está inicializado.
+
+            \post Si no existe ningún procesador que pueda ejecutar proceso,
+                  proceso = mapa_procesadores.end().
+                  De otro modo, proceso apunta al procesador del parámetro
+                  implícito más adecuado para ejecutar proceso.
+                  profundidad_preferido representa la profundidad en el clúster
+                  de dicho procesador.
+        */
         void auxiliar_alta_proceso(
             map<string, Procesador>::iterator &preferido,
             int &profundidad_preferido,
@@ -63,163 +150,183 @@ class Cluster {
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
                    declarar un Cluster.
 
-            \pre Cierto.
+            \pre El canal de entrada estándar contiene una secuencia de
+                 identificadores no repetidos de procesadores.
 
-            \post El resultado es un Cluster no inicializado.
+            \post El resultado es un clúster inizializado con un clúster leído
+                  del canal de entrada estándar. El canal de entrada estándar
+                  no contiene una secuencia de identificadores de procesadores.
         */  
         Cluster();
 
 
         // MODIFICADORAS ######################################################
 
-        /** @brief Configura el parámetro implícito con nuevos Procesador
+        /** @brief Configura el parámetro implícito con nuevos procesadores
                    leídos del canal de entrada estándar.
 
             \pre El canal de entrada estándar contiene una secuencia de
-                 identificadores no repetidos de Procesador.
+                 identificadores no repetidos de procesadores.
 
-            \post Los Procesador del parámetro implícito no se repiten y son
+            \post Los procesadores del parámetro implícito no se repiten y son
                   los que se han leído del canal de entrada estándar. Si el
                   parámetro implícito ya contenía procesadores, estos se ven
                   reemplazados por los nuevos.
+                  El canal de entrada estándar no contiene una secuencia de
+                  identificadores de procesadores.
         */
         void configurar_cluster();
 
-        /** @brief Sustituye un Procesador del parámetro implícito por un nuevo
-                   clúster de Procesador leído del canal de entrada estándar.
+        /** @brief Sustituye un procesador del parámetro implícito por un nuevo
+                   clúster leído del canal de entrada estándar.
 
             \pre El canal de entrada estándar contiene una secuencia de
-                 identificadores no repetidos de Procesador.
+                 identificadores no repetidos de procesadores.
 
-            \post Si no existe un Procesador en el parámetro implícito con
+            \post Si no existe un procesador en el parámetro implícito con
                   identificador igual a id_procesador, error vale 
                   PROCESADOR_INEXISTENTE.
-                  Si dicho Procesador tiene algún Proceso en ejecución, error
+                  Si dicho procesador tiene algún proceso en ejecución, error
                   vale PROCESOS_EN_EJECUCION.
-                  Si dicho Procesador tiene algún Procesador auxiliar, error
+                  Si dicho procesador tiene algún procesador auxiliar, error
                   vale TIENE_PROCESADORES_AUXILIARES.
-                  Si no se dan estos casos, el Procesador del parámetro
+                  Si no se dan estos casos, el procesador del parámetro
                   implícito con identificador igual a id_procesador es el
-                  clúster de Procesador leído del canal de entrada estándar.
+                  clúster de procesadores leído del canal de entrada estándar.
+                  El canal de entrada estándar no contiene una secuencia de
+                  identificadores de procesadores.
         */
-        void modificar_cluster(const string& id_procesador, int& error);
+        void modificar_cluster(const string &id_procesador, int &error);
         
-        /** @brief Da de alta un Proceso en un Procesador del parámetro
+        /** @brief Da de alta un proceso en un cierto procesador del parámetro
                    implícito.
 
-            \pre Cierto.
+            \pre proceso está inicializado.
 
-            \post Si no existe un Procesador con identificador igual a
+            \post Si no existe un procesador con identificador igual a
                   id_procesador en el parámetro implícito, error vale
                   PROCESADOR_INEXISTENTE.
-                  Si existe algún Proceso idéntico a proceso en dicho
-                  Procesador, error vale PROCESO_EXISTENTE_EN_PROCESADOR.
-                  Si proceso no se puede colocar en dicho Procesador, error
+                  Si existe algún proceso con mismo identificador que proceso
+                  en dicho procesador, error vale
+                  PROCESO_EXISTENTE_EN_PROCESADOR.
+                  Si proceso no se puede colocar en dicho procesador, error
                   vale PROCESO_NO_COLOCABLE.
-                  Si no se dan estos casos, proceso se ejecuta en el Procesador
+                  Si no se dan estos casos, proceso se ejecuta en el procesador
                   del parámetro implícito con identificador igual a
-                  id_procesador. proceso es colocado en la posición de memoria
-                  más pequeña de dicho Procesador que deje el hueco más
-                  ajustado posible.
+                  id_procesador.
+                  proceso es colocado en la posición de memoria más pequeña de
+                  dicho procesador que deje el hueco más ajustado posible.
         */
-        void alta_proceso_procesador(const Proceso& proceso, const string& id_procesador, int& error);
+        void alta_proceso_procesador(
+            const Proceso &proceso,
+            const string &id_procesador,
+            int &error
+        );
 
-        /** @brief Da de baja un Proceso de un Procesador del parámetro
+        /** @brief Da de baja un proceso de un cierto procesador del parámetro
                    implícito.
 
             \pre Cierto.
 
-            \post Si no existe un Procesador con identificador igual a
+            \post Si no existe un procesador con identificador igual a
                   id_procesador el parámetro implícito, error vale
                   PROCESADOR_INEXISTENTE.
-                  Si no existe un Proceso con identificador igual a id_proceso
-                  en dicho Procesador, error vale
+                  Si no existe un proceso con identificador igual a id_proceso
+                  en dicho procesador, error vale
                   PROCESO_INEXISTENTE_EN_PROCESADOR.
-                  Si no se dan estos casos, ya no se ejecuta ningún Proceso con
-                  identificador igual a id_proceso en el Procesador del
+                  Si no se dan estos casos, ya no se ejecuta ningún proceso con
+                  identificador igual a id_proceso en el procesador del
                   parámetro implícito con identificador igual a id_procesador.
-                  Se ha liberado la memoria de dicho Procesador que ocupaba
-                  dicho Proceso.
+                  Se ha liberado la memoria de dicho procesador que ocupaba
+                  dicho proceso.
         */
-        void baja_proceso_procesador(int id_proceso, const string& id_procesador, int& error);
+        void baja_proceso_procesador(
+            int id_proceso,
+            const string &id_procesador,
+            int &error
+        );
 
-        /** @brief Da de alta un Proceso en un Procesador del parámetro
+        /** @brief Da de alta un proceso en un procesador del parámetro
                    implícito.
 
-            \pre Cierto.
+            \pre proceso está inicializado.
 
             \post Si proceso se ha colocado, proceso se ejecuta en el
-                  Procesador que disponga de un hueco más ajustado respecto a
+                  procesador que disponga de un hueco más ajustado para
                   proceso, disponga de más memoria libre, se encuentre más
-                  cerca de la raíz del árbol de procesadores, o, en última
-                  instancia, se encuentre más a la izquierda.
+                  cerca de la raíz del clúster, o, en última instancia, se
+                  encuentre más a la izquierda en el clúster.
                   Si proceso no se ha colocado, error vale PROCESO_NO_COLOCABLE.
         */
-        bool alta_proceso(const Proceso& proceso);
+        bool alta_proceso(const Proceso &proceso);
 
         /** @brief Avanza el tiempo que ha transcurrido en la ejecución de los
-                   Proceso de los Procesador del parámetro implícito.
+                   procesos de los procesadores del parámetro implícito.
 
             \pre t >= 0.
 
-            \post El tiempo estimado de los Proceso de todos los Procesador del
-                  parámetro implícito se ha visto decrementado en t. Si un
-                  Proceso tenía un tiempo estimado menor que t se ha liberado
-                  de la memoria de su correspondiente Procesador.
+            \post El tiempo estimado de los procesos de todos los procesadores
+                  del parámetro implícito se ha visto decrementado en t. Si un
+                  proceso tenía un tiempo estimado menor que t se ha liberado
+                  de la memoria de su correspondiente procesador.
         */
         void avanzar_tiempo(int t);
 
-        /** @brief Compacta los Proceso en memoria de un determinado Procesador
+        /** @brief Compacta los procesos en memoria de un cierto procesador
                    del parámetro implícito.
 
             \pre Cierto.
 
-            \post Si no existe un Procesador con identificador igual a
+            \post Si no existe un procesador con identificador igual a
                   id_procesador en el parámetro implícito, error vale
                   PROCESADOR_INEXISTENTE.
-                  Si existe dicho Procesador, sus Proceso en memoria quedan
+                  Si existe dicho procesador, sus procesos en memoria quedan
                   compactados hacia el comienzo de la memoria sin dejar huecos,
                   sin solaparse, y respetando el orden inicial.
         */
-        void compactar_memoria_procesador(const string& id_procesador, int& error);
+        void compactar_memoria_procesador(const string &id_procesador, int &error);
 
-        /** @brief Compacta los Proceso en memoria de todos los Procesador del
-                   parámetro implícito.
+        /** @brief Compacta los procesos en memoria de todos los procesadores
+                   del parámetro implícito.
 
             \pre Cierto.
 
-            \post Los Proceso en memoria de todos los Procesador del parámetro
-                  implícito quedan compactados hacia el comienzo de la memoria
-                  sin dejar huecos, sin solaparse, y respetando el orden inicial.
+            \post Los proceso en memoria de todos los procesadores del
+                  parámetro implícito quedan compactados hacia el comienzo de
+                  la memoria sin dejar huecos, sin solaparse, y respetando el
+                  orden inicial.
         */
         void compactar_memoria_cluster();
 
 
         // LECTURA/ESCRITURA ##################################################
 
-        /** @brief Imprime un determinado Procesador del parámetro implícito
+        /** @brief Imprime un determinado procesador del parámetro implícito
                    por el canal de salida estándar.
 
             \pre Cierto.
 
-            \post Si no existe un Procesador con identificador igual a
+            \post Si no existe un procesador con identificador igual a
                   id_procesador en el parámetro implícito, error vale
                   PROCESADOR_INEXISTENTE.
-                  Si existe dicho Procesador, quedan escritos en el canal de
-                  salida estándar sus Proceso de en orden creciente de primera
+                  Si existe dicho procesador, quedan escritos en el canal de
+                  salida estándar sus procesos de en orden creciente de primera
                   posición de memoria, incluyendo dicha posición.
         */
-        void imprimir_procesador(const string& id_procesador, int& error) const;
+        void imprimir_procesador(
+            const string &id_procesador,
+            int& error
+        ) const;
 
-        /** @brief Imprime todo Procesador del parámetro implícito por el canal
+        /** @brief Imprime todo procesador del parámetro implícito por el canal
                    de salida estándar.
             
             \pre Cierto.
             
-            \post Quedan escritos en el canal de salida estándar los Proceso (en
-                  orden creciente de primera posición de memoria, incluyendo
-                  dicha posición) de todo Procesador (en orden creciente de
-                  identificador) del parámetro implícito.
+            \post Quedan escritos en el canal de salida estándar los procesos
+                  (en orden creciente de primera posición de memoria,
+                  incluyendo dicha posición) de todo procesador (en orden
+                  creciente de identificador) del parámetro implícito.
         */
         void imprimir_procesadores_cluster() const;
 

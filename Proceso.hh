@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROCESO_HH
+#define PROCESO_HH
 
 /** @file Proceso.hh
     @brief Especificación de la clase Proceso.
@@ -85,3 +86,5 @@ class Proceso {
         */
         void imprimir() const;
 };
+
+#endif

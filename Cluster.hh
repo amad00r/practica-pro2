@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CLUSTER_HH
+#define CLUSTER_HH
 
 /** @file Cluster.hh
     @brief Especificación de la clase Cluster.
@@ -340,3 +341,5 @@ class Cluster {
         */
         void imprimir_estructura_cluster() const;
 };
+
+#endif

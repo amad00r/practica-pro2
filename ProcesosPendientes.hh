@@ -1,3 +1,6 @@
+#ifndef PROCESOSPENDIENTES_HH
+#define PROCESOSPENDIENTES_HH
+
 /** @file ProcesosPendientes.hh
     @brief Especificación de la clase ProcesosPendientes.
 */
@@ -150,3 +153,5 @@ class ProcesosPendientes {
         */
         void imprimir_area_espera() const;
 };
+
+#endif

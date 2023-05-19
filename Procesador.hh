@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROCESADOR_HH
+#define PROCESADOR_HH
 
 /** @file Procesador.hh
     @brief Especificación de la clase Procesador.
@@ -120,3 +121,5 @@ class Procesador {
         */
         void imprimir() const;
 };
+
+#endif

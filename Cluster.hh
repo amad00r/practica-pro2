@@ -252,12 +252,15 @@ class Cluster {
 
             \pre proceso está inicializado.
 
-            \post Si proceso se ha colocado, proceso se ejecuta en el
-                  procesador que disponga de un hueco más ajustado para
-                  proceso, disponga de más memoria libre, se encuentre más
-                  cerca de la raíz del clúster, o, en última instancia, se
-                  encuentre más a la izquierda en el clúster.
-                  Si proceso no se ha colocado, error vale PROCESO_NO_COLOCABLE.
+            \post Si proceso se ha colocado el resultado es true.
+                  proceso se ejecuta en el procesador que disponga de un hueco
+                  más ajustado para proceso, disponga de más memoria libre, se
+                  encuentre más cerca de la raíz del clúster, o, en última
+                  instancia, se encuentre más a la izquierda en el clúster.
+                  Además, proceso se ha colocado en la posición de memoria más
+                  pequeña de dicho procesador que deje el hueco más ajustado
+                  posible.
+                  Si proceso no se ha colocado, el resultado es false.
         */
         bool alta_proceso(const Proceso &proceso);
 

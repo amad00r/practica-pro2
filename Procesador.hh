@@ -21,13 +21,40 @@ using namespace std;
            simultáneamente.
 */
 class Procesador {
-    private:
-        int memoria, memoria_disponible;
 
+    private:
+        /** @brief Capacidad total de la memoria del procesador. */
+        int memoria;
+
+        /** @brief Memoria disponible (no usada por un proceso). */
+        int memoria_disponible;
+
+        /** @brief Posiciones de memoria relacionadas con el proceso que en
+                   ellas se encuentran ejecutándose.
+         */
         map<int, Proceso> procesos_memoria;
+
+        /** @brief Identificadores de procesos relacionados con la posiciones
+                   en memoria dónde se encuentran ejecutándose.
+        */
         map<int, int> posiciones_procesos;
+        
+        /** @brief Tamaños de huecos relacionados con la colección de
+                   posiciones en memoria dónde se encuentran todos los huecos
+                   con dicho tamaño.
+         */
         map<int, set<int>> huecos_memoria;
 
+        // MODIFICADORAS ######################################################
+
+        /** @brief Recalcula los huecos existentes en la memoria del parámetro
+                   implícito.
+
+            \pre Cierto.
+
+            \post huecos_memoria contiene los huecos que existen entre los
+                  procesos de procesos_memoria.
+        */  
         void recalcular_huecos();
 
     public:
@@ -38,43 +65,59 @@ class Procesador {
 
             \pre Cierto.
 
-            \post El resultado es un Procesador no inicializado.
+            \post El resultado es un procesador no inicializado.
         */  
         Procesador();
 
-        /** @brief Constructora inicializadora de identificador y memoria.
+        /** @brief Constructora inicializadora.
 
-            \pre id_procesador contiene únicamente letras y números.
-                 memoria > 0.
+            \pre memoria > 0.
 
-            \post El resultado es un Procesador inicializado con identificador
-                  y memoria.
+            \post El resultado es un procesador inicializado con
+                  memoria_disponible=memoria, sin procesos y con un único hueco
+                  que ocupa toda la memoria.
         */  
         Procesador(int memoria);
 
 
         // CONSULTORAS ########################################################
 
+        /** @brief Consultora del tamaño de hueco más ajustado para una cierta
+                   cantidad de memoria.
+
+            \pre memoria > 0.
+                 El parámetro implícito está inicializado.
+
+            \post El resultado es el tamaño del hueco del parámetro implícito
+                  con tamaño >= proceso_mem más ajustado.
+        */  
         int consultar_espacio_hueco_minimo(int proceso_mem) const;
 
+        /** @brief Consultora de la memoria disponible.
+            
+            \pre El parámetro implícito está inicializado.
+
+            \post El resultado es la cantidad de memoria disponible del
+                  parámetro implícito.
+         */
         int consultar_memoria_disponible() const;
 
-        /** @brief Consulta si un determinado Proceso se encuentra ejecutándose
-                   en el parámetro implícito.
+        /** @brief Consultora de la existecia de un cierto proceso en el
+                   procesador.
 
-            \pre El parámetro implícito está inicializado. id_proceso >= 0.
+            \pre id_proceso >= 0.
 
-            \post El resultado indica si existe un Proceso con identificador
+            \post El resultado indica si existe un proceso con identificador
                   igual a id_proceso ejecutándose en el parámetro implícito.
         */
         bool existe_id_proceso(int id_proceso) const;
 
-        /** @brief Consulta si existe algún Proceso activo en el parámetro
-                   implícito.
+        /** @brief Consultora de la existencia de procesos activos en el
+                   procesador.
 
-            \pre El parámetro implícito está inicializado.
+            \pre Cierto.
 
-            \post El resultado indica si existe algún Proceso ejecutándose en
+            \post El resultado indica si existe algún proceso ejecutándose en
                   el parámetro implícito.
         */
         bool hay_procesos() const;
@@ -93,6 +136,16 @@ class Procesador {
         */
         void avanzar_tiempo(int t);
 
+        /** @brief Da de alta un cierto proceso en el procesador.
+           
+            \pre proceso y el parámetro implícito están inicializados.
+
+            \post El resultado es true si el proceso ha sido colocado en el
+                  parámetro implícito con éxito. proceso se ha colocado en la
+                  posición de memoria más pequeña del parámetro implícito que
+                  deje el hueco más ajustado posible.
+                  El resultado es false de otra manera.
+        */
         bool colocar(const Proceso& proceso);
 
         bool quitar(int id_proceso);

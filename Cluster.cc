@@ -121,11 +121,11 @@ bool Cluster::procesador_preferido(
     if (hueco_min_preferido < hueco_min_it) return true;
     if (hueco_min_preferido > hueco_min_it) return false;
 
-    if (profundidad_preferido < profundidad) return true;
-    if (profundidad_preferido > profundidad) return false;
-
     if (preferido->second.consultar_memoria_disponible() > it->second.consultar_memoria_disponible()) return true;
     if (preferido->second.consultar_memoria_disponible() < it->second.consultar_memoria_disponible()) return false;
+
+    if (profundidad_preferido < profundidad) return true;
+    if (profundidad_preferido > profundidad) return false;
 
     return true;
 }

@@ -1,9 +1,9 @@
-#ifndef PROCESADOR_HH
-#define PROCESADOR_HH
-
 /** @file Procesador.hh
     @brief Especificación de la clase Procesador.
 */
+
+#ifndef PROCESADOR_HH
+#define PROCESADOR_HH
 
 #include "Proceso.hh"
 
@@ -14,7 +14,6 @@
 #endif
 
 using namespace std;
-
 
 /** @class Procesador
     @brief Representa un procesador que puede ejecutar múltiples Proceso

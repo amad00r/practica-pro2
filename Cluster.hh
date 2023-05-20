@@ -1,9 +1,9 @@
-#ifndef CLUSTER_HH
-#define CLUSTER_HH
-
 /** @file Cluster.hh
     @brief Especificación de la clase Cluster.
 */
+
+#ifndef CLUSTER_HH
+#define CLUSTER_HH
 
 #include "Procesador.hh"
 #include "Proceso.hh"

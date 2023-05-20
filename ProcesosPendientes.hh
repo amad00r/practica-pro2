@@ -1,9 +1,9 @@
-#ifndef PROCESOSPENDIENTES_HH
-#define PROCESOSPENDIENTES_HH
-
 /** @file ProcesosPendientes.hh
     @brief Especificación de la clase ProcesosPendientes.
 */
+
+#ifndef PROCESOSPENDIENTES_HH
+#define PROCESOSPENDIENTES_HH
 
 #include "Proceso.hh"
 #include "Cluster.hh"

@@ -1,10 +1,9 @@
-#ifndef PROCESO_HH
-#define PROCESO_HH
-
 /** @file Proceso.hh
     @brief Especificación de la clase Proceso.
 */
 
+#ifndef PROCESO_HH
+#define PROCESO_HH
 
 /** @class Proceso
     @brief Representa una proceso computacional que puede ser ejecutado en un Procesador.

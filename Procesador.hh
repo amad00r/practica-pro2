@@ -47,8 +47,7 @@ class Procesador {
 
         // MODIFICADORAS ######################################################
 
-        /** @brief Recalcula los huecos existentes en la memoria del parámetro
-                   implícito.
+        /** @brief Recalcula los huecos existentes en la memoria.
 
             \pre Cierto.
 
@@ -61,7 +60,7 @@ class Procesador {
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
-                   declarar un Procesador sin pasar parámetros.
+                   declarar un procesador sin pasar parámetros.
 
             \pre Cierto.
 
@@ -102,8 +101,7 @@ class Procesador {
          */
         int consultar_memoria_disponible() const;
 
-        /** @brief Consultora de la existecia de un cierto proceso en el
-                   procesador.
+        /** @brief Consultora de la existecia de un cierto proceso.
 
             \pre id_proceso >= 0.
 
@@ -112,8 +110,7 @@ class Procesador {
         */
         bool existe_id_proceso(int id_proceso) const;
 
-        /** @brief Consultora de la existencia de procesos activos en el
-                   procesador.
+        /** @brief Consultora de la existencia de procesos activos.
 
             \pre Cierto.
 
@@ -122,13 +119,12 @@ class Procesador {
         */
         bool hay_procesos() const;
 
-
         // MODIFICADORAS ######################################################
 
         /** @brief Avanza el tiempo que ha transcurrido en la ejecución de los
-                   Proceso del parámetro implícito.
+                   procesos.
 
-            \pre El parámetro implícito está inicializado. t >= 0.
+            \pre t >= 0.
 
             \post El tiempo estimado de los Proceso del parámetro implícito se
                   ha visto decrementado en t. Si un Proceso tenía un tiempo
@@ -136,25 +132,35 @@ class Procesador {
         */
         void avanzar_tiempo(int t);
 
-        /** @brief Da de alta un cierto proceso en el procesador.
+        /** @brief Da de alta un cierto proceso.
            
             \pre proceso y el parámetro implícito están inicializados.
 
             \post El resultado es true si el proceso ha sido colocado en el
                   parámetro implícito con éxito. proceso se ha colocado en la
                   posición de memoria más pequeña del parámetro implícito que
-                  deje el hueco más ajustado posible.
+                  deja el hueco más ajustado posible.
                   El resultado es false de otra manera.
         */
         bool colocar(const Proceso& proceso);
 
+        /** @brief Da de baja un cierto proceso.
+        
+            \pre Cierto.
+
+            \post Si el parámetro implícito contiene un proceso con
+                  identificador igual a id_proceso, el resultado es true.
+                  De otro modo, el resultado es false.
+                  No se ejecuta en el parámetro implícito ningún proceso con
+                  identificador igual a id_proceso.
+        */
         bool quitar(int id_proceso);
 
-        /** @brief Compacta los Proceso en memoria del parámetro implícito.
+        /** @brief Compacta los procesos en memoria.
          
             \pre Cierto.
 
-            \post Los Proceso en memoria del parámetro implícito quedan
+            \post Los procesos en memoria del parámetro implícito quedan
                   compactados hacia el comienzo de la memoria sin dejar huecos,
                   sin solaparse, y respetando el orden inicial.
         */
@@ -166,9 +172,9 @@ class Procesador {
         /** @brief Imprime el parámetro implícito por el canal de salida
                    estándar.
 
-            \pre El parámetro implícito está inicializado.
+            \pre Cierto.
 
-            \post Quedan escritos en el canal de salida estándar los Proceso
+            \post Quedan escritos en el canal de salida estándar los procesos
                   del parámetro implícito en orden creciente de primera
                   posición de memoria, incluyendo dicha posición.
         */

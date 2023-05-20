@@ -151,8 +151,7 @@ void Cluster::auxiliar_alta_proceso(
 
 bool Cluster::alta_proceso(const Proceso &proceso) {
     map<string, Procesador>::iterator preferido = mapa_procesadores.end();
-    int hueco_min_preferido;
-    int profundidad_preferido;
+    int hueco_min_preferido, profundidad_preferido;
 
     auxiliar_alta_proceso(preferido, hueco_min_preferido, profundidad_preferido, arbol_procesadores, 0, proceso);
     if (preferido == mapa_procesadores.end()) return false;

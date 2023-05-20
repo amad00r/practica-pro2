@@ -61,7 +61,7 @@ class Cluster {
         */
         static void consumir_cluster_input();
 
-        /** @brief Auxiliar recursiva para imprimir la estructura del clúster
+        /** @brief Auxiliar recursiva para imprimir la estructura del clúster.
          
             \pre Cierto.
 
@@ -119,12 +119,13 @@ class Cluster {
             int hueco_min_preferido,
             int profundidad_preferido,
             const map<string, Procesador>::iterator &it,
+            int hueco_min_it,
             int profundidad,
             const Proceso &proceso
         ) const;
 
         /** @brief Auxiliar recursiva para dar de alta un cierto proceso en el
-                   procesador más adecuado del parámetro implícito
+                   procesador más adecuado.
 
             \pre preferido apunta a mapa_procesadores.end() o a un procesador
                  inicializado.
@@ -180,8 +181,8 @@ class Cluster {
         */
         void configurar_cluster();
 
-        /** @brief Sustituye un procesador del parámetro implícito por un nuevo
-                   clúster leído del canal de entrada estándar.
+        /** @brief Sustituye un procesador por un nuevo clúster leído del canal
+                   de entrada estándar.
 
             \pre El canal de entrada estándar contiene una secuencia de
                  identificadores no repetidos de procesadores.
@@ -201,8 +202,7 @@ class Cluster {
         */
         void modificar_cluster(const string &id_procesador, int &error);
         
-        /** @brief Da de alta un proceso en un cierto procesador del parámetro
-                   implícito.
+        /** @brief Da de alta un proceso en un cierto procesador.
 
             \pre proceso está inicializado.
 
@@ -226,8 +226,7 @@ class Cluster {
             int &error
         );
 
-        /** @brief Da de baja un proceso de un cierto procesador del parámetro
-                   implícito.
+        /** @brief Da de baja un proceso de un cierto procesador.
 
             \pre Cierto.
 

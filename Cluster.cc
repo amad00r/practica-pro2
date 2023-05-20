@@ -105,10 +105,10 @@ bool Cluster::procesador_preferido(
     int hueco_min_preferido,
     int profundidad_preferido,
     const map<string, Procesador>::iterator &it,
+    int hueco_min_it,
     int profundidad,
     const Proceso &proceso
 ) const {
-    int hueco_min_it = it->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
     bool candidato_it = (hueco_min_it != 0 and not it->second.existe_id_proceso(proceso.consultar_id()));
 
     if (preferido == mapa_procesadores.end()) return not candidato_it;
@@ -138,9 +138,10 @@ void Cluster::auxiliar_alta_proceso(
     const Proceso &proceso
 ) const {
     if (not arbol.empty()) {
-        if (not procesador_preferido(preferido, hueco_min_preferido, profundidad_preferido, arbol.value(), profundidad, proceso)) {
+        int hueco_min_it = arbol.value()->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+        if (not procesador_preferido(preferido, hueco_min_preferido, profundidad_preferido, arbol.value(), hueco_min_it, profundidad, proceso)) {
             preferido = arbol.value();
-            hueco_min_preferido = preferido->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
+            hueco_min_preferido = hueco_min_it;
             profundidad_preferido = profundidad;
         }
         auxiliar_alta_proceso(preferido, hueco_min_preferido, profundidad_preferido, arbol.left(), profundidad + 1, proceso);
@@ -150,8 +151,8 @@ void Cluster::auxiliar_alta_proceso(
 
 bool Cluster::alta_proceso(const Proceso &proceso) {
     map<string, Procesador>::iterator preferido = mapa_procesadores.end();
-    int hueco_min_preferido = -1;
-    int profundidad_preferido = -1;
+    int hueco_min_preferido;
+    int profundidad_preferido;
 
     auxiliar_alta_proceso(preferido, hueco_min_preferido, profundidad_preferido, arbol_procesadores, 0, proceso);
     if (preferido == mapa_procesadores.end()) return false;

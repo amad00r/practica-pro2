@@ -102,6 +102,7 @@ void Cluster::baja_proceso_procesador(int id_proceso, const string &id_procesado
 
 bool Cluster::procesador_preferido(
     const map<string, Procesador>::iterator &preferido,
+    int hueco_min_preferido,
     int profundidad_preferido,
     const map<string, Procesador>::iterator &it,
     int profundidad,
@@ -112,17 +113,15 @@ bool Cluster::procesador_preferido(
 
     if (preferido == mapa_procesadores.end()) return not candidato_it;
 
-    int hueco_min_preferido = preferido->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
-    bool candidato_preferido = (hueco_min_preferido != 0 and not preferido->second.existe_id_proceso(proceso.consultar_id()));
-
     if (not candidato_it) return true;
-    if (not candidato_preferido) return false;
 
     if (hueco_min_preferido < hueco_min_it) return true;
     if (hueco_min_preferido > hueco_min_it) return false;
 
-    if (preferido->second.consultar_memoria_disponible() > it->second.consultar_memoria_disponible()) return true;
-    if (preferido->second.consultar_memoria_disponible() < it->second.consultar_memoria_disponible()) return false;
+    int memoria_disponible_preferido = preferido->second.consultar_memoria_disponible();
+    int memoria_disponible_it = it->second.consultar_memoria_disponible();
+    if (memoria_disponible_preferido > memoria_disponible_it) return true;
+    if (memoria_disponible_preferido < memoria_disponible_it) return false;
 
     if (profundidad_preferido < profundidad) return true;
     if (profundidad_preferido > profundidad) return false;
@@ -132,26 +131,29 @@ bool Cluster::procesador_preferido(
 
 void Cluster::auxiliar_alta_proceso(
     map<string, Procesador>::iterator &preferido,
+    int &hueco_min_preferido,
     int &profundidad_preferido,
     const BinTree<map<string, Procesador>::iterator> &arbol,
     int profundidad,
     const Proceso &proceso
 ) const {
     if (not arbol.empty()) {
-        if (not procesador_preferido(preferido, profundidad_preferido, arbol.value(), profundidad, proceso)) {
+        if (not procesador_preferido(preferido, hueco_min_preferido, profundidad_preferido, arbol.value(), profundidad, proceso)) {
             preferido = arbol.value();
+            hueco_min_preferido = preferido->second.consultar_espacio_hueco_minimo(proceso.consultar_memoria());
             profundidad_preferido = profundidad;
-        }  
-        auxiliar_alta_proceso(preferido, profundidad_preferido, arbol.left(), profundidad + 1, proceso);
-        auxiliar_alta_proceso(preferido, profundidad_preferido, arbol.right(), profundidad + 1, proceso);
+        }
+        auxiliar_alta_proceso(preferido, hueco_min_preferido, profundidad_preferido, arbol.left(), profundidad + 1, proceso);
+        auxiliar_alta_proceso(preferido, hueco_min_preferido, profundidad_preferido, arbol.right(), profundidad + 1, proceso);
     }
 }
 
 bool Cluster::alta_proceso(const Proceso &proceso) {
     map<string, Procesador>::iterator preferido = mapa_procesadores.end();
+    int hueco_min_preferido = -1;
     int profundidad_preferido = -1;
 
-    auxiliar_alta_proceso(preferido, profundidad_preferido, arbol_procesadores, 0, proceso);
+    auxiliar_alta_proceso(preferido, hueco_min_preferido, profundidad_preferido, arbol_procesadores, 0, proceso);
     if (preferido == mapa_procesadores.end()) return false;
     preferido->second.colocar(proceso);
     return true;

@@ -116,6 +116,7 @@ class Cluster {
         */
         bool procesador_preferido(
             const map<string, Procesador>::iterator &preferido,
+            int hueco_min_preferido,
             int profundidad_preferido,
             const map<string, Procesador>::iterator &it,
             int profundidad,
@@ -139,6 +140,7 @@ class Cluster {
         */
         void auxiliar_alta_proceso(
             map<string, Procesador>::iterator &preferido,
+            int &hueco_min_preferido,
             int &profundidad_preferido,
             const BinTree<map<string, Procesador>::iterator> &arbol,
             int profundidad,

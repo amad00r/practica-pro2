@@ -59,7 +59,7 @@ class Cluster {
             \post El canal de entrada estándar no contiene una secuencia de
                   identificadores de procesadores.
         */
-        static void consumir_cluster_input() const;
+        static void consumir_cluster_input();
 
         /** @brief Auxiliar recursiva para imprimir la estructura del clúster
          
@@ -70,7 +70,7 @@ class Cluster {
         */
         static void auxiliar_imprimir_estructura_cluster(
             const BinTree<map<string, Procesador>::iterator> &arbol
-        ) const;
+        );
 
         // MODIFICADORAS ######################################################
 

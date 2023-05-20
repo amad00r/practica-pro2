@@ -36,7 +36,7 @@ void Cluster::leer_procesadores(BinTree<map<string, Procesador>::iterator> &arbo
     }
 }
 
-void Cluster::consumir_cluster_input() const {
+void Cluster::consumir_cluster_input() {
     string id_procesador;
     cin >> id_procesador;
 
@@ -183,7 +183,7 @@ void Cluster::imprimir_procesadores_cluster() const {
     }
 }
 
-void Cluster::auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) const {
+void Cluster::auxiliar_imprimir_estructura_cluster(const BinTree<map<string, Procesador>::iterator> &arbol) {
     if (arbol.empty()) cout << " ";
     else {
         cout << "(" << arbol.value()->first;

@@ -15,15 +15,23 @@ ProcesosPendientes::ProcesosPendientes() {
     for (int i = 0; i < n; ++i) {
         string id_prioridad;
         cin >> id_prioridad;
-        mapa_prioridades.insert(make_pair(id_prioridad, Prioridad()));
+        Prioridad prioridad;
+        prioridad.procesos_colocados = 0;
+        prioridad.procesos_rechazados = 0;
+        mapa_prioridades.insert(make_pair(id_prioridad, prioridad));
     }
 }
 
 void ProcesosPendientes::alta_prioridad(const string &id_prioridad, int &error) {
     map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
 
-    if (it == mapa_prioridades.end()) mapa_prioridades.insert(make_pair(id_prioridad, Prioridad()));
-    else                              error = PRIORIDAD_EXISTENTE;
+    if (it == mapa_prioridades.end()) {
+        Prioridad prioridad;
+        prioridad.procesos_colocados = 0;
+        prioridad.procesos_rechazados = 0;
+        mapa_prioridades.insert(make_pair(id_prioridad, prioridad));
+    }
+    else error = PRIORIDAD_EXISTENTE;
 }
 
 void ProcesosPendientes::baja_prioridad(const string &id_prioridad, int &error) {

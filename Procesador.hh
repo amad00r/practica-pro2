@@ -16,12 +16,13 @@
 using namespace std;
 
 /** @class Procesador
-    @brief Representa un procesador que puede ejecutar múltiples Proceso
+    @brief Representa un procesador que puede ejecutar múltiples procesos
            simultáneamente.
 */
 class Procesador {
 
     private:
+
         /** @brief Capacidad total de la memoria del procesador. */
         int memoria;
 
@@ -56,6 +57,7 @@ class Procesador {
         void recalcular_huecos();
 
     public:
+
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
@@ -76,7 +78,6 @@ class Procesador {
                   que ocupa toda la memoria.
         */  
         Procesador(int memoria);
-
 
         // CONSULTORAS ########################################################
 
@@ -164,7 +165,6 @@ class Procesador {
                   sin solaparse, y respetando el orden inicial.
         */
         void compactar_memoria();
-
 
         // LECTURA/ESCRITURA ##################################################
 

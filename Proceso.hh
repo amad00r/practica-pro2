@@ -6,39 +6,50 @@
 #define PROCESO_HH
 
 /** @class Proceso
-    @brief Representa una proceso computacional que puede ser ejecutado en un Procesador.
+    @brief Representa una proceso computacional que puede ser ejecutado en un
+           procesador.
 
-    Ocupa un determinado espacio en memoria y tiene un determinado tiempo estimado de ejecución.
+           Ocupa un cierto espacio en memoria y tiene un cierto tiempo estimado
+           de ejecución.
 */
 class Proceso {
+
     private:
-        int id, memoria, tiempo_estimado;
+
+        /** @brief Identificador del proceso. */
+        int id;
+
+        /** @brief Memoria que ocupa el proceso en un procesador. */
+        int memoria;
+
+        /** @brief Tiempo estimado restante de ejecución. */
+        int tiempo_estimado;
 
     public:
+
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
-                   declarar un Proceso sin pasar parámetros.
+                   declarar un proceso sin pasar parámetros.
 
             \pre Cierto.
 
-            \post El resultado es un Proceso no inicializado.
+            \post El resultado es un proceso no inicializado.
         */
         Proceso();
 
-        /** @brief Constructora inicializadora de identificador, memoria y
-                   tiempo de ejecución estimado.
+        /** @brief Constructora inicializadora.
 
             \pre id >= 0, memoria > 0, tiempo_estimado > 0.
 
-            \post El resultado es un Proceso inicializado con identificador,
+            \post El resultado es un proceso inicializado con identificador,
                   memoria y tiempo de ejecución estimado.
         */  
         Proceso(int id, int memoria, int tiempo_estimado);
 
         // CONSULTORAS ########################################################
         
-        /** @brief Consulta el identificador del parámetro implícito.
+        /** @brief Consultora del identificador.
 
             \pre El parámetro implícito está inicializado.
 
@@ -46,28 +57,32 @@ class Proceso {
         */
         int consultar_id() const;
 
-        /** @brief Consulta si un determinado identificador coincide con el del
+        /** @brief Consulta si un cierto identificador coincide con el del
                    parámetro implícito.
 
-            \pre El parámetro implícito está inicializado. id_proceso >= 0.
+            \pre El parámetro implícito está inicializado.
 
             \post El resultado indica si el identificador del parámetro
                   implícito coincide con id_proceso.
         */
         bool id_coincide(int id_proceso) const;
 
+        /** @brief Consultora de memoria.
+            
+            \pre El parámetro implícito está inicializado.
+
+            \post El resultado es la memoria del proceso.
+        */
         int consultar_memoria() const;
-        
         
         // MODIFICADORAS ######################################################
 
-        /** @brief Avanza el tiempo que ha transcurrido en la ejecución del
-                   parámetro implícito.
+        /** @brief Avanza el tiempo de ejecución.
 
             \pre t >= 0.
 
-            \post tiempo_estimado = tiempo_estimado - t. El resultado indica si
-                  tiempo_estimado > 0.
+            \post tiempo_estimado = tiempo_estimado - t.
+                  El resultado indica si tiempo_estimado > 0.
         */
         bool avanzar_tiempo(int t);
 

@@ -25,6 +25,7 @@ using namespace std;
 class Cluster {
 
     private:
+
         /** @brief Mapa de identificador->Procesador que contiene los
                    procesadores del Cluster.
         */
@@ -149,6 +150,7 @@ class Cluster {
         ) const;
 
     public:
+
         // CONSTRUCTORAS ######################################################
 
         /** @brief Constructora por defecto. Se ejecuta automáticamente al
@@ -162,7 +164,6 @@ class Cluster {
                   no contiene una secuencia de identificadores de procesadores.
         */  
         Cluster();
-
 
         // MODIFICADORAS ######################################################
 
@@ -302,7 +303,6 @@ class Cluster {
                   orden inicial.
         */
         void compactar_memoria_cluster();
-
 
         // LECTURA/ESCRITURA ##################################################
 

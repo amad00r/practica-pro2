@@ -73,7 +73,7 @@ void ProcesosPendientes::enviar_procesos_cluster(int n, Cluster &cluster) {
 
 void ProcesosPendientes::auxiliar_imprimir_prioridad(
     const map<string, Prioridad>::const_iterator &it_prioridad
-) const {
+) {
     list<Proceso>::const_iterator it = it_prioridad->second.lista_procesos.begin();
     while (it != it_prioridad->second.lista_procesos.end()) {
         it->imprimir();

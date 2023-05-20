@@ -320,7 +320,7 @@ class Cluster {
         */
         void imprimir_procesador(
             const string &id_procesador,
-            int& error
+            int &error
         ) const;
 
         /** @brief Imprime todo procesador del parámetro implícito por el canal

@@ -142,7 +142,7 @@ class Procesador {
                   deja el hueco más ajustado posible.
                   El resultado es false de otra manera.
         */
-        bool colocar(const Proceso& proceso);
+        bool colocar(const Proceso &proceso);
 
         /** @brief Da de baja un cierto proceso.
         

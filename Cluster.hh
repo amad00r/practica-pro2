@@ -115,7 +115,7 @@ class Cluster {
                   profundidad igual a profundidad.
                   De otra manera, el resultado es false.
         */
-        bool procesador_preferido(
+        static bool procesador_preferido(
             const map<string, Procesador>::iterator &preferido,
             int hueco_min_preferido,
             int profundidad_preferido,
@@ -123,7 +123,7 @@ class Cluster {
             int hueco_min_it,
             int profundidad,
             const Proceso &proceso
-        ) const;
+        );
 
         /** @brief Auxiliar recursiva para dar de alta un cierto proceso en el
                    procesador más adecuado.
@@ -140,14 +140,14 @@ class Cluster {
                   profundidad_preferido representa la profundidad en el clúster
                   de dicho procesador.
         */
-        void auxiliar_alta_proceso(
+        static void auxiliar_alta_proceso(
             map<string, Procesador>::iterator &preferido,
             int &hueco_min_preferido,
             int &profundidad_preferido,
             const BinTree<map<string, Procesador>::iterator> &arbol,
             int profundidad,
             const Proceso &proceso
-        ) const;
+        );
 
     public:
 

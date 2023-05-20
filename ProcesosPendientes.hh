@@ -27,9 +27,8 @@ class ProcesosPendientes {
     
         struct Prioridad {
             list<Proceso> lista_procesos;
-            set<int>      conjunto_procesos;
-            int           procesos_colocados;
-            int           procesos_rechazados;
+            set<int> conjunto_procesos;
+            int procesos_colocados, procesos_rechazados;
         };
 
         map<string, Prioridad> mapa_prioridades;

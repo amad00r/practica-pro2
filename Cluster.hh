@@ -110,9 +110,9 @@ class Cluster {
 
             \post El resultado es true si el procesador apuntado por preferido
                   que se encuentra a una profundidad igual a
-                  profundidad_prferido es igual de preferido o más que el
-                  procesador apuntado por el iterador it que se encuentra a una
-                  profundidad igual a profundidad.
+                  profundidad_prferido es igual de preferido o más (para
+                  colocar proceso) que el procesador apuntado por el iterador
+                  it que se encuentra a una profundidad igual a profundidad.
                   De otra manera, el resultado es false.
         */
         static bool procesador_preferido(

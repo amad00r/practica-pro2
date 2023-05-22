@@ -1,3 +1,7 @@
+/** @file Cluster.cc
+    @brief implementación de la clase Cluster.
+*/
+
 #include "Cluster.hh"
 #include "BinTree.hh"
 #include "Procesador.hh"

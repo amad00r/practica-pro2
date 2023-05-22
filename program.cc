@@ -2,6 +2,8 @@
     Amadeu Moya Sardà, grupo 12. Cuatrimestre Primavera 2023. FIB UPC.
 
     @file main.cc
+
+    @brief Programa principal de la práctica de PRO2 (Simulación del rendimiento de procesadores interconectados).
 */
 
 #include "ProcesosPendientes.hh"
@@ -16,8 +18,6 @@
 
 using namespace std;
 
-/** @brief Programa principal de la práctica de PRO2 (Simulación del rendimiento de procesadores interconectados).
-*/
 int main() {
     Cluster cluster;
     ProcesosPendientes pendientes;

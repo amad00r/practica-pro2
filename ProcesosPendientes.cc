@@ -1,3 +1,7 @@
+/** @file ProcesosPendientes.cc
+    @brief implementación de la clase ProcesosPendientes.
+*/
+
 #include "ProcesosPendientes.hh"
 #include "Proceso.hh"
 #include "Cluster.hh"

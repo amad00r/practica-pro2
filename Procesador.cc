@@ -1,3 +1,7 @@
+/** @file Procesador.cc
+    @brief implementación de la clase Procesador.
+*/
+
 #include "Procesador.hh"
 #include "Proceso.hh"
 

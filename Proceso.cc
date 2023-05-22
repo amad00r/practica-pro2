@@ -1,3 +1,7 @@
+/** @file Proceso.cc
+    @brief implementación de la clase Proceso.
+*/
+
 #include "Proceso.hh"
 
 #include <iostream>

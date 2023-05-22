@@ -1,7 +1,7 @@
 OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -Werror -Wno-sign-compare -std=c++11
 
 practica.tar:
-	tar -cvf practica.tar Makefile *.hh *.cc
+	tar -cvf practica.tar Makefile Cluster.hh Errores.hh Procesador.hh Proceso.hh ProcesosPendientes.hh *.cc jp_amadeu.moya.zip html.zip
 
 debug: program.exe
 	gdb program.exe

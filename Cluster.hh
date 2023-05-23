@@ -26,7 +26,7 @@ class Cluster {
 
     private:
 
-        /** @brief Mapa de identificador->Procesador que contiene los
+        /** @brief Mapa de (identificador,Procesador) que contiene los
                    procesadores del Cluster.
         */
         map<string, Procesador> mapa_procesadores;

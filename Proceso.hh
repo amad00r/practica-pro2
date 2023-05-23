@@ -57,16 +57,6 @@ class Proceso {
         */
         int consultar_id() const;
 
-        /** @brief Consulta si un cierto identificador coincide con el del
-                   parámetro implícito.
-
-            \pre El parámetro implícito está inicializado.
-
-            \post El resultado indica si el identificador del parámetro
-                  implícito coincide con id_proceso.
-        */
-        bool id_coincide(int id_proceso) const;
-
         /** @brief Consultora de memoria.
             
             \pre El parámetro implícito está inicializado.

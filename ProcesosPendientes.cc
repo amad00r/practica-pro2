@@ -41,17 +41,22 @@ void ProcesosPendientes::alta_prioridad(const string &id_prioridad, int &error) 
 void ProcesosPendientes::baja_prioridad(const string &id_prioridad, int &error) {
     map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
 
-    if      (it == mapa_prioridades.end())             error = PRIORIDAD_INEXISTENTE;
-    else if (not it->second.conjunto_procesos.empty()) error = PRIORIDAD_CON_PROCESOS_PENDIENTES;
-    else                                               mapa_prioridades.erase(it);
+    if (it == mapa_prioridades.end()) 
+        error = PRIORIDAD_INEXISTENTE;
+    else if (not it->second.conjunto_procesos.empty())
+        error = PRIORIDAD_CON_PROCESOS_PENDIENTES;
+    else mapa_prioridades.erase(it);
 }
 
 void ProcesosPendientes::alta_proceso_espera(const Proceso &proceso, const string &id_prioridad, int &error) {
     map<string, Prioridad>::iterator it = mapa_prioridades.find(id_prioridad);
 
-    if      (it == mapa_prioridades.end())                                       error = PRIORIDAD_INEXISTENTE;
-    else if (it->second.conjunto_procesos.insert(proceso.consultar_id()).second) it->second.lista_procesos.push_back(proceso);
-    else                                                                         error = PROCESO_EXISTENTE_EN_PRIORIDAD;
+    if (it == mapa_prioridades.end()) 
+        error = PRIORIDAD_INEXISTENTE;
+    // Si el insert falla es porque ya existe el proceso en la prioridad.
+    else if (it->second.conjunto_procesos.insert(proceso.consultar_id()).second)
+        it->second.lista_procesos.push_back(proceso);
+    else error = PROCESO_EXISTENTE_EN_PRIORIDAD;
 }
 
 void ProcesosPendientes::enviar_procesos_cluster(int n, Cluster &cluster) {
@@ -64,10 +69,13 @@ void ProcesosPendientes::enviar_procesos_cluster(int n, Cluster &cluster) {
             if (cluster.alta_proceso(it->second.lista_procesos.front())) {
                 --n;
                 ++it->second.procesos_colocados;
+                // Como el proceso ha sido enviado correctamente lo elimino del conjunto de procesos
+                // de la prioridad.
                 it->second.conjunto_procesos.erase(it->second.lista_procesos.front().consultar_id());
             }
             else {
                 ++it->second.procesos_rechazados;
+                // Como el proceso ha sido rechazado lo vuelvo a poner al final de la lista.
                 it->second.lista_procesos.push_back(it->second.lista_procesos.front());
             }
             it->second.lista_procesos.pop_front();
@@ -91,7 +99,7 @@ void ProcesosPendientes::imprimir_prioridad(const string &id_prioridad, int &err
     map<string, Prioridad>::const_iterator it = mapa_prioridades.find(id_prioridad);
 
     if (it == mapa_prioridades.end()) error = PRIORIDAD_INEXISTENTE;
-    else                              auxiliar_imprimir_prioridad(it);
+    else auxiliar_imprimir_prioridad(it);
 }
 
 void ProcesosPendientes::imprimir_area_espera() const {

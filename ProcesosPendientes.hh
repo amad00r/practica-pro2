@@ -53,17 +53,6 @@ class ProcesosPendientes {
         /** @brief Prioridades del área de espera. */
         map<string, Prioridad> mapa_prioridades;
 
-        // CONSULTORAS ########################################################
-
-        /** @brief Consultora de la existencia de una cierta prioridad.
-
-            \pre Cierto.
-
-            \post El resultado indica si existe una prioridad con identificador
-                  igual a id_prioridad en el parámetro implícito.
-        */
-        bool existe_prioridad(const string &id_prioridad) const;
-
         // LECTURA/ESCRITURA ##################################################
 
         /** @brief Imprime una cierta prioridad por el canal de salida estándar

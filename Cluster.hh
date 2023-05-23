@@ -105,7 +105,11 @@ class Cluster {
 
             \pre preferido apunta a mapa_procesadores.end() o a un procesador
                  inicializado.
+                 hueco_min_preferido >= 0.
+                 profundidad_preferido >= 0.
                  it apunta a un procesador inicializado.
+                 hueco_min_it > 0.
+                 profundidad >= 0.
                  proceso está inicializado.
 
             \post El resultado es true si el procesador apuntado por preferido

@@ -7,10 +7,6 @@
 #include "Procesador.hh"
 #include "Errores.hh"
 
-#include <string>
-#include <iostream>
-#include <map>
-
 using namespace std;
 
 Cluster::Cluster() {

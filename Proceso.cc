@@ -4,8 +4,6 @@
 
 #include "Proceso.hh"
 
-#include <iostream>
-
 using namespace std;
 
 Proceso::Proceso() {}

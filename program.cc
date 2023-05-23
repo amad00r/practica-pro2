@@ -1,7 +1,7 @@
 /** @mainpage Simulación del rendimiento de procesadores interconectados. 
     Amadeu Moya Sardà, grupo 12. Cuatrimestre Primavera 2023. FIB UPC.
 
-    @file main.cc
+    @file program.cc
 
     @brief Programa principal de la práctica de PRO2 (Simulación del rendimiento de procesadores interconectados).
 */

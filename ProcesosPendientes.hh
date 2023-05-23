@@ -12,6 +12,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <iostream>
 #endif
 
 using namespace std;

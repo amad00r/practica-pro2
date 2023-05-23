@@ -5,6 +5,10 @@
 #ifndef PROCESO_HH
 #define PROCESO_HH
 
+#ifndef NO_DIAGRAM
+#include <iostream>
+#endif
+
 /** @class Proceso
     @brief Representa una proceso computacional que puede ser ejecutado en un
            procesador.

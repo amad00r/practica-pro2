@@ -7,10 +7,6 @@
 #include "Cluster.hh"
 #include "Errores.hh"
 
-#include <iostream>
-#include <string>
-#include <list>
-
 using namespace std;
 
 ProcesosPendientes::ProcesosPendientes() {

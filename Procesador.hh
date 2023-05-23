@@ -11,6 +11,8 @@
 #include <string>
 #include <map>
 #include <set>
+#include <list>
+#include <iostream>
 #endif
 
 using namespace std;

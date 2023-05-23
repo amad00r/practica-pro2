@@ -11,6 +11,7 @@
 #ifndef NO_DIAGRAM
 #include <string>
 #include <map>
+#include <iostream>
 #include "BinTree.hh"
 #endif
 

@@ -5,12 +5,6 @@
 #include "Procesador.hh"
 #include "Proceso.hh"
 
-#include <string>
-#include <list>
-#include <map>
-#include <set>
-#include <iostream>
-
 using namespace std;
 
 Procesador::Procesador() {}

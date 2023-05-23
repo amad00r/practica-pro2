@@ -16,8 +16,8 @@ Proceso::Proceso(int id, int memoria, int tiempo_estimado) {
     this->tiempo_estimado = tiempo_estimado;
 }
 
-bool Proceso::id_coincide(int id_proceso) const {
-    return id == id_proceso;
+int Proceso::consultar_id() const {
+    return id;
 }
 
 int Proceso::consultar_memoria() const {

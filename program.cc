@@ -41,8 +41,8 @@ int main() {
 
             cluster.modificar_cluster(id_procesador, error);
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
-            else if (error == PROCESOS_EN_EJECUCION) cout << "error: procesador con procesos" << endl;
+            if      (error == PROCESADOR_INEXISTENTE)        cout << "error: no existe procesador"      << endl;
+            else if (error == PROCESOS_EN_EJECUCION)         cout << "error: procesador con procesos"   << endl;
             else if (error == TIENE_PROCESADORES_AUXILIARES) cout << "error: procesador con auxiliares" << endl;
         }
 
@@ -63,7 +63,7 @@ int main() {
 
             pendientes.baja_prioridad(id_prioridad, error);
 
-            if (error == PRIORIDAD_INEXISTENTE) cout << "error: no existe prioridad" << endl;
+            if      (error == PRIORIDAD_INEXISTENTE)             cout << "error: no existe prioridad"    << endl;
             else if (error == PRIORIDAD_CON_PROCESOS_PENDIENTES) cout << "error: prioridad con procesos" << endl;
         }
 
@@ -76,8 +76,8 @@ int main() {
             Proceso proceso(id_proceso, memoria, tiempo_estimado);
             pendientes.alta_proceso_espera(proceso, id_prioridad, error);
 
-            if (error == PRIORIDAD_INEXISTENTE) cout << "error: no existe prioridad" << endl;
-            else if (error == PROCESO_EXISTENTE_EN_PRIORIDAD) cout << "error: ya existe proceso" << endl;
+            if      (error == PRIORIDAD_INEXISTENTE)          cout << "error: no existe prioridad" << endl;
+            else if (error == PROCESO_EXISTENTE_EN_PRIORIDAD) cout << "error: ya existe proceso"   << endl;
         }
 
         else if (comando == "alta_proceso_procesador" or comando == "app") {
@@ -89,9 +89,9 @@ int main() {
             Proceso proceso(id_proceso, memoria, tiempo_estimado);
             cluster.alta_proceso_procesador(proceso, id_procesador, error);
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
-            else if (error == PROCESO_EXISTENTE_EN_PROCESADOR) cout << "error: ya existe proceso" << endl;
-            else if (error == PROCESO_NO_COLOCABLE) cout << "error: no cabe proceso" << endl;
+            if      (error == PROCESADOR_INEXISTENTE)          cout << "error: no existe procesador" << endl;
+            else if (error == PROCESO_EXISTENTE_EN_PROCESADOR) cout << "error: ya existe proceso"    << endl;
+            else if (error == PROCESO_NO_COLOCABLE)            cout << "error: no cabe proceso"      << endl;
         }
 
         else if (comando == "baja_proceso_procesador" or comando == "bpp") {
@@ -102,8 +102,8 @@ int main() {
 
             cluster.baja_proceso_procesador(id_proceso, id_procesador, error);
 
-            if (error == PROCESADOR_INEXISTENTE) cout << "error: no existe procesador" << endl;
-            else if (error == PROCESO_INEXISTENTE_EN_PROCESADOR) cout << "error: no existe proceso" << endl;
+            if      (error == PROCESADOR_INEXISTENTE)            cout << "error: no existe procesador" << endl;
+            else if (error == PROCESO_INEXISTENTE_EN_PROCESADOR) cout << "error: no existe proceso"    << endl;
         }
 
         else if (comando == "enviar_procesos_cluster" or comando == "epc") {

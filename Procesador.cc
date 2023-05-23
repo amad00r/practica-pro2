@@ -18,19 +18,25 @@ Procesador::Procesador() {}
 Procesador::Procesador(int mem) {
     memoria = mem;
     memoria_disponible = mem;
+    // Inicializo huecos_memoria con un único hueco que ocupa toda la memoria.
     huecos_memoria.insert(huecos_memoria.begin(), make_pair(mem, set<int>{ 0 }));
 }
 
-int Procesador::consultar_memoria_disponible() const { return memoria_disponible; }
+int Procesador::consultar_memoria_disponible() const {
+    return memoria_disponible;
+}
 
 bool Procesador::existe_id_proceso(int id_proceso) const {
     return posiciones_procesos.find(id_proceso) != posiciones_procesos.end();
 }
 
-bool Procesador::hay_procesos() const { return not posiciones_procesos.empty(); }
+bool Procesador::hay_procesos() const {
+    return not posiciones_procesos.empty();
+}
 
 int Procesador::consultar_espacio_hueco_minimo(int proceso_mem) const {
     if (memoria_disponible < proceso_mem) return 0;
+    // Encuentra el primer hueco con tamaño igual o mayor que proceso_mem.
     map<int, set<int>>::const_iterator hueco_minimo = huecos_memoria.lower_bound(proceso_mem);
     if (hueco_minimo == huecos_memoria.end()) return 0;
     return hueco_minimo->first;
@@ -64,10 +70,14 @@ bool Procesador::colocar(const Proceso& proceso) {
     procesos_memoria[pos_hueco] = proceso;
     memoria_disponible -= proceso.consultar_memoria();
 
+    // Si el proceso tiene tamaño menor que el tamaño del hueco dónde se coloca,
+    // se genera un nuevo hueco de tamaño igual a (tamaño hueco antiguo - tamaño proceso). 
     if (hueco_minimo->first != proceso.consultar_memoria())
         huecos_memoria[hueco_minimo->first - proceso.consultar_memoria()].insert(pos_hueco + proceso.consultar_memoria());
 
+    // Si el proceso que queremos borrar es el único con ese tamaño, borramos el tamaño de huecos_memoria.
     if (hueco_minimo->second.size() == 1) huecos_memoria.erase(hueco_minimo);
+    // De otro modo, solo borramos la posicion en memoria del hueco.
     else hueco_minimo->second.erase(hueco_minimo->second.begin());
         
     return true;
@@ -76,14 +86,19 @@ bool Procesador::colocar(const Proceso& proceso) {
 void Procesador::recalcular_huecos() {
     huecos_memoria.clear();
 
+    // Si no hay procesos ejecutándose hay un solo hueco que ocupa toda la memoria.
     if (procesos_memoria.empty())
         huecos_memoria.insert(huecos_memoria.begin(), make_pair(memoria, set<int>{ 0 }));
     else {
         map<int, Proceso>::const_iterator it = procesos_memoria.begin();
 
+        // Trato como un caso especial el hueco que hay del principio
+        // de la memoria hasta el primer proceso.
         if (it->first != 0)
             huecos_memoria.insert(huecos_memoria.begin(), make_pair(it->first, set<int>{ 0 }));
 
+        // Almaceno la posicion dónde acaba el proceso actual para saber dónde empieza
+        // el próximo proceso.
         int tmp = it->first + it->second.consultar_memoria();
         
         ++it;
@@ -93,6 +108,8 @@ void Procesador::recalcular_huecos() {
             ++it;
         }
 
+        // Trato como un caso especial el hueco que hay desde el último
+        // proceso hasta el final de la memoria.
         if (tmp != memoria) huecos_memoria[memoria - tmp].insert(tmp);
     }
 }
@@ -126,16 +143,21 @@ void Procesador::compactar_memoria() {
     map<int, Proceso>::iterator it = procesos_memoria.begin();
     if (it == procesos_memoria.end()) return;
 
+    // tmp representa la posición en memoria dónde debería estar el proceso actual
+    // para estar compacto hacia la izquierda de la memoria.
     int tmp = 0;
     while (it != procesos_memoria.end()) {
         if (it->first != tmp) {
+            // Inserto un proceso igual al actual en la posición compactada.
             procesos_memoria.insert(it, make_pair(tmp, it->second));
 
             map<int, int>::iterator it_aux = posiciones_procesos.find(it->second.consultar_id());
+            // Corrijo la posición del proceso en el otro mapa.
             posiciones_procesos[it->second.consultar_id()] = tmp;
 
             tmp += it->second.consultar_memoria();
-            it = procesos_memoria.erase(it);  
+            // Elimino el proceso con la posición no rectificada.
+            it = procesos_memoria.erase(it);
         }
         else {
             tmp += it->second.consultar_memoria();
@@ -143,6 +165,9 @@ void Procesador::compactar_memoria() {
         }
     }
     
+    // Como todos los procesos se encuentran compactados hacia la izquierda,
+    // puedo borrar los huecos y crear uno nuevo que empieza dónde acaba el
+    // último proceso, y acaba en el final de la memoria.
     huecos_memoria.clear();
     if (tmp != memoria)
         huecos_memoria.insert(huecos_memoria.begin(), make_pair(memoria - tmp, set<int>{ tmp }));
